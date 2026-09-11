@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Essensiana — Baca & Renungkan</title>
+<meta name="theme-color" content="#1652F0">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<style>
+:root{
+  --navy:#0B1220;
+  --navy-2:#111a2e;
+  --blue:#1652F0;
+  --cyan:#22C7E8;
+  --paper:#FBF9F3;
+  --paper-2:#F3EFE3;
+  --ink:#1B2333;
+  --ink-soft:#5B6478;
+  --line:#E4DFD0;
+  --danger:#D6473E;
+  --ok:#3E9A5F;
+  --radius:14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;height:100%;background:var(--navy);color:var(--ink);}
+body{display:flex;flex-direction:column;}
+button{font-family:inherit;cursor:pointer;}
+input,textarea,select{font-family:inherit;}
+.hidden{display:none !important;}
+
+/* ---------- Layout shells ---------- */
+#app{flex:1;display:flex;flex-direction:column;min-height:100vh;}
+
+.topbar{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;
+  background:linear-gradient(135deg,var(--navy) 0%, var(--navy-2) 100%);
+  color:#fff;position:sticky;top:0;z-index:20;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:.2px;}
+.brand-logo{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-size:13px;}
+.topbar .spacer{flex:1;}
+.iconbtn{
+  background:rgba(255,255,255,.08);border:none;color:#fff;
+  width:34px;height:34px;border-radius:10px;font-size:15px;
+  display:flex;align-items:center;justify-content:center;
+}
+.iconbtn:hover{background:rgba(255,255,255,.16);}
+.textbtn{background:transparent;border:none;color:rgba(255,255,255,.85);font-size:13px;padding:6px 8px;}
+
+/* ---------- Auth screen ---------- */
+#authScreen{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(1200px 600px at 50% -10%, #16305e 0%, var(--navy) 60%);
+  padding:24px;
+}
+.auth-card{
+  width:100%;max-width:380px;background:var(--paper);border-radius:20px;
+  padding:28px 24px;box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+.auth-logo{width:56px;height:56px;margin:0 auto 14px;border-radius:16px;
+  background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:22px;}
+.auth-title{text-align:center;font-size:20px;font-weight:800;color:var(--ink);margin:0 0 2px;}
+.auth-sub{text-align:center;font-size:12.5px;color:var(--ink-soft);margin:0 0 20px;}
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:11.5px;font-weight:600;color:var(--ink-soft);margin-bottom:5px;letter-spacing:.2px;}
+.field input{width:100%;padding:11px 12px;border-radius:10px;border:1.4px solid var(--line);background:#fff;font-size:14px;color:var(--ink);}
+.field input:focus{outline:none;border-color:var(--blue);}
+.btn{
+  width:100%;padding:12px;border-radius:10px;border:none;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;
+  font-weight:700;font-size:14px;margin-top:4px;
+}
+.btn:disabled{opacity:.6;}
+.btn-secondary{background:#fff;color:var(--ink);border:1.4px solid var(--line);}
+.auth-switch{text-align:center;font-size:12.5px;color:var(--ink-soft);margin-top:16px;}
+.auth-switch a{color:var(--blue);font-weight:600;text-decoration:none;cursor:pointer;}
+.auth-error{background:#FCE9E8;color:var(--danger);font-size:12.5px;padding:9px 11px;border-radius:9px;margin-bottom:12px;display:none;}
+.auth-note{background:#EAF2FF;color:#12408F;font-size:12px;padding:9px 11px;border-radius:9px;margin-bottom:12px;display:none;}
+
+/* ---------- Library screen ---------- */
+#libraryScreen{flex:1;background:var(--paper);display:flex;flex-direction:column;}
+.library-wrap{max-width:760px;margin:0 auto;width:100%;padding:18px 16px 90px;}
+.library-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.library-header h1{font-size:19px;margin:0;color:var(--ink);}
+.library-header p{font-size:12.5px;color:var(--ink-soft);margin:2px 0 0;}
+.grid-books{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+.book-card{
+  background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;
+  display:flex;flex-direction:column;gap:8px;position:relative;
+}
+.book-cover{
+  height:88px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--cyan));
+  display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:26px;
+}
+.book-title{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.3;}
+.book-meta{font-size:11px;color:var(--ink-soft);}
+.book-progress{height:4px;border-radius:3px;background:var(--paper-2);overflow:hidden;}
+.book-progress i{display:block;height:100%;background:var(--ok);}
+.book-actions{display:flex;gap:6px;margin-top:2px;}
+.chip{font-size:10.5px;padding:3px 8px;border-radius:99px;background:var(--paper-2);color:var(--ink-soft);}
+.book-del{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.9);border:1px solid var(--line);
+  width:24px;height:24px;border-radius:8px;font-size:12px;color:var(--danger);}
+
+.empty-state{
+  border:1.6px dashed var(--line);border-radius:16px;padding:34px 18px;text-align:center;color:var(--ink-soft);
+}
+.empty-state .big{font-size:30px;margin-bottom:6px;}
+
+.fab{
+  position:fixed;right:18px;bottom:22px;z-index:30;
+  width:56px;height:56px;border-radius:18px;border:none;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-size:26px;
+  box-shadow:0 10px 26px rgba(22,82,240,.45);
+}
+
+/* ---------- Modal ---------- */
+.modal-backdrop{
+  position:fixed;inset:0;background:rgba(10,14,26,.55);display:flex;align-items:flex-end;
+  justify-content:center;z-index:50;
+}
+@media (min-width:640px){ .modal-backdrop{align-items:center;} }
+.modal{
+  background:var(--paper);width:100%;max-width:520px;max-height:88vh;overflow:auto;
+  border-radius:20px 20px 0 0;padding:20px;
+}
+@media (min-width:640px){ .modal{border-radius:20px;} }
+.modal h2{margin:0 0 4px;font-size:18px;color:var(--ink);}
+.modal .sub{font-size:12.5px;color:var(--ink-soft);margin:0 0 16px;}
+.modal-close{float:right;background:none;border:none;font-size:20px;color:var(--ink-soft);}
+.tabs{display:flex;gap:6px;margin-bottom:14px;background:var(--paper-2);padding:4px;border-radius:11px;}
+.tab{flex:1;text-align:center;padding:8px 6px;border-radius:8px;font-size:12.5px;font-weight:600;color:var(--ink-soft);border:none;background:transparent;}
+.tab.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08);}
+textarea.rawpaste{width:100%;min-height:180px;border-radius:12px;border:1.4px solid var(--line);padding:12px;font-size:13px;line-height:1.6;resize:vertical;}
+.dropzone{
+  border:1.8px dashed var(--line);border-radius:14px;padding:26px 14px;text-align:center;color:var(--ink-soft);
+  font-size:13px;margin-bottom:12px;
+}
+.dropzone input{display:none;}
+.dropzone label{color:var(--blue);font-weight:700;cursor:pointer;}
+.file-picked{font-size:12.5px;color:var(--ink);background:var(--paper-2);padding:8px 10px;border-radius:9px;margin-top:8px;display:none;}
+.hint-box{background:#EAF2FF;color:#12408F;font-size:12px;padding:10px 12px;border-radius:10px;line-height:1.55;margin-top:10px;}
+.hint-box b{display:block;margin-bottom:3px;}
+.checkline{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--ink-soft);margin-top:10px;}
+.checkline input{margin-top:2px;}
+
+/* ---------- Help / format guide modal content ---------- */
+.rec-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;}
+.rec-table th,.rec-table td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);}
+.rec-table th{color:var(--ink-soft);font-weight:600;}
+.tag-good{color:var(--ok);font-weight:700;}
+.tag-ok{color:#B8860B;font-weight:700;}
+.tag-bad{color:var(--danger);font-weight:700;}
+.help-section{margin-top:16px;}
+.help-section h3{font-size:13.5px;margin:0 0 6px;color:var(--ink);}
+.help-section p, .help-section li{font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
+code.inline{background:var(--paper-2);padding:1px 5px;border-radius:5px;font-size:11.5px;}
+pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:10px;font-size:11.5px;overflow:auto;line-height:1.6;}
+
+/* ---------- Reader screen ---------- */
+#readerScreen{flex:1;display:flex;flex-direction:column;background:var(--paper);}
+.reader-top{
+  display:flex;align-items:center;gap:8px;padding:10px 12px;
+  background:var(--navy);color:#fff;position:sticky;top:0;z-index:15;
+}
+.reader-top .rt-title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;font-weight:600;}
+.reader-body{flex:1;display:flex;max-width:900px;margin:0 auto;width:100%;}
+.toc-panel{
+  width:230px;flex-shrink:0;border-right:1px solid var(--line);padding:14px 10px;
+  overflow-y:auto;display:none;
+}
+@media (min-width:820px){ .toc-panel{display:block;} }
+.toc-panel h4{font-size:11px;letter-spacing:.4px;color:var(--ink-soft);text-transform:uppercase;margin:4px 8px 8px;}
+.toc-item{
+  display:block;width:100%;text-align:left;background:none;border:none;padding:9px 9px;
+  border-radius:9px;font-size:12.5px;color:var(--ink-soft);margin-bottom:2px;line-height:1.4;
+}
+.toc-item.active{background:var(--paper-2);color:var(--ink);font-weight:700;}
+.reader-content{flex:1;padding:26px 20px 90px;max-width:640px;overflow-y:auto;}
+.mod-kicker{font-size:11px;letter-spacing:2px;color:var(--blue);font-weight:700;margin-bottom:6px;}
+.mod-title{font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:700;color:var(--ink);margin:0 0 18px;line-height:1.3;}
+.block-p{font-size:15px;line-height:1.85;color:#2c3346;margin:0 0 14px;}
+.block-quote{border-left:3px solid var(--cyan);padding:2px 0 2px 14px;color:var(--ink-soft);font-style:italic;margin:0 0 14px;}
+.block-list{margin:0 0 14px;padding-left:20px;}
+.block-list li{font-size:15px;line-height:1.8;color:#2c3346;margin-bottom:4px;}
+.reflect-box{
+  background:#fff;border:1.4px solid var(--line);border-radius:16px;padding:16px;margin:22px 0;
+}
+.reflect-kicker{font-size:10.5px;letter-spacing:1.5px;color:var(--cyan);font-weight:800;margin-bottom:4px;}
+.reflect-title{font-size:14.5px;font-weight:700;color:var(--ink);margin:0 0 12px;font-style:italic;}
+.q-item{margin-bottom:14px;}
+.q-item:last-child{margin-bottom:0;}
+.q-text{font-size:13.5px;color:#2c3346;margin-bottom:7px;line-height:1.55;}
+.q-answer{
+  width:100%;min-height:64px;border-radius:10px;border:1.4px solid var(--line);
+  padding:10px 11px;font-size:13.5px;line-height:1.6;resize:vertical;background:var(--paper);
+}
+.q-answer:focus{outline:none;border-color:var(--blue);}
+.save-hint{font-size:10.5px;color:var(--ink-soft);margin-top:5px;display:flex;align-items:center;gap:4px;}
+.save-dot{width:6px;height:6px;border-radius:50%;background:#c9c2a8;}
+.save-dot.saved{background:var(--ok);}
+.save-dot.saving{background:#B8860B;}
+.reader-nav{
+  position:sticky;bottom:0;background:var(--paper);border-top:1px solid var(--line);
+  display:flex;gap:10px;padding:10px 20px;max-width:640px;margin-left:auto;margin-right:0;width:100%;
+}
+@media (max-width:819px){ .reader-nav{max-width:100%;margin:0;} }
+.navbtn{flex:1;padding:11px;border-radius:10px;border:1.4px solid var(--line);background:#fff;font-size:13px;font-weight:600;color:var(--ink);}
+.navbtn.primary{background:var(--ink);color:#fff;border-color:var(--ink);}
+.navbtn:disabled{opacity:.4;}
+
+/* ---------- Loading & toast ---------- */
+#loadingOverlay{
+  position:fixed;inset:0;background:rgba(11,18,32,.75);display:flex;align-items:center;justify-content:center;
+  z-index:100;color:#fff;font-size:13px;flex-direction:column;gap:10px;
+}
+.spinner{width:30px;height:30px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+#toast{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;
+  padding:11px 18px;border-radius:12px;font-size:13px;z-index:200;opacity:0;pointer-events:none;transition:opacity .25s;
+  max-width:88vw;text-align:center;
+}
+#toast.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<div id="loadingOverlay" class="hidden">
+  <div class="spinner"></div>
+  <div id="loadingText">Memuat…</div>
+</div>
+<div id="toast"></div>
+
+<div id="app">
+
+  <!-- ======================= AUTH ======================= -->
+  <div id="authScreen">
+    <div class="auth-card">
+      <div class="auth-logo">E</div>
+      <div class="auth-title" id="authTitle">Masuk ke Essensiana</div>
+      <div class="auth-sub">Baca materi & isi latihan refleksinya, tersimpan otomatis di akunmu.</div>
+
+      <div class="auth-error" id="authError"></div>
+      <div class="auth-note" id="authNote"></div>
+
+      <div class="field" id="fieldName" style="display:none;">
+        <label>Nama</label>
+        <input type="text" id="inpName" placeholder="Nama kamu">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="inpEmail" placeholder="nama@email.com">
+      </div>
+      <div class="field" id="fieldPass">
+        <label>Kata sandi</label>
+        <input type="password" id="inpPass" placeholder="Minimal 6 karakter">
+      </div>
+
+      <button class="btn" id="btnAuthSubmit">Masuk</button>
+      <button class="btn btn-secondary" id="btnAuthAlt" style="margin-top:8px;">Buat akun baru</button>
+
+      <div class="auth-switch">
+        <a id="linkForgot">Lupa kata sandi?</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================= LIBRARY ======================= -->
+  <div id="libraryScreen" class="hidden">
+    <div class="topbar">
+      <div class="brand"><span class="brand-logo">E</span> Essensiana</div>
+      <div class="spacer"></div>
+      <button class="iconbtn" id="btnHelp" title="Panduan format file">?</button>
+      <button class="iconbtn" id="btnLogout" title="Keluar">⎋</button>
+    </div>
+    <div class="library-wrap">
+      <div class="library-header">
+        <div>
+          <h1>Rak Bukumu</h1>
+          <p id="libSubtitle">Materi yang sudah kamu simpan</p>
+        </div>
+      </div>
+      <div id="gridBooks" class="grid-books"></div>
+      <div id="emptyState" class="empty-state hidden">
+        <div class="big">📚</div>
+        <div><b>Rak bukumu masih kosong.</b></div>
+        <div style="margin-top:4px;">Tekan tombol + untuk mengimpor materi pertamamu.</div>
+      </div>
+    </div>
+    <button class="fab" id="btnAddBook">+</button>
+  </div>
+
+  <!-- ======================= READER ======================= -->
+  <div id="readerScreen" class="hidden">
+    <div class="reader-top">
+      <button class="iconbtn" id="btnBackLib">←</button>
+      <div class="rt-title" id="rtTitle">Judul buku</div>
+      <button class="iconbtn" id="btnTocMobile" title="Daftar isi">☰</button>
+    </div>
+    <div class="reader-body">
+      <div class="toc-panel" id="tocPanel">
+        <h4>Daftar Isi</h4>
+        <div id="tocList"></div>
+      </div>
+      <div class="reader-content" id="readerContent"></div>
+    </div>
+    <div class="reader-nav">
+      <button class="navbtn" id="btnPrevChap">← Sebelumnya</button>
+      <button class="navbtn primary" id="btnNextChap">Selanjutnya →</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======================= MODAL: ADD BOOK ======================= -->
+<div class="modal-backdrop hidden" id="modalAdd">
+  <div class="modal">
+    <button class="modal-close" id="closeAdd">×</button>
+    <h2>Impor Materi Baru</h2>
+    <div class="sub">Tempel teks langsung, atau unggah file. Lihat tanda <b>(?)</b> untuk tips format terbaik.</div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="paste">Tempel Teks</button>
+      <button class="tab" data-tab="file">Unggah File</button>
+    </div>
+
+    <div id="tabPaste">
+      <div class="field">
+        <label>Judul materi</label>
+        <input type="text" id="inpTitlePaste" placeholder="mis. SOMNIA — On Sleep, Dreams, and the Space Between">
+      </div>
+      <div class="field">
+        <label>Isi naskah (mendukung format ringan, lihat panduan)</label>
+        <textarea class="rawpaste" id="inpRaw" placeholder="# Judul Modul 01&#10;Isi paragraf...&#10;&#10;:::latihan&#10;- Pertanyaan refleksi pertama&#10;- Pertanyaan refleksi kedua&#10;:::"></textarea>
+      </div>
+    </div>
+
+    <div id="tabFile" class="hidden">
+      <div class="field">
+        <label>Judul materi</label>
+        <input type="text" id="inpTitleFile" placeholder="Judul akan otomatis terisi dari nama file">
+      </div>
+      <div class="dropzone">
+        <div>📄 Seret file ke sini, atau</div>
+        <label for="fileInput">pilih file dari perangkat</label>
+        <input type="file" id="fileInput" accept=".md,.txt,.docx,.pdf">
+        <div class="file-picked" id="filePicked"></div>
+      </div>
+      <div class="hint-box">
+        <b>Rekomendasi format (paling hemat storage → paling boros):</b>
+        .md / .txt terbaik, .docx baik, .pdf paling boros & hasil ekstraksinya bisa kurang rapi.
+        Tekan tombol <b>(?)</b> di halaman rak buku untuk tabel lengkapnya.
+      </div>
+      <label class="checkline">
+        <input type="checkbox" id="chkKeepOriginal">
+        <span>Simpan juga file asli ke Firebase Storage sebagai cadangan (menambah pemakaian storage — tidak disarankan untuk file besar/PDF).</span>
+      </label>
+    </div>
+
+    <div id="parsePreview" class="hint-box hidden"></div>
+
+    <button class="btn" id="btnSaveBook" style="margin-top:16px;">Simpan ke Rak Buku</button>
+  </div>
+</div>
+
+<!-- ======================= MODAL: HELP / FORMAT GUIDE ======================= -->
+<div class="modal-backdrop hidden" id="modalHelp">
+  <div class="modal">
+    <button class="modal-close" id="closeHelp">×</button>
+    <h2>Panduan Format & Hemat Storage</h2>
+    <div class="sub">Essensiana mengekstrak teksnya saja lalu menyimpannya ke Firestore — bukan menyimpan file mentahnya. Ini yang paling murah untuk kuota Firebase kamu.</div>
+
+    <table class="rec-table">
+      <tr><th>Format</th><th>Ukuran</th><th>Rekomendasi</th></tr>
+      <tr><td>.md (Markdown)</td><td>Paling kecil</td><td class="tag-good">Terbaik</td></tr>
+      <tr><td>.txt (Teks polos)</td><td>Sangat kecil</td><td class="tag-good">Terbaik</td></tr>
+      <tr><td>.docx (Word)</td><td>Sedang</td><td class="tag-ok">Baik, cuma teksnya diambil</td></tr>
+      <tr><td>.pdf</td><td>Bisa besar</td><td class="tag-ok">Hati-hati, hasil urutan teks kadang berantakan</td></tr>
+      <tr><td>Foto halaman / scan</td><td>Besar</td><td class="tag-bad">Hindari</td></tr>
+    </table>
+
+    <div class="help-section">
+      <h3>Kenapa bukan simpan file aslinya saja?</h3>
+      <p>Firestore membatasi satu dokumen maksimal 1MB, dan penyimpanan file di Firebase Storage dihitung per GB tersimpan + per GB yang diunduh. File PDF/DOCX/gambar bisa berukuran ratusan KB sampai puluhan MB, sedangkan teks hasil ekstraksinya biasanya cuma puluhan-ratusan KB. Karena itu, Essensiana secara default membuang file mentahnya setelah teksnya diambil, dan hanya menyimpan hasil ekstraksi + jawaban latihanmu.</p>
+    </div>
+
+    <div class="help-section">
+      <h3>Format naskah yang dikenali (opsional, tapi disarankan)</h3>
+      <p>Judul modul/bab, tandai dengan salah satu dari ini di awal baris:</p>
+      <pre class="codeblock"># Judul Modul
+atau
+MODUL 01: Judul Modul
+atau
+BAB 1 — Judul Bab</pre>
+      <p>Blok latihan/pertanyaan yang bisa diketik jawabannya, bungkus begini:</p>
+      <pre class="codeblock">:::latihan Judul Latihan (opsional)
+- Pertanyaan pertama
+- Pertanyaan kedua
+:::</pre>
+      <p>Kalau naskahmu (hasil dari .docx/.pdf) tidak memakai format ini, Essensiana tetap mencoba menebak bab lewat kata kunci seperti <code class="inline">MODUL</code>, <code class="inline">BAB</code>, <code class="inline">CHAPTER</code>, dan menebak bagian latihan lewat kata <code class="inline">LATIHAN</code>. Untuk hasil paling rapi, tetap format .md manual adalah yang terbaik.</p>
+    </div>
+
+    <div class="help-section">
+      <h3>Soal upgrade aplikasi</h3>
+      <p>Aplikasi ini didesain supaya kalau kamu mau upgrade fitur, kamu cukup mengganti file <code class="inline">index.html</code> di GitHub. File <code class="inline">firebase-config.js</code>, <code class="inline">manifest.json</code>, <code class="inline">service-worker.js</code>, dan folder <code class="inline">icons/</code> dibuat supaya jarang atau tidak pernah perlu disentuh lagi.</p>
+    </div>
+  </div>
+</div>
+
+<script src="firebase-config.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import {
+  getAuth, onAuthStateChanged, createUserWithEmailAndPassword,
+  signInWithEmailAndPassword, signOut, sendPasswordResetEmail, updateProfile
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+import {
+  getFirestore, doc, setDoc, getDoc, getDocs, deleteDoc, collection,
+  serverTimestamp, writeBatch, query, orderBy
+} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+/* ============================================================
+   INIT FIREBASE
+============================================================ */
+const fbApp = initializeApp(window.ESSENSIANA_FIREBASE_CONFIG);
+const auth = getAuth(fbApp);
+const db = getFirestore(fbApp);
+
+let currentUser = null;
+let storageMod = null; // lazy-loaded only if "keep original" is used
+
+async function getStorageMod(){
+  if (storageMod) return storageMod;
+  storageMod = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js");
+  storageMod.storage = storageMod.getStorage(fbApp);
+  return storageMod;
+}
+
+/* ============================================================
+   UI HELPERS
+============================================================ */
+const $ = (id) => document.getElementById(id);
+function show(el){ el.classList.remove("hidden"); }
+function hide(el){ el.classList.add("hidden"); }
+function toast(msg, ms=2400){
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(()=>t.classList.remove("show"), ms);
+}
+function loading(on, text="Memuat…"){
+  $("loadingText").textContent = text;
+  on ? show($("loadingOverlay")) : hide($("loadingOverlay"));
+}
+function escapeHtml(s){
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+function inlineMd(s){
+  s = escapeHtml(s);
+  s = s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  s = s.replace(/\*(.+?)\*/g, "<em>$1</em>");
+  return s;
+}
+
+/* ============================================================
+   PARSER: raw text/markdown -> { title, modules:[{title, blocks}] }
+============================================================ */
+const HEADING_KEYWORDS = /^\s*(#{1,3}\s+|MODUL\s*\d*\s*[:\-–]?\s*|BAB\s*\d*\s*[:\-–]?\s*|CHAPTER\s*\d*\s*[:\-–]?\s*|PART\s*\d*\s*[:\-–]?\s*|PENUTUP\b|BAGIAN\s*\d*\s*[:\-–]?\s*)/i;
+
+function isHeadingLine(line){
+  const t = line.trim();
+  if(!t) return false;
+  if(/^#{1,3}\s+/.test(t)) return true;
+  if(/^(MODUL|BAB|CHAPTER|PART|BAGIAN)\s*\d+/i.test(t)) return true;
+  if(/^PENUTUP\b/i.test(t)) return true;
+  return false;
+}
+function cleanHeadingText(line){
+  return line.trim().replace(/^#{1,3}\s+/, "");
+}
+
+function parseBlocksFromLines(lines){
+  const blocks = [];
+  let para = [];
+  let list = [];
+  let i = 0;
+
+  function flushPara(){
+    if(para.length){ blocks.push({type:"p", text: para.join(" ").trim()}); para = []; }
+  }
+  function flushList(){
+    if(list.length){ blocks.push({type:"list", items: list.slice()}); list = []; }
+  }
+
+  while(i < lines.length){
+    let line = lines[i];
+    const trimmed = line.trim();
+
+    // Fenced reflection block :::latihan ... :::
+    if(/^:::\s*latihan/i.test(trimmed)){
+      flushPara(); flushList();
+      const titleMatch = trimmed.replace(/^:::\s*latihan/i,"").trim();
+      const qs = [];
+      i++;
+      while(i < lines.length && !/^:::\s*$/.test(lines[i].trim())){
+        const l = lines[i].trim();
+        if(l){
+          const q = l.replace(/^[-*]\s+/, "").replace(/^\d+[.)]\s+/, "");
+          qs.push(q);
+        }
+        i++;
+      }
+      blocks.push({type:"reflection", title: titleMatch || "Latihan Refleksi", questions: qs.map((q,idx)=>({id:"q"+idx, text:q}))});
+      i++; // skip closing :::
+      continue;
+    }
+
+    // Heuristic reflection trigger: a line containing the word LATIHAN
+    if(/LATIHAN/i.test(trimmed) && trimmed.length < 80 && !/^:::/.test(trimmed)){
+      flushPara(); flushList();
+      const titleMatch = trimmed.replace(/^[·•\-–\s]*LATIHAN[·•\-–\s]*/i,"").trim();
+      const qs = [];
+      i++;
+      while(i < lines.length && !isHeadingLine(lines[i]) && !/^:::/.test(lines[i].trim())){
+        const l = lines[i].trim();
+        if(l) qs.push(l.replace(/^[-*]\s+/, "").replace(/^\d+[.)]\s+/, ""));
+        i++;
+      }
+      if(qs.length){
+        blocks.push({type:"reflection", title: titleMatch || "Latihan Refleksi", questions: qs.map((q,idx)=>({id:"q"+idx, text:q}))});
+      }
+      continue;
+    }
+
+    if(!trimmed){
+      flushPara(); flushList();
+      i++; continue;
+    }
+
+    if(/^>\s?/.test(trimmed)){
+      flushPara(); flushList();
+      blocks.push({type:"quote", text: trimmed.replace(/^>\s?/,"")});
+      i++; continue;
+    }
+
+    if(/^[-*]\s+/.test(trimmed) || /^\d+[.)]\s+/.test(trimmed)){
+      flushPara();
+      list.push(trimmed.replace(/^[-*]\s+/, "").replace(/^\d+[.)]\s+/, ""));
+      i++; continue;
+    }
+
+    flushList();
+    para.push(trimmed);
+    i++;
+  }
+  flushPara(); flushList();
+  return blocks;
+}
+
+function parseRawContent(raw, fallbackTitle){
+  const lines = raw.replace(/\r\n/g, "\n").split("\n");
+
+  // find all heading line indices
+  const headingIdx = [];
+  lines.forEach((l, idx) => { if(isHeadingLine(l)) headingIdx.push(idx); });
+
+  let bookTitle = fallbackTitle;
+  let workLines = lines;
+  let startIdxList = headingIdx;
+
+  // If the very first heading is level-1 markdown (#) and used only once before any repeats, treat as doc title
+  if(headingIdx.length && /^#\s+/.test(lines[headingIdx[0]].trim())){
+    const isOnlyOne = headingIdx.filter(i => /^#\s+/.test(lines[i].trim())).length === 1;
+    if(isOnlyOne && headingIdx.length > 1){
+      bookTitle = cleanHeadingText(lines[headingIdx[0]]) || fallbackTitle;
+      startIdxList = headingIdx.slice(1);
+    }
+  }
+
+  const modules = [];
+  if(!startIdxList.length){
+    modules.push({ title: "Isi", blocks: parseBlocksFromLines(workLines) });
+  } else {
+    for(let m = 0; m < startIdxList.length; m++){
+      const start = startIdxList[m];
+      const end = m + 1 < startIdxList.length ? startIdxList[m+1] : workLines.length;
+      const title = cleanHeadingText(workLines[start]);
+      const bodyLines = workLines.slice(start+1, end);
+      modules.push({ title: title || ("Bagian " + (m+1)), blocks: parseBlocksFromLines(bodyLines) });
+    }
+  }
+  return { title: bookTitle, modules };
+}
+
+/* ============================================================
+   FILE EXTRACTION (md/txt direct, docx via mammoth, pdf via pdf.js)
+============================================================ */
+function loadScriptOnce(src){
+  return new Promise((resolve, reject) => {
+    if(document.querySelector(`script[src="${src}"]`)) return resolve();
+    const s = document.createElement("script");
+    s.src = src; s.onload = resolve; s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+async function extractTextFromFile(file){
+  const name = file.name.toLowerCase();
+  if(name.endsWith(".md") || name.endsWith(".txt")){
+    return await file.text();
+  }
+  if(name.endsWith(".docx")){
+    await loadScriptOnce("https://cdn.jsdelivr.net/npm/mammoth@1.7.2/mammoth.browser.min.js");
+    const arrayBuffer = await file.arrayBuffer();
+    const result = await window.mammoth.extractRawText({ arrayBuffer });
+    return result.value;
+  }
+  if(name.endsWith(".pdf")){
+    await loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    let fullText = "";
+    for(let p = 1; p <= pdf.numPages; p++){
+      const page = await pdf.getPage(p);
+      const content = await page.getTextContent();
+      const strings = content.items.map(it => it.str);
+      fullText += strings.join(" ") + "\n\n";
+    }
+    return fullText;
+  }
+  throw new Error("Format file belum didukung.");
+}
+
+/* ============================================================
+   AUTH SCREEN LOGIC
+============================================================ */
+let authMode = "login"; // "login" | "register"
+
+function setAuthMode(mode){
+  authMode = mode;
+  $("authError").style.display = "none";
+  $("authNote").style.display = "none";
+  if(mode === "login"){
+    $("authTitle").textContent = "Masuk ke Essensiana";
+    $("fieldName").style.display = "none";
+    $("fieldPass").style.display = "block";
+    $("btnAuthSubmit").textContent = "Masuk";
+    $("btnAuthAlt").textContent = "Buat akun baru";
+  } else {
+    $("authTitle").textContent = "Buat Akun Essensiana";
+    $("fieldName").style.display = "block";
+    $("fieldPass").style.display = "block";
+    $("btnAuthSubmit").textContent = "Daftar";
+    $("btnAuthAlt").textContent = "Sudah punya akun? Masuk";
+  }
+}
+$("btnAuthAlt").onclick = () => setAuthMode(authMode === "login" ? "register" : "login");
+
+function friendlyAuthError(code){
+  const map = {
+    "auth/invalid-email":"Format email tidak valid.",
+    "auth/user-not-found":"Akun dengan email ini tidak ditemukan.",
+    "auth/wrong-password":"Kata sandi salah.",
+    "auth/invalid-credential":"Email atau kata sandi salah.",
+    "auth/email-already-in-use":"Email ini sudah terdaftar.",
+    "auth/weak-password":"Kata sandi minimal 6 karakter.",
+    "auth/too-many-requests":"Terlalu banyak percobaan. Coba lagi nanti."
+  };
+  return map[code] || "Terjadi kesalahan. Coba lagi.";
+}
+
+$("btnAuthSubmit").onclick = async () => {
+  const email = $("inpEmail").value.trim();
+  const pass = $("inpPass").value;
+  $("authError").style.display = "none";
+  if(!email || !pass){
+    $("authError").textContent = "Isi email dan kata sandi dulu ya.";
+    $("authError").style.display = "block";
+    return;
+  }
+  loading(true, authMode === "login" ? "Masuk…" : "Membuat akun…");
+  try{
+    if(authMode === "login"){
+      await signInWithEmailAndPassword(auth, email, pass);
+    } else {
+      const cred = await createUserWithEmailAndPassword(auth, email, pass);
+      const name = $("inpName").value.trim();
+      if(name) await updateProfile(cred.user, { displayName: name });
+      await setDoc(doc(db, "users", cred.user.uid), {
+        email, displayName: name || "", createdAt: serverTimestamp()
+      });
+    }
+  } catch(err){
+    $("authError").textContent = friendlyAuthError(err.code);
+    $("authError").style.display = "block";
+  } finally {
+    loading(false);
+  }
+};
+
+$("linkForgot").onclick = async () => {
+  const email = $("inpEmail").value.trim();
+  if(!email){
+    $("authError").textContent = "Isi kolom email dulu, lalu tekan \"Lupa kata sandi?\" lagi.";
+    $("authError").style.display = "block";
+    return;
+  }
+  try{
+    await sendPasswordResetEmail(auth, email);
+    $("authError").style.display = "none";
+    $("authNote").textContent = "Link reset kata sandi sudah dikirim ke " + email + ".";
+    $("authNote").style.display = "block";
+  } catch(err){
+    $("authError").textContent = friendlyAuthError(err.code);
+    $("authError").style.display = "block";
+  }
+};
+
+$("btnLogout").onclick = () => signOut(auth);
+
+onAuthStateChanged(auth, (user) => {
+  currentUser = user;
+  if(user){
+    hide($("authScreen")); show($("libraryScreen")); hide($("readerScreen"));
+    loadLibrary();
+  } else {
+    show($("authScreen")); hide($("libraryScreen")); hide($("readerScreen"));
+  }
+});
+
+/* ============================================================
+   LIBRARY SCREEN
+============================================================ */
+async function loadLibrary(){
+  loading(true, "Memuat rak buku…");
+  try{
+    const q = query(collection(db, "users", currentUser.uid, "books"), orderBy("updatedAt", "desc"));
+    const snap = await getDocs(q);
+    const grid = $("gridBooks");
+    grid.innerHTML = "";
+    if(snap.empty){ show($("emptyState")); loading(false); return; }
+    hide($("emptyState"));
+    snap.forEach((d) => {
+      const book = d.data();
+      const card = document.createElement("div");
+      card.className = "book-card";
+      const initials = (book.title || "?").trim().slice(0,2).toUpperCase();
+      const chapters = book.chapterCount || 0;
+      const read = book.lastReadIndex != null ? book.lastReadIndex + 1 : 0;
+      const pct = chapters ? Math.min(100, Math.round((read/chapters)*100)) : 0;
+      card.innerHTML = `
+        <button class="book-del" data-id="${d.id}" title="Hapus">✕</button>
+        <div class="book-cover">${escapeHtml(initials)}</div>
+        <div class="book-title">${escapeHtml(book.title || "Tanpa judul")}</div>
+        <div class="book-meta">${chapters} bagian &middot; ${book.sourceType || "teks"}</div>
+        <div class="book-progress"><i style="width:${pct}%"></i></div>
+        <div class="chip">${pct}% dibaca</div>
+      `;
+      card.onclick = (e) => {
+        if(e.target.closest(".book-del")) return;
+        openBook(d.id, book);
+      };
+      grid.appendChild(card);
+    });
+    grid.querySelectorAll(".book-del").forEach(btn => {
+      btn.onclick = async (e) => {
+        e.stopPropagation();
+        if(!confirm("Hapus materi ini beserta seluruh jawaban latihannya?")) return;
+        await deleteBook(btn.dataset.id);
+      };
+    });
+  } catch(err){
+    console.error(err);
+    toast("Gagal memuat rak buku.");
+  } finally {
+    loading(false);
+  }
+}
+
+async function deleteBook(bookId){
+  loading(true, "Menghapus…");
+  try{
+    const modsSnap = await getDocs(collection(db, "users", currentUser.uid, "books", bookId, "modules"));
+    const ansSnap = await getDocs(collection(db, "users", currentUser.uid, "books", bookId, "answers"));
+    const batch = writeBatch(db);
+    modsSnap.forEach(d => batch.delete(d.ref));
+    ansSnap.forEach(d => batch.delete(d.ref));
+    batch.delete(doc(db, "users", currentUser.uid, "books", bookId));
+    await batch.commit();
+
+    // best-effort: remove original backup file if it exists
+    try{
+      const bookDoc = await getDoc(doc(db, "users", currentUser.uid, "books", bookId));
+      const data = bookDoc.exists() ? bookDoc.data() : null;
+      if(data && data.originalPath){
+        const sMod = await getStorageMod();
+        const r = sMod.ref(sMod.storage, data.originalPath);
+        await sMod.deleteObject(r).catch(()=>{});
+      }
+    }catch(e){}
+
+    toast("Materi dihapus.");
+    loadLibrary();
+  } catch(err){
+    console.error(err);
+    toast("Gagal menghapus materi.");
+  } finally {
+    loading(false);
+  }
+}
+
+/* ============================================================
+   ADD BOOK MODAL
+============================================================ */
+let pickedFile = null;
+
+$("btnAddBook").onclick = () => { resetAddModal(); show($("modalAdd")); };
+$("closeAdd").onclick = () => hide($("modalAdd"));
+$("closeHelp").onclick = () => hide($("modalHelp"));
+$("btnHelp").onclick = () => show($("modalHelp"));
+
+function resetAddModal(){
+  pickedFile = null;
+  $("inpTitlePaste").value = "";
+  $("inpTitleFile").value = "";
+  $("inpRaw").value = "";
+  $("fileInput").value = "";
+  $("filePicked").style.display = "none";
+  $("chkKeepOriginal").checked = false;
+  hide($("parsePreview"));
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelector('.tab[data-tab="paste"]').classList.add("active");
+  show($("tabPaste")); hide($("tabFile"));
+}
+
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    if(tab.dataset.tab === "paste"){ show($("tabPaste")); hide($("tabFile")); }
+    else { hide($("tabPaste")); show($("tabFile")); }
+  };
+});
+
+$("fileInput").onchange = () => {
+  const f = $("fileInput").files[0];
+  if(!f) return;
+  pickedFile = f;
+  $("filePicked").style.display = "block";
+  $("filePicked").textContent = `${f.name} (${(f.size/1024).toFixed(1)} KB)`;
+  if(!$("inpTitleFile").value){
+    $("inpTitleFile").value = f.name.replace(/\.[^.]+$/, "");
+  }
+};
+
+$("btnSaveBook").onclick = async () => {
+  const activeTab = document.querySelector(".tab.active").dataset.tab;
+  try{
+    let rawText = "";
+    let title = "";
+    let sourceType = "txt";
+    let originalFile = null;
+
+    if(activeTab === "paste"){
+      rawText = $("inpRaw").value.trim();
+      title = $("inpTitlePaste").value.trim() || "Tanpa judul";
+      sourceType = "teks tempel";
+      if(!rawText){ toast("Isi naskahnya dulu ya."); return; }
+    } else {
+      if(!pickedFile){ toast("Pilih file dulu ya."); return; }
+      loading(true, "Mengekstrak teks dari file…");
+      rawText = await extractTextFromFile(pickedFile);
+      loading(false);
+      title = $("inpTitleFile").value.trim() || pickedFile.name;
+      sourceType = pickedFile.name.split(".").pop().toLowerCase();
+      originalFile = pickedFile;
+    }
+
+    const parsed = parseRawContent(rawText, title);
+    const finalTitle = ($("inpTitlePaste").value.trim() || $("inpTitleFile").value.trim()) || parsed.title || "Tanpa judul";
+
+    loading(true, "Menyimpan ke rak buku…");
+    const bookRef = doc(collection(db, "users", currentUser.uid, "books"));
+    const sizeBytes = new Blob([rawText]).size;
+
+    const batch = writeBatch(db);
+    parsed.modules.forEach((mod, idx) => {
+      const modRef = doc(db, "users", currentUser.uid, "books", bookRef.id, "modules", String(idx));
+      batch.set(modRef, { order: idx, title: mod.title, blocks: mod.blocks });
+    });
+    batch.set(bookRef, {
+      title: finalTitle,
+      sourceType,
+      chapterCount: parsed.modules.length,
+      moduleTitles: parsed.modules.map(m => m.title),
+      sizeBytes,
+      lastReadIndex: null,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
+    await batch.commit();
+
+    if(originalFile && $("chkKeepOriginal").checked){
+      if(originalFile.size > 3 * 1024 * 1024){
+        toast("File asli tidak disimpan (lebih dari 3MB). Teksnya tetap tersimpan.");
+      } else {
+        try{
+          const sMod = await getStorageMod();
+          const path = `users/${currentUser.uid}/originals/${bookRef.id}_${originalFile.name}`;
+          const r = sMod.ref(sMod.storage, path);
+          await sMod.uploadBytes(r, originalFile);
+          await setDoc(bookRef, { originalPath: path }, { merge: true });
+        } catch(e){ console.warn("Gagal menyimpan file asli:", e); }
+      }
+    }
+
+    hide($("modalAdd"));
+    toast("Materi tersimpan ke rak buku.");
+    loadLibrary();
+  } catch(err){
+    console.error(err);
+    toast("Gagal menyimpan: " + (err.message || "kesalahan tidak diketahui"));
+  } finally {
+    loading(false);
+  }
+};
+
+/* ============================================================
+   READER SCREEN
+============================================================ */
+let activeBookId = null;
+let activeBookMeta = null;
+let activeModuleCache = {};
+let activeChapterIdx = 0;
+let saveTimers = {};
+
+async function openBook(bookId, meta){
+  activeBookId = bookId;
+  activeBookMeta = meta;
+  activeModuleCache = {};
+  hide($("libraryScreen")); show($("readerScreen"));
+  $("rtTitle").textContent = meta.title || "Materi";
+
+  const tocList = $("tocList");
+  tocList.innerHTML = "";
+  (meta.moduleTitles || []).forEach((t, idx) => {
+    const b = document.createElement("button");
+    b.className = "toc-item";
+    b.textContent = `${idx+1}. ${t}`;
+    b.onclick = () => renderChapter(idx);
+    tocList.appendChild(b);
+  });
+
+  const startAt = meta.lastReadIndex != null ? meta.lastReadIndex : 0;
+  await renderChapter(startAt);
+}
+
+$("btnBackLib").onclick = () => {
+  hide($("readerScreen")); show($("libraryScreen"));
+  loadLibrary();
+};
+$("btnTocMobile").onclick = () => {
+  const panel = $("tocPanel");
+  panel.style.display = panel.style.display === "block" ? "none" : "block";
+};
+
+async function fetchModule(idx){
+  if(activeModuleCache[idx]) return activeModuleCache[idx];
+  const snap = await getDoc(doc(db, "users", currentUser.uid, "books", activeBookId, "modules", String(idx)));
+  const data = snap.exists() ? snap.data() : { title: "(kosong)", blocks: [] };
+  activeModuleCache[idx] = data;
+  return data;
+}
+
+async function fetchAnswers(idx){
+  const snap = await getDoc(doc(db, "users", currentUser.uid, "books", activeBookId, "answers", String(idx)));
+  return snap.exists() ? snap.data() : {};
+}
+
+function renderBlocks(blocks, answers, chapterIdx){
+  let html = "";
+  blocks.forEach((b, bi) => {
+    if(b.type === "p"){
+      html += `<p class="block-p">${inlineMd(b.text)}</p>`;
+    } else if(b.type === "quote"){
+      html += `<div class="block-quote">${inlineMd(b.text)}</div>`;
+    } else if(b.type === "list"){
+      html += `<ul class="block-list">` + b.items.map(it => `<li>${inlineMd(it)}</li>`).join("") + `</ul>`;
+    } else if(b.type === "reflection"){
+      html += `<div class="reflect-box" data-block="${bi}">
+        <div class="reflect-kicker">LATIHAN</div>
+        <div class="reflect-title">${escapeHtml(b.title)}</div>`;
+      b.questions.forEach((q) => {
+        const val = answers && answers[q.id] ? answers[q.id] : "";
+        html += `
+          <div class="q-item">
+            <div class="q-text">${escapeHtml(q.text)}</div>
+            <textarea class="q-answer" data-qid="${q.id}" placeholder="Tulis jawabanmu di sini…">${escapeHtml(val)}</textarea>
+            <div class="save-hint"><span class="save-dot" data-dot="${q.id}"></span><span data-label="${q.id}">Belum diisi</span></div>
+          </div>`;
+      });
+      html += `</div>`;
+    }
+  });
+  return html;
+}
+
+async function renderChapter(idx){
+  activeChapterIdx = idx;
+  loading(true, "Memuat bagian…");
+  try{
+    const mod = await fetchModule(idx);
+    const answers = await fetchAnswers(idx);
+
+    const content = $("readerContent");
+    content.innerHTML = `
+      <div class="mod-kicker">BAGIAN ${idx+1} DARI ${activeBookMeta.chapterCount}</div>
+      <div class="mod-title">${escapeHtml(mod.title)}</div>
+      ${renderBlocks(mod.blocks || [], answers, idx)}
+    `;
+    content.scrollTop = 0;
+
+    content.querySelectorAll(".q-answer").forEach(ta => {
+      const qid = ta.dataset.qid;
+      const dot = content.querySelector(`[data-dot="${qid}"]`);
+      const label = content.querySelector(`[data-label="${qid}"]`);
+      if(ta.value.trim()){ dot.classList.add("saved"); label.textContent = "Tersimpan"; }
+      ta.addEventListener("input", () => {
+        dot.classList.remove("saved"); dot.classList.add("saving");
+        label.textContent = "Menyimpan…";
+        const key = idx + "_" + qid;
+        clearTimeout(saveTimers[key]);
+        saveTimers[key] = setTimeout(async () => {
+          try{
+            await setDoc(doc(db, "users", currentUser.uid, "books", activeBookId, "answers", String(idx)),
+              { [qid]: ta.value, updatedAt: serverTimestamp() }, { merge: true });
+            dot.classList.remove("saving"); dot.classList.add("saved");
+            label.textContent = "Tersimpan";
+          } catch(e){
+            label.textContent = "Gagal menyimpan";
+          }
+        }, 800);
+      });
+    });
+
+    document.querySelectorAll(".toc-item").forEach((el, i) => el.classList.toggle("active", i === idx));
+    $("btnPrevChap").disabled = idx <= 0;
+    $("btnNextChap").disabled = idx >= activeBookMeta.chapterCount - 1;
+    $("btnNextChap").textContent = idx >= activeBookMeta.chapterCount - 1 ? "Selesai ✓" : "Selanjutnya →";
+
+    await setDoc(doc(db, "users", currentUser.uid, "books", activeBookId),
+      { lastReadIndex: idx, updatedAt: serverTimestamp() }, { merge: true });
+    activeBookMeta.lastReadIndex = idx;
+  } catch(err){
+    console.error(err);
+    toast("Gagal memuat bagian ini.");
+  } finally {
+    loading(false);
+  }
+}
+
+$("btnPrevChap").onclick = () => { if(activeChapterIdx > 0) renderChapter(activeChapterIdx - 1); };
+$("btnNextChap").onclick = () => {
+  if(activeChapterIdx < activeBookMeta.chapterCount - 1) renderChapter(activeChapterIdx + 1);
+  else { hide($("readerScreen")); show($("libraryScreen")); loadLibrary(); }
+};
+
+/* ============================================================
+   SERVICE WORKER REGISTRATION
+============================================================ */
+if("serviceWorker" in navigator){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("service-worker.js").catch(console.warn);
+  });
+}
+</script>
+</body>
+</html>
