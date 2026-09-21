@@ -303,6 +303,89 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
   max-width:88vw;text-align:center;
 }
 #toast.show{opacity:1;}
+
+/* ---------- Impor PDF: field pilihan ---------- */
+.field select{width:100%;padding:11px 12px;border-radius:10px;border:1.4px solid var(--line);background:#fff;font-size:14px;color:var(--ink);}
+.field select:focus{outline:none;border-color:var(--blue);}
+
+/* ---------- Komponen bacaan tambahan (dipakai semua tema) ---------- */
+.block-lead{font-size:calc(var(--read-size,15px) + 1px);line-height:1.8;color:var(--ink-soft);font-style:italic;margin:0 0 16px;}
+.reflect-tag{font-size:10px;letter-spacing:2px;color:var(--ink-soft);font-weight:700;margin-bottom:10px;}
+.q-note{font-size:13.5px;line-height:1.65;color:var(--ink-soft);font-style:italic;margin:0 0 14px;}
+.slot-list{display:flex;flex-direction:column;gap:8px;}
+.slot{display:flex;align-items:center;gap:8px;}
+.slot span{width:20px;font-weight:700;color:var(--ink-soft);font-size:13.5px;}
+.q-slot{flex:1;min-width:0;padding:10px 11px;border-radius:10px;border:1.4px solid var(--line);font-size:13.5px;background:var(--paper);color:var(--ink);}
+.q-slot:focus{outline:none;border-color:var(--blue);}
+.toc-tag{display:inline-block;min-width:24px;margin-right:6px;font-weight:700;color:var(--blue);}
+.blk-closing{text-align:center;margin:38px 0 8px;padding-top:28px;border-top:1px solid var(--line);}
+.blk-closing .k{font-size:11px;letter-spacing:4px;font-weight:700;color:var(--ink-soft);}
+.blk-closing .h{font-size:20px;font-weight:800;line-height:1.35;color:var(--ink);margin:14px 0 18px;}
+.blk-closing p{font-size:14.5px;line-height:1.8;color:var(--ink-soft);font-style:italic;margin:0 0 12px;}
+.blk-closing .f{font-size:10.5px;letter-spacing:1.2px;color:var(--ink-soft);margin-top:18px;}
+.blk-closing svg.rings{display:block;width:150px;height:150px;margin:20px auto 6px;}
+
+/* ============================================================
+   TEMA PER BUKU — "Evergreen"
+   Dipasang lewat atribut data-theme pada #readerScreen (halaman baca) dan
+   kelas .th-evergreen pada sampul kecil di rak buku / riwayat.
+   Tema baru cukup ditambahkan di sini + di daftar THEMES pada script.
+============================================================ */
+#readerScreen[data-theme="evergreen"]{
+  --navy:#3B4A37; --navy-2:#4C6249;
+  --blue:#6E9575; --cyan:#8FB08F;
+  --paper:#F7F5EA; --paper-2:#E9EEDF; --ink:#3D4A37; --ink-soft:#7A7462; --line:#DAE2CD;
+  background:linear-gradient(180deg,#F7F5EA 0%,#EAF0DF 55%,#DDE9D5 100%);
+}
+#readerScreen[data-theme="evergreen"] .block-p,
+#readerScreen[data-theme="evergreen"] .block-list li,
+#readerScreen[data-theme="evergreen"] .block-lead,
+#readerScreen[data-theme="evergreen"] .block-quote,
+#readerScreen[data-theme="evergreen"] .q-text,
+#readerScreen[data-theme="evergreen"] .q-note,
+#readerScreen[data-theme="evergreen"] .q-answer,
+#readerScreen[data-theme="evergreen"] .q-slot,
+#readerScreen[data-theme="evergreen"] .blk-closing p{font-family:'Lora',Georgia,'Times New Roman',serif;}
+#readerScreen[data-theme="evergreen"] .block-p,
+#readerScreen[data-theme="evergreen"] .block-list li,
+#readerScreen[data-theme="evergreen"] .q-text{color:#4A5245;}
+#readerScreen[data-theme="evergreen"] .block-p{line-height:1.9;}
+#readerScreen[data-theme="evergreen"] .block-lead{color:#6B6152;}
+#readerScreen[data-theme="evergreen"] .block-p strong{color:#3D4A37;}
+#readerScreen[data-theme="evergreen"] .mod-title,
+#readerScreen[data-theme="evergreen"] .blk-closing .h,
+#readerScreen[data-theme="evergreen"] .ev-hero-title{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:700;color:#3D4A37;}
+#readerScreen[data-theme="evergreen"] .mod-title{font-size:26px;letter-spacing:.2px;}
+#readerScreen[data-theme="evergreen"] .mod-kicker,
+#readerScreen[data-theme="evergreen"] .reflect-kicker,
+#readerScreen[data-theme="evergreen"] .reflect-tag,
+#readerScreen[data-theme="evergreen"] .toc-tag,
+#readerScreen[data-theme="evergreen"] .blk-closing .k,
+#readerScreen[data-theme="evergreen"] .ev-hero-kicker{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:600;letter-spacing:3px;color:#7C9A7E;}
+#readerScreen[data-theme="evergreen"] .reflect-box{background:rgba(255,255,255,.55);border-color:#CFDBC2;}
+#readerScreen[data-theme="evergreen"] .reflect-title{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;font-style:normal;font-weight:600;font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:#3D4A37;}
+#readerScreen[data-theme="evergreen"] .blk-closing p{color:#6B6152;}
+#readerScreen[data-theme="evergreen"] .blk-closing .f{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;color:#9A917C;}
+#readerScreen[data-theme="evergreen"] .toc-item{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;}
+
+/* Sampul di halaman baca (bagian pertama) */
+.ev-hero{text-align:center;padding:6px 0 34px;margin-bottom:28px;border-bottom:1px solid var(--line);}
+.ev-hero svg.rings{display:block;width:min(72vw,250px);height:auto;margin:0 auto 6px;}
+.ev-hero-kicker{font-size:11px;letter-spacing:5px;margin:0 0 16px;}
+.ev-hero-title{font-size:clamp(34px,10vw,46px);letter-spacing:2px;line-height:1.05;}
+.ev-hero-sub{font-family:'Lora',Georgia,serif;font-style:italic;font-size:17px;color:#6B6152;margin-top:16px;}
+.ev-hero-tag{font-family:'Lora',Georgia,serif;font-style:italic;font-size:13.5px;color:#8A806B;margin:6px auto 0;max-width:300px;line-height:1.6;}
+.ev-hero-rule{width:64px;height:3px;border-radius:2px;background:#8FB08F;margin:22px auto 16px;}
+.ev-hero-credit{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:500;font-size:10.5px;letter-spacing:3px;color:#8A806B;line-height:1.6;}
+
+/* Sampul kecil (rak buku, riwayat) */
+.th-evergreen{background:linear-gradient(180deg,#F5F3E6 0%,#DCE8D3 100%) !important;color:#3F4A38 !important;position:relative;overflow:hidden;}
+.book-cover.th-evergreen svg.rings{position:absolute;top:2px;left:50%;transform:translateX(-50%);width:64px;height:64px;}
+.book-cover.th-evergreen .cv-title{position:absolute;bottom:6px;left:0;right:0;text-align:center;font:700 9.5px/1 'Poppins',-apple-system,'Segoe UI',sans-serif;letter-spacing:2.2px;}
+.hist-cover.th-evergreen svg.rings{position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);}
+.continue-card.th-evergreen-card{background:linear-gradient(135deg,#3B4A37,#5B7A5E);}
+.continue-card.th-evergreen-card .continue-kicker{color:#CFE3C4;}
+.continue-card.th-evergreen-card .continue-bar i{background:#B8D3AE;}
 </style>
 </head>
 <body>
@@ -356,7 +439,7 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
     <div class="topbar">
       <div class="brand"><span class="brand-logo">E</span> Essensiana</div>
       <div class="spacer"></div>
-      <button class="iconbtn" id="btnHelp" title="Panduan format file">?</button>
+      <button class="iconbtn" id="btnHelp" title="Panduan impor PDF">?</button>
     </div>
     <div class="demo-banner hidden" id="demoBanner">Mode pratinjau — data hanya sementara, tidak disimpan ke akun.</div>
 
@@ -386,7 +469,7 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
       <div id="emptyState" class="empty-state hidden">
         <div class="big">📚</div>
         <div><b>Rak bukumu masih kosong.</b></div>
-        <div style="margin-top:4px;">Tekan tombol + untuk mengimpor materi pertamamu.</div>
+        <div style="margin-top:4px;">Tekan tombol + untuk mengimpor PDF pertamamu.</div>
       </div>
     </div>
 
@@ -430,7 +513,7 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
         </div>
         <div class="set-preview">Contoh teks bacaan: pelan-pelan saja, satu bagian dalam satu waktu.</div>
       </div>
-      <button class="set-row" id="btnHelp2"><span>Panduan format file</span><span>›</span></button>
+      <button class="set-row" id="btnHelp2"><span>Panduan impor PDF</span><span>›</span></button>
       <button class="set-row danger" id="btnLogout"><span>Keluar</span><span>⎋</span></button>
     </div>
 
@@ -482,92 +565,68 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 
 </div>
 
-<!-- ======================= MODAL: ADD BOOK ======================= -->
+<!-- ======================= MODAL: ADD BOOK (PDF) ======================= -->
 <div class="modal-backdrop hidden" id="modalAdd">
   <div class="modal">
     <button class="modal-close" id="closeAdd">×</button>
-    <h2>Impor Materi Baru</h2>
-    <div class="sub">Tempel teks langsung, atau unggah file. Lihat tanda <b>(?)</b> untuk tips format terbaik.</div>
+    <h2>Impor Buku dari PDF</h2>
+    <div class="sub">Unggah PDF workbook-mu. Essensiana hanya mengambil teks dan susunannya (sampul, bab, latihan), jadi yang tersimpan cuma beberapa KB, bukan file PDF-nya. Lihat tanda <b>(?)</b> untuk panduan.</div>
 
-    <div class="tabs">
-      <button class="tab active" data-tab="paste">Tempel Teks</button>
-      <button class="tab" data-tab="file">Unggah File</button>
+    <div class="field">
+      <label>Judul buku (opsional)</label>
+      <input type="text" id="inpTitleFile" placeholder="Kosongkan untuk memakai judul dari sampul PDF">
     </div>
-
-    <div id="tabPaste">
-      <div class="field">
-        <label>Judul materi</label>
-        <input type="text" id="inpTitlePaste" placeholder="mis. SOMNIA — On Sleep, Dreams, and the Space Between">
-      </div>
-      <div class="field">
-        <label>Isi naskah (mendukung format ringan, lihat panduan)</label>
-        <textarea class="rawpaste" id="inpRaw" placeholder="# Judul Modul 01&#10;Isi paragraf...&#10;&#10;:::latihan&#10;- Pertanyaan refleksi pertama&#10;- Pertanyaan refleksi kedua&#10;:::"></textarea>
-      </div>
+    <div class="dropzone">
+      <div>📄 File PDF workbook</div>
+      <label for="fileInput">pilih file dari perangkat</label>
+      <input type="file" id="fileInput" accept="application/pdf,.pdf">
+      <div class="file-picked" id="filePicked"></div>
     </div>
-
-    <div id="tabFile" class="hidden">
-      <div class="field">
-        <label>Judul materi</label>
-        <input type="text" id="inpTitleFile" placeholder="Judul akan otomatis terisi dari nama file">
-      </div>
-      <div class="dropzone">
-        <div>📄 Seret file ke sini, atau</div>
-        <label for="fileInput">pilih file dari perangkat</label>
-        <input type="file" id="fileInput" accept=".md,.txt,.docx,.pdf">
-        <div class="file-picked" id="filePicked"></div>
-      </div>
-      <div class="hint-box">
-        <b>Rekomendasi format (paling hemat storage → paling boros):</b>
-        .md / .txt terbaik, .docx baik, .pdf paling boros & hasil ekstraksinya bisa kurang rapi.
-        Tekan tombol <b>(?)</b> di halaman rak buku untuk tabel lengkapnya.
-      </div>
-      <label class="checkline">
-        <input type="checkbox" id="chkKeepOriginal">
-        <span>Simpan juga file asli ke Firebase Storage sebagai cadangan (menambah pemakaian storage — tidak disarankan untuk file besar/PDF).</span>
-      </label>
+    <div class="field">
+      <label>Tampilan buku</label>
+      <select id="selTheme"></select>
     </div>
 
     <div id="parsePreview" class="hint-box hidden"></div>
+
+    <label class="checkline">
+      <input type="checkbox" id="chkKeepOriginal">
+      <span>Simpan juga file PDF asli ke Firebase Storage sebagai cadangan (menambah pemakaian storage, maksimal 3MB, tidak disarankan).</span>
+    </label>
 
     <button class="btn" id="btnSaveBook" style="margin-top:16px;">Simpan ke Rak Buku</button>
   </div>
 </div>
 
-<!-- ======================= MODAL: HELP / FORMAT GUIDE ======================= -->
+<!-- ======================= MODAL: HELP / PANDUAN IMPOR PDF ======================= -->
 <div class="modal-backdrop hidden" id="modalHelp">
   <div class="modal">
     <button class="modal-close" id="closeHelp">×</button>
-    <h2>Panduan Format & Hemat Storage</h2>
-    <div class="sub">Essensiana mengekstrak teksnya saja lalu menyimpannya ke Firestore — bukan menyimpan file mentahnya. Ini yang paling murah untuk kuota Firebase kamu.</div>
+    <h2>Panduan Impor PDF</h2>
+    <div class="sub">Essensiana hanya menerima PDF. Teksnya diambil lalu digambar ulang oleh aplikasi, jadi ukuran yang tersimpan kecil tanpa perlu kompresi.</div>
 
     <table class="rec-table">
-      <tr><th>Format</th><th>Ukuran</th><th>Rekomendasi</th></tr>
-      <tr><td>.md (Markdown)</td><td>Paling kecil</td><td class="tag-good">Terbaik</td></tr>
-      <tr><td>.txt (Teks polos)</td><td>Sangat kecil</td><td class="tag-good">Terbaik</td></tr>
-      <tr><td>.docx (Word)</td><td>Sedang</td><td class="tag-ok">Baik, cuma teksnya diambil</td></tr>
-      <tr><td>.pdf</td><td>Bisa besar</td><td class="tag-ok">Hati-hati, hasil urutan teks kadang berantakan</td></tr>
-      <tr><td>Foto halaman / scan</td><td>Besar</td><td class="tag-bad">Hindari</td></tr>
+      <tr><th>Tahap</th><th>Yang terjadi</th></tr>
+      <tr><td>Dibaca</td><td>Teks beserta posisi &amp; ukuran hurufnya diambil di perangkatmu</td></tr>
+      <tr><td>Disimpan</td><td class="tag-good">Teks terstruktur (puluhan KB), bukan file PDF</td></tr>
+      <tr><td>Ditampilkan</td><td>Digambar ulang aplikasi dengan tampilan buku itu</td></tr>
+      <tr><td>Foto / scan</td><td class="tag-bad">Tidak didukung (tidak ada teks, butuh OCR)</td></tr>
     </table>
 
     <div class="help-section">
       <h3>Kenapa bukan simpan file aslinya saja?</h3>
-      <p>Firestore membatasi satu dokumen maksimal 1MB, dan penyimpanan file di Firebase Storage dihitung per GB tersimpan + per GB yang diunduh. File PDF/DOCX/gambar bisa berukuran ratusan KB sampai puluhan MB, sedangkan teks hasil ekstraksinya biasanya cuma puluhan-ratusan KB. Karena itu, Essensiana secara default membuang file mentahnya setelah teksnya diambil, dan hanya menyimpan hasil ekstraksi + jawaban latihanmu.</p>
+      <p>Firestore membatasi satu dokumen maksimal 1MB, dan Firebase Storage dihitung per GB tersimpan dan per GB yang diunduh. Sebuah PDF workbook bisa ratusan KB sampai puluhan MB, sedangkan teks hasil ekstraksinya biasanya cuma puluhan KB. Karena itu file PDF dibuang setelah teksnya diambil (kecuali kamu mencentang opsi cadangan saat impor).</p>
     </div>
 
     <div class="help-section">
-      <h3>Format naskah yang dikenali (opsional, tapi disarankan)</h3>
-      <p>Judul modul/bab, tandai dengan salah satu dari ini di awal baris:</p>
-      <pre class="codeblock"># Judul Modul
-atau
-MODUL 01: Judul Modul
-atau
-BAB 1 — Judul Bab</pre>
-      <p>Blok latihan/pertanyaan yang bisa diketik jawabannya, bungkus begini:</p>
-      <pre class="codeblock">:::latihan Judul Latihan (opsional)
-- Pertanyaan pertama
-- Pertanyaan kedua
-:::</pre>
-      <p>Kalau naskahmu (hasil dari .docx/.pdf) tidak memakai format ini, Essensiana tetap mencoba menebak bab lewat kata kunci seperti <code class="inline">MODUL</code>, <code class="inline">BAB</code>, <code class="inline">CHAPTER</code>, dan menebak bagian latihan lewat kata <code class="inline">LATIHAN</code>. Untuk hasil paling rapi, tetap format .md manual adalah yang terbaik.</p>
+      <h3>Susunan PDF yang dikenali</h3>
+      <p>Halaman 1 dibaca sebagai sampul (judul, subjudul, keterangan). Daftar isi dilewati dan dibuat ulang otomatis dari daftar bab. Halaman isi dikenali dari penanda kecil di bagian atas seperti <code class="inline">MODUL 01</code>, lalu judul besar dan paragraf. Halaman <code class="inline">MODUL 01 · REFLEKSI</code> dengan baris <code class="inline">LATIHAN · Judul</code> menjadi kolom jawaban yang bisa diketik. Baris kosong bernomor (1. 2. 3.) menjadi kolom berbaris. Halaman terakhir dibaca sebagai penutup.</p>
+      <p>Kalau PDF-mu tidak mengikuti susunan ini, teksnya tetap dibaca lalu dipecah ke bab lewat tebakan kata kunci seperti <code class="inline">MODUL</code>, <code class="inline">BAB</code>, <code class="inline">CHAPTER</code>, <code class="inline">PART</code>, dan <code class="inline">LATIHAN</code>. Hasilnya bisa kurang rapi.</p>
+    </div>
+
+    <div class="help-section">
+      <h3>Tampilan per buku</h3>
+      <p>Tiap buku punya tampilannya sendiri. Pilihan <b>Otomatis</b> mencocokkan judul buku dengan tema yang tersedia (saat ini: Evergreen), selain itu dipakai tampilan Standar. Kamu juga bisa memilih tema secara manual saat impor.</p>
     </div>
 
     <div class="help-section">
@@ -829,7 +888,7 @@ function parseRawContent(raw, fallbackTitle){
 }
 
 /* ============================================================
-   FILE EXTRACTION (md/txt direct, docx via mammoth, pdf via pdf.js)
+   IMPOR PDF (pdf.js dimuat saat dibutuhkan)
 ============================================================ */
 function loadScriptOnce(src){
   return new Promise((resolve, reject) => {
@@ -840,32 +899,396 @@ function loadScriptOnce(src){
   });
 }
 
-async function extractTextFromFile(file){
-  const name = file.name.toLowerCase();
-  if(name.endsWith(".md") || name.endsWith(".txt")){
-    return await file.text();
-  }
-  if(name.endsWith(".docx")){
-    await loadScriptOnce("https://cdn.jsdelivr.net/npm/mammoth@1.7.2/mammoth.browser.min.js");
-    const arrayBuffer = await file.arrayBuffer();
-    const result = await window.mammoth.extractRawText({ arrayBuffer });
-    return result.value;
-  }
-  if(name.endsWith(".pdf")){
-    await loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
-    window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-    const arrayBuffer = await file.arrayBuffer();
-    const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-    let fullText = "";
-    for(let p = 1; p <= pdf.numPages; p++){
-      const page = await pdf.getPage(p);
-      const content = await page.getTextContent();
-      const strings = content.items.map(it => it.str);
-      fullText += strings.join(" ") + "\n\n";
+/* ============================================================
+   PDF LAYOUT PARSER — membaca susunan halaman (posisi & ukuran teks) supaya
+   struktur workbook (sampul, modul, latihan, penutup) bisa dikenali.
+   Hanya teks terstruktur yang disimpan; file PDF-nya dibuang.
+============================================================ */
+const PDF_BASE_WORDS = "yang untuk dan dari dengan pada ini itu kamu diri sendiri satu dua tiga empat lima enam tugas kita cuma surat catatan pribadi latihan refleksi modul penutup sebelum mulai bertemu lagi sampai jadi kalau tidak bisa".split(" ");
+const PDF_SMALL_WORDS = new Set(["yang","di","ke","dan","untuk","dari","pada","dengan","atau","the","of","and","on","in","a","to"]);
+
+// Item teks pdf.js -> baris-baris (dikelompokkan berdasarkan posisi vertikal)
+function pdfBuildLines(items){
+  const its = items
+    .filter(it => it.str && it.str.trim())
+    .map(it => ({ str: it.str, x: it.transform[4], y: it.transform[5], w: it.width, h: it.height, font: it.fontName }));
+  its.sort((a, b) => (b.y - a.y) || (a.x - b.x));
+  const lines = [];
+  its.forEach(it => {
+    const last = lines[lines.length - 1];
+    if(last && Math.abs(last.y - it.y) <= 1.5) last.items.push(it);
+    else lines.push({ y: it.y, items: [it] });
+  });
+  lines.forEach(l => {
+    l.items.sort((a, b) => a.x - b.x);
+    l.x = l.items[0].x;
+    l.h = Math.max.apply(null, l.items.map(i => i.h));
+  });
+  return lines;
+}
+
+// Teks dengan huruf direnggangkan ("M O D U L 0 1") -> true
+function pdfIsSpaced(s){
+  const t = (s || "").trim();
+  if(!t) return false;
+  const toks = t.split(" ");
+  return toks.length >= 2 && toks.every(k => k.length === 1);
+}
+
+function pdfBuildVocab(pages){
+  const vocab = new Set(PDF_BASE_WORDS);
+  pages.forEach(p => p.lines.forEach(l => l.items.forEach(it => {
+    if(pdfIsSpaced(it.str)) return;
+    it.str.toLowerCase().split(/[^a-z0-9']+/).forEach(w => { if(w.length >= 3) vocab.add(w); });
+  })));
+  return vocab;
+}
+
+// Memisahkan kata yang menempel ("KENALIENERGIMU") memakai kosakata dari dokumen itu sendiri
+function pdfSegmentWords(blob, vocab){
+  const s = blob.toLowerCase();
+  const n = s.length;
+  if(n <= 8) return [blob];
+  const INF = 1e9;
+  const best = new Array(n + 1).fill(INF);
+  const prev = new Array(n + 1).fill(-1);
+  best[0] = 0;
+  for(let i = 1; i <= n; i++){
+    for(let j = Math.max(0, i - 24); j < i; j++){
+      if(best[j] >= INF) continue;
+      const w = s.slice(j, i);
+      let c;
+      if(w.length >= 3 && vocab.has(w)) c = 1;
+      else if(w.length >= 5) c = 6 + 0.5 * w.length;
+      else c = 30;
+      if(best[j] + c < best[i]){ best[i] = best[j] + c; prev[i] = j; }
     }
-    return fullText;
   }
-  throw new Error("Format file belum didukung.");
+  const out = [];
+  let i = n;
+  while(i > 0){ const j = prev[i]; out.unshift(blob.slice(j, i)); i = j; }
+  return out;
+}
+
+function pdfDecodeSpaced(str, vocab){
+  const toks = str.trim().split(" ");
+  const seps = new Set(["·", ",", "-", "–", "—", ":", "•"]);
+  const out = [];
+  let cur = "";
+  const flush = () => {
+    if(!cur) return;
+    let blob = cur;
+    const m = blob.match(/^(MODUL|BAB|BAGIAN|CHAPTER|PART)(\d+)$/i);
+    if(m) out.push(m[1], m[2]);
+    else out.push.apply(out, pdfSegmentWords(blob, vocab));
+    cur = "";
+  };
+  toks.forEach(t => {
+    if(seps.has(t)){ flush(); out.push(t); }
+    else cur += t;
+  });
+  flush();
+  return out.join(" ").replace(/ ,/g, ",").replace(/ :/g, ":");
+}
+
+function pdfItemText(it, vocab){
+  return pdfIsSpaced(it.str) ? pdfDecodeSpaced(it.str, vocab) : it.str.trim();
+}
+
+// Teks satu baris; item dengan font berbeda dari font isi -> **tebal** (bila allowBold)
+function pdfLineText(line, vocab, bodyFont, allowBold){
+  const toks = [];
+  line.items.forEach((it, i) => {
+    const txt = pdfItemText(it, vocab);
+    if(!txt) return;
+    const prev = line.items[i - 1];
+    const gap = prev ? it.x - (prev.x + prev.w) : 0;
+    toks.push({ text: txt, bold: !!(allowBold && bodyFont && it.font !== bodyFont), sep: (prev && gap > 0.8) ? " " : "" });
+  });
+  let out = "";
+  let i = 0;
+  while(i < toks.length){
+    if(toks[i].bold){
+      let j = i, run = "";
+      while(j < toks.length && toks[j].bold){ run += (j > i ? toks[j].sep : "") + toks[j].text; j++; }
+      out += (i > 0 ? toks[i].sep : "") + "**" + run + "**";
+      i = j;
+    } else {
+      out += (i > 0 ? toks[i].sep : "") + toks[i].text;
+      i++;
+    }
+  }
+  return out;
+}
+
+// Ukuran & font teks isi (paling dominan) pada satu halaman
+function pdfBodyStats(lines){
+  const hCount = {}, fCount = {};
+  lines.forEach(l => l.items.forEach(it => {
+    if(pdfIsSpaced(it.str)) return;
+    const hk = (Math.round(it.h * 2) / 2).toFixed(1);
+    hCount[hk] = (hCount[hk] || 0) + it.str.length;
+  }));
+  let bodyH = 0, best = -1;
+  for(const k in hCount){ if(hCount[k] > best){ best = hCount[k]; bodyH = parseFloat(k); } }
+  lines.forEach(l => l.items.forEach(it => {
+    if(pdfIsSpaced(it.str) || Math.abs(it.h - bodyH) > 0.6) return;
+    fCount[it.font] = (fCount[it.font] || 0) + it.str.length;
+  }));
+  let bodyFont = null;
+  best = -1;
+  for(const f in fCount){ if(fCount[f] > best){ best = fCount[f]; bodyFont = f; } }
+  return { bodyH: bodyH || 10, bodyFont };
+}
+
+// Baris -> paragraf (dipisah oleh jarak vertikal yang lebih besar dari jarak antarbaris)
+function pdfParagraphs(lines, ctx){
+  if(!lines.length) return { paras: [], base: ctx.bodyH * 1.55 };
+  const steps = [];
+  for(let i = 1; i < lines.length; i++) steps.push(lines[i - 1].y - lines[i].y);
+  const ok = steps.filter(s => s >= ctx.bodyH * 0.9);
+  const base = ok.length ? Math.min.apply(null, ok) : ctx.bodyH * 1.55;
+  const paras = [];
+  let cur = null;
+  lines.forEach((l, i) => {
+    const step = i ? lines[i - 1].y - l.y : 0;
+    if(!cur || step > base * 1.35){ cur = { lines: [l], stepBefore: step }; paras.push(cur); }
+    else cur.lines.push(l);
+  });
+  paras.forEach(p => {
+    p.top = p.lines[0].y;
+    p.last = p.lines[p.lines.length - 1].y;
+    const items = [].concat.apply([], p.lines.map(l => l.items));
+    let nonBodyChars = 0, allChars = 0, nonBodyItems = 0;
+    items.forEach(it => {
+      allChars += it.str.length;
+      if(ctx.bodyFont && it.font !== ctx.bodyFont){ nonBodyChars += it.str.length; nonBodyItems++; }
+    });
+    p.allNonBody = !!ctx.bodyFont && nonBodyItems === items.length;
+    p.hasBold = !!ctx.bodyFont && nonBodyItems > 0 && !p.allNonBody && nonBodyChars <= allChars * 0.45;
+    p.text = p.lines.map(l => pdfLineText(l, ctx.vocab, ctx.bodyFont, p.hasBold)).join(" ").replace(/\s+/g, " ").trim();
+  });
+  return { paras, base };
+}
+
+function pdfTitleCase(s){
+  return s.toLowerCase().split(" ").map((w, i) => {
+    if(!w) return w;
+    if(i > 0 && PDF_SMALL_WORDS.has(w)) return w;
+    return w.charAt(0).toUpperCase() + w.slice(1);
+  }).join(" ");
+}
+
+function pdfParseCover(lines, vocab){
+  const spaced = l => l.items.some(it => pdfIsSpaced(it.str));
+  const maxH = Math.max.apply(null, lines.map(l => l.h));
+  const ti = lines.findIndex(l => l.h >= maxH * 0.9 && !spaced(l));
+  if(ti < 0) return null;
+  const title = pdfLineText(lines[ti], vocab).trim();
+  const kicker = [], after = [], credit = [];
+  lines.forEach((l, i) => {
+    const t = pdfLineText(l, vocab).trim();
+    if(!t || i === ti) return;
+    if(i < ti){ if(spaced(l)) kicker.push(t); }
+    else if(spaced(l)) credit.push(t);
+    else after.push(t);
+  });
+  return {
+    kicker: kicker.join(" "),
+    title,
+    subtitle: after[0] || "",
+    tagline: after.slice(1).join(" "),
+    credit: credit.join(" ")
+  };
+}
+
+function pdfClamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+
+// Halaman latihan: paragraf yang punya ruang tulis -> pertanyaan; sisanya -> catatan
+function pdfReflectionBlock(kicker, lines, ctx, pageH, qc){
+  let title = "";
+  let rest = lines;
+  if(rest.length){
+    const t0 = pdfLineText(rest[0], ctx.vocab);
+    if(/^LATIHAN\b/i.test(t0) && rest[0].items.some(it => pdfIsSpaced(it.str))){
+      const after = t0.replace(/^LATIHAN\s*[·:\-–—]?\s*/i, "");
+      title = after ? pdfTitleCase(after) : "";
+      rest = rest.slice(1);
+    }
+  }
+  const blanks = [], textLines = [];
+  rest.forEach(l => {
+    const t = pdfLineText(l, ctx.vocab);
+    if(/^\d{1,2}[.)]$/.test(t)) blanks.push(l); else textLines.push(l);
+  });
+  const { paras, base } = pdfParagraphs(textLines, ctx);
+  const questions = [];
+  paras.forEach((p, i) => {
+    const text = p.text.replace(/\*\*/g, "");
+    const next = paras[i + 1];
+    const slots = blanks.filter(b => b.y < p.last && (!next || b.y > next.top)).length;
+    if(slots > 0){
+      questions.push({ id: "q" + (qc.n++), text, slots: pdfClamp(slots, 1, 10) });
+    } else if(!next){
+      const rows = pdfClamp(Math.round((p.last - pageH * 0.08) / (base * 2)), 3, 8);
+      questions.push({ id: "q" + (qc.n++), text, rows });
+    } else if(next.stepBefore >= base * 2.2){
+      const rows = pdfClamp(Math.round((next.stepBefore - base * 1.6) / base) + 1, 2, 4);
+      questions.push({ id: "q" + (qc.n++), text, rows });
+    } else {
+      questions.push({ id: "n" + (qc.n++), text, note: true });
+    }
+  });
+  if(!questions.length) return null;
+  return { type: "reflection", kicker, title: title || "Latihan Refleksi", questions };
+}
+
+// Halaman-halaman PDF -> { cover, modules:[{title,kicker,heading,blocks}], tags }
+// Mengembalikan null kalau struktur workbook tidak dikenali.
+function parsePdfPages(pages){
+  const vocab = pdfBuildVocab(pages);
+  const out = { cover: null, modules: [], tags: [] };
+  const qc = { n: 0 };
+  let cur = null;
+  const lastIdx = pages.length - 1;
+
+  for(let pi = 0; pi < pages.length; pi++){
+    const pg = pages[pi];
+    const footY = pg.h * 0.075;
+    const body = pg.lines.filter(l => l.y >= footY);
+    const foot = pg.lines.filter(l => l.y < footY);
+    if(!body.length) continue;
+
+    if(pi === 0){ out.cover = pdfParseCover(body, vocab); continue; }
+
+    const st = pdfBodyStats(body);
+    const ctx = { vocab, bodyH: st.bodyH, bodyFont: st.bodyFont };
+
+    // daftar isi: dilewati (dibuat ulang otomatis dari daftar modul)
+    const bigLine = body.reduce((a, b) => (b.h > a.h ? b : a), body[0]);
+    if(/^(daftar isi|table of contents|contents)$/i.test(pdfLineText(bigLine, vocab).trim())) continue;
+
+    // penanda kecil di atas halaman ("MODUL 01", "MODUL 01 · REFLEKSI", ...)
+    let kicker = "";
+    let start = 0;
+    const f0 = body[0];
+    if(f0.items.some(it => pdfIsSpaced(it.str)) && f0.h <= ctx.bodyH * 1.05){
+      kicker = pdfLineText(f0, vocab).trim();
+      start = 1;
+    }
+    const rest = body.slice(start);
+
+    // halaman latihan
+    if(kicker && /REFLEKSI|REFLECTION/i.test(kicker)){
+      if(!cur) continue;
+      const blk = pdfReflectionBlock(kicker, rest, ctx, pg.h, qc);
+      if(blk) cur.blocks.push(blk);
+      continue;
+    }
+
+    // halaman penutup terakhir (bukan modul bernomor)
+    const isNumbered = /^(MODUL|BAB|BAGIAN|CHAPTER|PART)\s*\d+$/i.test(kicker);
+    if(pi === lastIdx && kicker && !isNumbered && !/^PENUTUP$/i.test(kicker) && cur){
+      const hl = [];
+      let k = 0;
+      while(k < rest.length && rest[k].h >= ctx.bodyH * 1.3){ hl.push(rest[k]); k++; }
+      const heading = hl.map(l => pdfLineText(l, vocab)).join(" ").replace(/\s+/g, " ").trim();
+      const { paras } = pdfParagraphs(rest.slice(k), ctx);
+      const footer = foot.map(l => pdfLineText(l, vocab).trim()).filter(t => t && !/^\d+$/.test(t)).join(" ");
+      cur.blocks.push({
+        type: "closing", kicker, heading,
+        paras: paras.map(p => p.text.replace(/\*\*/g, "")),
+        footer
+      });
+      continue;
+    }
+
+    // halaman isi: judul besar + paragraf
+    const hl = [];
+    let k = 0;
+    while(k < rest.length && rest[k].h >= ctx.bodyH * 1.3){ hl.push(rest[k]); k++; }
+    const heading = hl.map(l => pdfLineText(l, vocab)).join(" ").replace(/\s+/g, " ").trim();
+    const { paras } = pdfParagraphs(rest.slice(k), ctx);
+    const blocks = paras.map(p => ({
+      type: (p.allNonBody && p.lines.length <= 2) ? "lead" : "p",
+      text: p.text
+    }));
+
+    if(kicker){
+      // modul baru
+      let title, tag;
+      if(isNumbered){ title = heading || pdfTitleCase(kicker); tag = (kicker.match(/\d+/) || ["•"])[0]; }
+      else if(/^PENUTUP$/i.test(kicker)){ title = heading ? ("Penutup, " + heading) : "Penutup"; tag = "✦"; }
+      else { title = pdfTitleCase(kicker); tag = "•"; }
+      cur = { title, kicker, heading: heading || title, blocks };
+      out.modules.push(cur);
+      out.tags.push(tag);
+    } else if(cur){
+      // lanjutan halaman modul sebelumnya
+      if(heading) cur.blocks.push({ type: "p", text: "**" + heading + "**" });
+      blocks.forEach(b => cur.blocks.push(b));
+    }
+  }
+
+  if(out.modules.length < 2) return null;
+  return out;
+}
+
+// Cadangan: PDF tanpa struktur workbook -> teks biasa berbaris (untuk parseRawContent)
+function pdfPagesToText(pages){
+  const vocab = pdfBuildVocab(pages);
+  const parts = [];
+  pages.forEach(pg => {
+    const footY = pg.h * 0.075;
+    const body = pg.lines.filter(l => l.y >= footY);
+    if(!body.length) return;
+    const st = pdfBodyStats(body);
+    const { paras } = pdfParagraphs(body, { vocab, bodyH: st.bodyH, bodyFont: st.bodyFont });
+    paras.forEach(p => parts.push(p.lines.map(l => pdfLineText(l, vocab)).join("\n")));
+  });
+  return parts.join("\n\n");
+}
+
+
+const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+const PDFJS_WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+async function extractPdfPages(file){
+  await loadScriptOnce(PDFJS_URL);
+  window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+  const buf = await file.arrayBuffer();
+  const pdf = await window.pdfjsLib.getDocument({ data: buf }).promise;
+  const pages = [];
+  for(let p = 1; p <= pdf.numPages; p++){
+    const page = await pdf.getPage(p);
+    const vp = page.getViewport({ scale: 1 });
+    const tc = await page.getTextContent();
+    pages.push({ w: vp.width, h: vp.height, lines: pdfBuildLines(tc.items) });
+  }
+  return pages;
+}
+
+// File PDF -> { mode, title, cover, modules, tags, textSize }
+async function parsePdfFile(file){
+  const pages = await extractPdfPages(file);
+  const wb = parsePdfPages(pages);
+  if(wb){
+    let title = "";
+    if(wb.cover && wb.cover.title){
+      title = pdfTitleCase(wb.cover.title) + (wb.cover.subtitle ? " — " + wb.cover.subtitle : "");
+    }
+    return {
+      mode: "workbook", title, cover: wb.cover, modules: wb.modules, tags: wb.tags,
+      textSize: new Blob([JSON.stringify(wb.modules)]).size
+    };
+  }
+  const raw = pdfPagesToText(pages);
+  if(!raw.trim()) throw new Error("PDF ini tidak berisi teks yang bisa dibaca (mungkin hasil scan atau foto).");
+  const parsed = parseRawContent(raw, "");
+  return {
+    mode: "teks", title: parsed.title || "", cover: null, modules: parsed.modules, tags: null,
+    textSize: new Blob([raw]).size
+  };
 }
 
 /* ============================================================
@@ -1105,6 +1528,83 @@ function exitDemo(){
 $("linkDemo").onclick = enterDemo;
 
 /* ============================================================
+   TEMA PER BUKU
+   Tiap buku menyimpan themeId ("default" | "evergreen" | ...). Tema baru:
+   tambahkan entri di THEMES + aturan CSS [data-theme="..."] di atas.
+   match: pola judul untuk pemilihan tema otomatis saat impor.
+============================================================ */
+const THEMES = {
+  default:   { label: "Standar", color: "#1652F0" },
+  evergreen: {
+    label: "Evergreen", match: /evergreen/i, color: "#3B4A37", hero: true,
+    fonts: "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Poppins:wght@500;600;700&display=swap"
+  }
+};
+
+function themeOf(book){
+  const id = book && book.themeId;
+  return (id && THEMES[id]) ? id : "default";
+}
+function themeCls(book){
+  const id = themeOf(book);
+  return id === "default" ? "" : " th-" + id;
+}
+function detectThemeId(text){
+  for(const id in THEMES){
+    const t = THEMES[id];
+    if(t.match && t.match.test(text || "")) return id;
+  }
+  return "default";
+}
+function ensureThemeFonts(id){
+  const t = THEMES[id];
+  if(!t || !t.fonts || document.getElementById("fonts-" + id)) return;
+  const l = document.createElement("link");
+  l.id = "fonts-" + id; l.rel = "stylesheet"; l.href = t.fonts;
+  document.head.appendChild(l);
+}
+function setThemeColor(color){
+  const m = document.querySelector('meta[name="theme-color"]');
+  if(m) m.setAttribute("content", color);
+}
+function escapeAttr(s){
+  return escapeHtml(String(s == null ? "" : s)).replace(/"/g, "&quot;");
+}
+
+// Lingkaran konsentris khas Evergreen
+function ringsSVG(){
+  return '<svg class="rings" viewBox="0 0 100 100" aria-hidden="true">' +
+    '<circle cx="50" cy="50" r="47" fill="none" stroke="#D3DFCB" stroke-width=".6"/>' +
+    '<circle cx="50" cy="50" r="37.8" fill="none" stroke="#E6D6B4" stroke-width=".7"/>' +
+    '<circle cx="50" cy="50" r="28" fill="none" stroke="#B0C4A8" stroke-width=".9"/>' +
+    '<circle cx="50" cy="50" r="18.4" fill="none" stroke="#CBDDC0" stroke-width=".9"/>' +
+    '<circle cx="50" cy="50" r="3.2" fill="#86A288"/></svg>';
+}
+
+// Isi sampul kecil di rak buku / riwayat
+function coverHTML(book, mini){
+  const id = themeOf(book);
+  if(id === "evergreen"){
+    ensureThemeFonts(id);
+    const label = ((book.cover && book.cover.title) || book.title || "").toUpperCase().slice(0, 12);
+    return ringsSVG() + (mini ? "" : '<span class="cv-title">' + escapeHtml(label) + '</span>');
+  }
+  return escapeHtml(initialsOf(book));
+}
+
+// Sampul besar di bagian pertama halaman baca
+function heroHTML(c){
+  return '<div class="ev-hero">' + ringsSVG() +
+    (c.kicker ? '<div class="ev-hero-kicker">' + escapeHtml(c.kicker) + '</div>' : '') +
+    '<div class="ev-hero-title">' + escapeHtml(c.title || "") + '</div>' +
+    (c.subtitle ? '<div class="ev-hero-sub">' + escapeHtml(c.subtitle) + '</div>' : '') +
+    (c.tagline ? '<div class="ev-hero-tag">' + escapeHtml(c.tagline) + '</div>' : '') +
+    '<div class="ev-hero-rule"></div>' +
+    (c.credit ? '<div class="ev-hero-credit">' + escapeHtml(c.credit) + '</div>' : '') +
+    '</div>';
+}
+
+/* ============================================================
    LIBRARY SHELL + BOTTOM NAV (Dashboard / Daftar Buku / Riwayat Baca / Setting)
 ============================================================ */
 let booksCache = [];
@@ -1168,7 +1668,7 @@ function renderDashboard(){
       <div class="empty-state">
         <div class="big">📚</div>
         <div><b>Belum ada materi.</b></div>
-        <div style="margin:4px 0 12px;">Impor naskah pertamamu untuk mulai membaca.</div>
+        <div style="margin:4px 0 12px;">Impor PDF pertamamu untuk mulai membaca.</div>
         <button class="continue-btn dark" id="dashAddBtn">+ Tambah materi</button>
       </div>`;
     $("dashAddBtn").onclick = () => $("btnAddBook").click();
@@ -1180,7 +1680,7 @@ function renderDashboard(){
     const btn = !began ? "Mulai →" : (done ? "Baca lagi →" : "Lanjutkan →");
     const meta = began ? `Bagian ${p.read} dari ${p.chapters} &middot; ${p.pct}%` : `${p.chapters} bagian`;
     box.innerHTML = `
-      <div class="continue-card">
+      <div class="continue-card${themeOf(target) !== "default" ? " th-" + themeOf(target) + "-card" : ""}">
         <div class="continue-kicker">${kicker}</div>
         <div class="continue-title">${escapeHtml(target.title || "Tanpa judul")}</div>
         <div class="continue-meta">${meta}</div>
@@ -1207,7 +1707,7 @@ function renderBooksView(){
     card.className = "book-card";
     card.innerHTML = `
       <button class="book-del" data-id="${book.id}" title="Hapus">✕</button>
-      <div class="book-cover">${escapeHtml(initialsOf(book))}</div>
+      <div class="book-cover${themeCls(book)}">${coverHTML(book)}</div>
       <div class="book-title">${escapeHtml(book.title || "Tanpa judul")}</div>
       <div class="book-meta">${chapters} bagian &middot; ${book.sourceType || "teks"}</div>
       <div class="book-progress"><i style="width:${pct}%"></i></div>
@@ -1241,7 +1741,7 @@ function renderHistory(){
     const row = document.createElement("div");
     row.className = "hist-item";
     row.innerHTML = `
-      <div class="hist-cover">${escapeHtml(initialsOf(b))}</div>
+      <div class="hist-cover${themeCls(b)}">${coverHTML(b, true)}</div>
       <div class="hist-body">
         <div class="hist-title">${escapeHtml(b.title || "Tanpa judul")}</div>
         <div class="hist-meta">Bagian ${read} dari ${chapters}${when ? " &middot; " + escapeHtml(when) : ""}</div>
@@ -1325,112 +1825,145 @@ async function deleteBook(bookId){
 }
 
 /* ============================================================
-   ADD BOOK MODAL
+   ADD BOOK MODAL (khusus impor PDF)
 ============================================================ */
 let pickedFile = null;
+let pickedParsed = null;
+let parsingNow = false;
 
 $("btnAddBook").onclick = () => { resetAddModal(); show($("modalAdd")); };
 $("closeAdd").onclick = () => hide($("modalAdd"));
 $("closeHelp").onclick = () => hide($("modalHelp"));
 $("btnHelp").onclick = () => show($("modalHelp"));
 
+(function buildThemeSelect(){
+  $("selTheme").innerHTML =
+    '<option value="auto">Otomatis (sesuai judul buku)</option>' +
+    Object.keys(THEMES).map(id => `<option value="${id}">${escapeHtml(THEMES[id].label)}</option>`).join("");
+})();
+
 function resetAddModal(){
-  pickedFile = null;
-  $("inpTitlePaste").value = "";
+  pickedFile = null; pickedParsed = null; parsingNow = false;
   $("inpTitleFile").value = "";
-  $("inpRaw").value = "";
   $("fileInput").value = "";
   $("filePicked").style.display = "none";
   $("chkKeepOriginal").checked = false;
+  $("selTheme").value = "auto";
   hide($("parsePreview"));
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  document.querySelector('.tab[data-tab="paste"]').classList.add("active");
-  show($("tabPaste")); hide($("tabFile"));
 }
 
-document.querySelectorAll(".tab").forEach(tab => {
-  tab.onclick = () => {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    tab.classList.add("active");
-    if(tab.dataset.tab === "paste"){ show($("tabPaste")); hide($("tabFile")); }
-    else { hide($("tabPaste")); show($("tabFile")); }
-  };
-});
+function showPreview(html){
+  const box = $("parsePreview");
+  box.innerHTML = html;
+  show(box);
+}
 
-$("fileInput").onchange = () => {
+function themeChoiceFor(title, cover){
+  const sel = $("selTheme").value;
+  if(sel !== "auto" && THEMES[sel]) return sel;
+  return detectThemeId((title || "") + " " + ((cover && cover.title) || ""));
+}
+
+function currentBookTitle(){
+  const p = pickedParsed;
+  return $("inpTitleFile").value.trim() || (p && p.title) || (pickedFile ? pickedFile.name.replace(/\.[^.]+$/, "") : "") || "Tanpa judul";
+}
+
+function renderParsePreview(){
+  const p = pickedParsed;
+  if(!p || !pickedFile) return;
+  const exercises = p.modules.reduce((n, m) => n + m.blocks.filter(b => b.type === "reflection").length, 0);
+  const title = currentBookTitle();
+  const tid = themeChoiceFor(title, p.cover);
+  const kb = Math.max(1, Math.round(p.textSize / 1024));
+  let html = `<b>Hasil pembacaan PDF</b>${escapeHtml(title)}<br>` +
+    `${p.modules.length} bagian &middot; ${exercises} latihan &middot; tampilan ${escapeHtml(THEMES[tid].label)}<br>` +
+    `Yang tersimpan sekitar ${kb} KB (PDF asli ${Math.round(pickedFile.size / 1024)} KB tidak disimpan).`;
+  if(p.mode !== "workbook"){
+    html += `<br><br>Susunan workbook tidak dikenali, jadi bab dan latihan ditebak dari kata kunci. Hasilnya bisa kurang rapi.`;
+  }
+  showPreview(html);
+}
+
+$("fileInput").onchange = async () => {
   const f = $("fileInput").files[0];
   if(!f) return;
-  pickedFile = f;
+  if(!/\.pdf$/i.test(f.name) && f.type !== "application/pdf"){
+    toast("Hanya file PDF yang bisa diimpor.");
+    $("fileInput").value = "";
+    return;
+  }
+  pickedFile = f; pickedParsed = null; parsingNow = true;
   $("filePicked").style.display = "block";
-  $("filePicked").textContent = `${f.name} (${(f.size/1024).toFixed(1)} KB)`;
-  if(!$("inpTitleFile").value){
-    $("inpTitleFile").value = f.name.replace(/\.[^.]+$/, "");
+  $("filePicked").textContent = `${f.name} (${(f.size / 1024).toFixed(1)} KB)`;
+  showPreview("Membaca PDF…");
+  try{
+    pickedParsed = await parsePdfFile(f);
+    renderParsePreview();
+  } catch(err){
+    console.error(err);
+    pickedParsed = null;
+    showPreview("Gagal membaca PDF: " + escapeHtml(err.message || "kesalahan tidak diketahui"));
+  } finally {
+    parsingNow = false;
   }
 };
+$("selTheme").onchange = renderParsePreview;
+$("inpTitleFile").oninput = () => { if(pickedParsed) renderParsePreview(); };
+
+// Buang nilai undefined (Firestore menolaknya)
+function cleanForStore(o){ return JSON.parse(JSON.stringify(o)); }
 
 $("btnSaveBook").onclick = async () => {
-  const activeTab = document.querySelector(".tab.active").dataset.tab;
+  if(parsingNow){ toast("PDF masih dibaca, tunggu sebentar ya."); return; }
+  if(!pickedFile || !pickedParsed){ toast("Pilih file PDF dulu ya."); return; }
   try{
-    let rawText = "";
-    let title = "";
-    let sourceType = "txt";
-    let originalFile = null;
-
-    if(activeTab === "paste"){
-      rawText = $("inpRaw").value.trim();
-      title = $("inpTitlePaste").value.trim() || "Tanpa judul";
-      sourceType = "teks tempel";
-      if(!rawText){ toast("Isi naskahnya dulu ya."); return; }
-    } else {
-      if(!pickedFile){ toast("Pilih file dulu ya."); return; }
-      loading(true, "Mengekstrak teks dari file…");
-      rawText = await extractTextFromFile(pickedFile);
-      loading(false);
-      title = $("inpTitleFile").value.trim() || pickedFile.name;
-      sourceType = pickedFile.name.split(".").pop().toLowerCase();
-      originalFile = pickedFile;
-    }
-
-    const parsed = parseRawContent(rawText, title);
-    const finalTitle = ($("inpTitlePaste").value.trim() || $("inpTitleFile").value.trim()) || parsed.title || "Tanpa judul";
+    const p = pickedParsed;
+    const finalTitle = currentBookTitle();
+    const themeId = themeChoiceFor(finalTitle, p.cover);
 
     loading(true, "Menyimpan ke rak buku…");
     const bookRef = doc(collection(db, "users", currentUser.uid, "books"));
-    const sizeBytes = new Blob([rawText]).size;
 
     const batch = writeBatch(db);
-    parsed.modules.forEach((mod, idx) => {
+    p.modules.forEach((mod, idx) => {
       const modRef = doc(db, "users", currentUser.uid, "books", bookRef.id, "modules", String(idx));
-      batch.set(modRef, { order: idx, title: mod.title, blocks: mod.blocks });
+      batch.set(modRef, cleanForStore({
+        order: idx, title: mod.title, kicker: mod.kicker || null, heading: mod.heading || null, blocks: mod.blocks
+      }));
     });
-    batch.set(bookRef, {
+    const bookData = cleanForStore({
       title: finalTitle,
-      sourceType,
-      chapterCount: parsed.modules.length,
-      moduleTitles: parsed.modules.map(m => m.title),
-      sizeBytes,
-      lastReadIndex: null,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
+      sourceType: "pdf",
+      chapterCount: p.modules.length,
+      moduleTitles: p.modules.map(m => m.title),
+      moduleTags: p.tags || null,
+      cover: p.cover || null,
+      themeId,
+      sizeBytes: p.textSize,
+      lastReadIndex: null
     });
+    bookData.createdAt = serverTimestamp();
+    bookData.updatedAt = serverTimestamp();
+    batch.set(bookRef, bookData);
     await batch.commit();
 
-    if(!demoMode && originalFile && $("chkKeepOriginal").checked){
-      if(originalFile.size > 3 * 1024 * 1024){
+    if(!demoMode && $("chkKeepOriginal").checked){
+      if(pickedFile.size > 3 * 1024 * 1024){
         toast("File asli tidak disimpan (lebih dari 3MB). Teksnya tetap tersimpan.");
       } else {
         try{
           const sMod = await getStorageMod();
-          const path = `users/${currentUser.uid}/originals/${bookRef.id}_${originalFile.name}`;
+          const path = `users/${currentUser.uid}/originals/${bookRef.id}_${pickedFile.name}`;
           const r = sMod.ref(sMod.storage, path);
-          await sMod.uploadBytes(r, originalFile);
+          await sMod.uploadBytes(r, pickedFile);
           await setDoc(bookRef, { originalPath: path }, { merge: true });
         } catch(e){ console.warn("Gagal menyimpan file asli:", e); }
       }
     }
 
     hide($("modalAdd"));
-    toast("Materi tersimpan ke rak buku.");
+    toast("Buku tersimpan ke rak buku.");
     loadLibrary();
   } catch(err){
     console.error(err);
@@ -1447,21 +1980,36 @@ let activeBookId = null;
 let activeBookMeta = null;
 let activeModuleCache = {};
 let activeChapterIdx = 0;
+let activeThemeId = "default";
 let saveTimers = {};
+
+function leaveReader(){
+  hide($("readerScreen")); show($("libraryScreen"));
+  $("readerScreen").dataset.theme = "default";
+  activeThemeId = "default";
+  setThemeColor(THEMES.default.color);
+  loadLibrary();
+}
 
 async function openBook(bookId, meta){
   activeBookId = bookId;
   activeBookMeta = meta;
   activeModuleCache = {};
+  activeThemeId = themeOf(meta);
+  $("readerScreen").dataset.theme = activeThemeId;
+  ensureThemeFonts(activeThemeId);
+  setThemeColor(THEMES[activeThemeId].color);
   hide($("libraryScreen")); show($("readerScreen"));
   $("rtTitle").textContent = meta.title || "Materi";
 
   const tocList = $("tocList");
   tocList.innerHTML = "";
+  const tags = meta.moduleTags || [];
   (meta.moduleTitles || []).forEach((t, idx) => {
     const b = document.createElement("button");
     b.className = "toc-item";
-    b.textContent = `${idx+1}. ${t}`;
+    const tag = tags[idx] != null ? tags[idx] : (idx + 1) + ".";
+    b.innerHTML = `<span class="toc-tag">${escapeHtml(String(tag))}</span>${escapeHtml(t)}`;
     b.onclick = () => renderChapter(idx);
     tocList.appendChild(b);
   });
@@ -1470,10 +2018,7 @@ async function openBook(bookId, meta){
   await renderChapter(startAt);
 }
 
-$("btnBackLib").onclick = () => {
-  hide($("readerScreen")); show($("libraryScreen"));
-  loadLibrary();
-};
+$("btnBackLib").onclick = leaveReader;
 $("btnTocMobile").onclick = () => {
   const panel = $("tocPanel");
   panel.style.display = panel.style.display === "block" ? "none" : "block";
@@ -1497,22 +2042,52 @@ function renderBlocks(blocks, answers, chapterIdx){
   blocks.forEach((b, bi) => {
     if(b.type === "p"){
       html += `<p class="block-p">${inlineMd(b.text)}</p>`;
+    } else if(b.type === "lead"){
+      html += `<p class="block-lead">${inlineMd(b.text)}</p>`;
     } else if(b.type === "quote"){
       html += `<div class="block-quote">${inlineMd(b.text)}</div>`;
     } else if(b.type === "list"){
       html += `<ul class="block-list">` + b.items.map(it => `<li>${inlineMd(it)}</li>`).join("") + `</ul>`;
+    } else if(b.type === "closing"){
+      html += `<div class="blk-closing">` +
+        (b.kicker ? `<div class="k">${escapeHtml(b.kicker)}</div>` : "") +
+        (b.heading ? `<div class="h">${escapeHtml(b.heading)}</div>` : "") +
+        (b.paras || []).map(p => `<p>${escapeHtml(p)}</p>`).join("") +
+        (activeThemeId === "evergreen" ? ringsSVG() : "") +
+        (b.footer ? `<div class="f">${escapeHtml(b.footer)}</div>` : "") +
+        `</div>`;
     } else if(b.type === "reflection"){
-      html += `<div class="reflect-box" data-block="${bi}">
-        <div class="reflect-kicker">LATIHAN</div>
+      html += `<div class="reflect-box" data-block="${bi}">` +
+        (b.kicker ? `<div class="reflect-tag">${escapeHtml(b.kicker)}</div>` : "") +
+        `<div class="reflect-kicker">LATIHAN</div>
         <div class="reflect-title">${escapeHtml(b.title)}</div>`;
       b.questions.forEach((q) => {
+        if(q.note){
+          html += `<div class="q-note">${inlineMd(q.text)}</div>`;
+          return;
+        }
         const val = answers && answers[q.id] ? answers[q.id] : "";
-        html += `
+        const hint = `<div class="save-hint"><span class="save-dot" data-dot="${q.id}"></span><span data-label="${q.id}">Belum diisi</span></div>`;
+        if(q.slots){
+          const vals = String(val).split("\n");
+          let slotHtml = "";
+          for(let k = 0; k < q.slots; k++){
+            slotHtml += `<label class="slot"><span>${k + 1}.</span><input type="text" class="q-slot" data-qid="${q.id}" value="${escapeAttr(vals[k] || "")}" autocomplete="off"></label>`;
+          }
+          html += `
           <div class="q-item">
             <div class="q-text">${escapeHtml(q.text)}</div>
-            <textarea class="q-answer" data-qid="${q.id}" placeholder="Tulis jawabanmu di sini…">${escapeHtml(val)}</textarea>
-            <div class="save-hint"><span class="save-dot" data-dot="${q.id}"></span><span data-label="${q.id}">Belum diisi</span></div>
+            <div class="slot-list">${slotHtml}</div>
+            ${hint}
           </div>`;
+        } else {
+          html += `
+          <div class="q-item">
+            <div class="q-text">${escapeHtml(q.text)}</div>
+            <textarea class="q-answer" data-qid="${q.id}" rows="${q.rows || 3}" placeholder="Tulis jawabanmu di sini…">${escapeHtml(val)}</textarea>
+            ${hint}
+          </div>`;
+        }
       });
       html += `</div>`;
     }
@@ -1527,20 +2102,31 @@ async function renderChapter(idx){
     const mod = await fetchModule(idx);
     const answers = await fetchAnswers(idx);
 
+    const kicker = mod.kicker || `BAGIAN ${idx + 1} DARI ${activeBookMeta.chapterCount}`;
+    const heading = mod.heading || mod.title;
+    const hero = (idx === 0 && THEMES[activeThemeId].hero && activeBookMeta.cover) ? heroHTML(activeBookMeta.cover) : "";
+
     const content = $("readerContent");
     content.innerHTML = `
-      <div class="mod-kicker">BAGIAN ${idx+1} DARI ${activeBookMeta.chapterCount}</div>
-      <div class="mod-title">${escapeHtml(mod.title)}</div>
+      ${hero}
+      <div class="mod-kicker">${escapeHtml(kicker)}</div>
+      <div class="mod-title">${escapeHtml(heading)}</div>
       ${renderBlocks(mod.blocks || [], answers, idx)}
     `;
     content.scrollTop = 0;
+    window.scrollTo(0, 0);
 
-    content.querySelectorAll(".q-answer").forEach(ta => {
-      const qid = ta.dataset.qid;
+    // Satu pertanyaan bisa punya satu kolom (textarea) atau beberapa kolom berbaris (1. 2. 3.)
+    const qids = new Set(Array.from(content.querySelectorAll("[data-qid]")).map(e => e.dataset.qid));
+    qids.forEach(qid => {
+      const inputs = Array.from(content.querySelectorAll(`[data-qid="${qid}"]`));
       const dot = content.querySelector(`[data-dot="${qid}"]`);
       const label = content.querySelector(`[data-label="${qid}"]`);
-      if(ta.value.trim()){ dot.classList.add("saved"); label.textContent = "Tersimpan"; }
-      ta.addEventListener("input", () => {
+      const currentValue = () => inputs.length === 1 && inputs[0].classList.contains("q-answer")
+        ? inputs[0].value
+        : inputs.map(i => i.value).join("\n");
+      if(inputs.some(i => i.value.trim())){ dot.classList.add("saved"); label.textContent = "Tersimpan"; }
+      inputs.forEach(inp => inp.addEventListener("input", () => {
         dot.classList.remove("saved"); dot.classList.add("saving");
         label.textContent = "Menyimpan…";
         const key = idx + "_" + qid;
@@ -1548,14 +2134,14 @@ async function renderChapter(idx){
         saveTimers[key] = setTimeout(async () => {
           try{
             await setDoc(doc(db, "users", currentUser.uid, "books", activeBookId, "answers", String(idx)),
-              { [qid]: ta.value, updatedAt: serverTimestamp() }, { merge: true });
+              { [qid]: currentValue(), updatedAt: serverTimestamp() }, { merge: true });
             dot.classList.remove("saving"); dot.classList.add("saved");
             label.textContent = "Tersimpan";
           } catch(e){
             label.textContent = "Gagal menyimpan";
           }
         }, 800);
-      });
+      }));
     });
 
     document.querySelectorAll(".toc-item").forEach((el, i) => el.classList.toggle("active", i === idx));
@@ -1577,7 +2163,7 @@ async function renderChapter(idx){
 $("btnPrevChap").onclick = () => { if(activeChapterIdx > 0) renderChapter(activeChapterIdx - 1); };
 $("btnNextChap").onclick = () => {
   if(activeChapterIdx < activeBookMeta.chapterCount - 1) renderChapter(activeChapterIdx + 1);
-  else { hide($("readerScreen")); show($("libraryScreen")); loadLibrary(); }
+  else leaveReader();
 };
 
 /* ============================================================
