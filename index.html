@@ -324,6 +324,13 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 .blk-closing p{font-size:14.5px;line-height:1.8;color:var(--ink-soft);font-style:italic;margin:0 0 12px;}
 .blk-closing .f{font-size:10.5px;letter-spacing:1.2px;color:var(--ink-soft);margin-top:18px;}
 .blk-closing svg.rings{display:block;width:150px;height:150px;margin:20px auto 6px;}
+.block-h{font-size:17px;font-weight:700;line-height:1.4;color:var(--ink);margin:32px 0 10px;}
+.blk-affirm{margin:26px 0;padding:18px 18px 8px;border-radius:16px;background:var(--paper-2);text-align:center;}
+.blk-affirm .k{font-size:10.5px;letter-spacing:2.5px;font-weight:700;color:var(--ink-soft);margin-bottom:14px;}
+.blk-affirm p{font-size:14.5px;line-height:1.75;color:var(--ink);font-style:italic;margin:0 0 12px;}
+.chk-row{display:flex;align-items:flex-start;gap:11px;padding:10px 2px;font-size:13.5px;line-height:1.55;color:#2c3346;cursor:pointer;border-bottom:1px solid var(--line);}
+.chk-row:last-of-type{border-bottom:none;}
+.chk-row input{width:18px;height:18px;margin-top:2px;flex-shrink:0;accent-color:var(--blue);}
 
 /* ============================================================
    TEMA PER BUKU — "Evergreen"
@@ -366,6 +373,10 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 #readerScreen[data-theme="evergreen"] .reflect-title{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;font-style:normal;font-weight:600;font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:#3D4A37;}
 #readerScreen[data-theme="evergreen"] .blk-closing p{color:#6B6152;}
 #readerScreen[data-theme="evergreen"] .blk-closing .f{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;color:#9A917C;}
+#readerScreen[data-theme="evergreen"] .block-h,
+#readerScreen[data-theme="evergreen"] .blk-affirm .k{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;}
+#readerScreen[data-theme="evergreen"] .blk-affirm p,
+#readerScreen[data-theme="evergreen"] .chk-row{font-family:'Lora',Georgia,'Times New Roman',serif;}
 #readerScreen[data-theme="evergreen"] .toc-item{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;}
 
 /* Sampul di halaman baca (bagian pertama) */
@@ -621,7 +632,8 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
     <div class="help-section">
       <h3>Susunan PDF yang dikenali</h3>
       <p>Halaman 1 dibaca sebagai sampul (judul, subjudul, keterangan). Daftar isi dilewati dan dibuat ulang otomatis dari daftar bab. Halaman isi dikenali dari penanda kecil di bagian atas seperti <code class="inline">MODUL 01</code>, lalu judul besar dan paragraf. Halaman <code class="inline">MODUL 01 · REFLEKSI</code> dengan baris <code class="inline">LATIHAN · Judul</code> menjadi kolom jawaban yang bisa diketik. Baris kosong bernomor (1. 2. 3.) menjadi kolom berbaris. Halaman terakhir dibaca sebagai penutup.</p>
-      <p>Kalau PDF-mu tidak mengikuti susunan ini, teksnya tetap dibaca lalu dipecah ke bab lewat tebakan kata kunci seperti <code class="inline">MODUL</code>, <code class="inline">BAB</code>, <code class="inline">CHAPTER</code>, <code class="inline">PART</code>, dan <code class="inline">LATIHAN</code>. Hasilnya bisa kurang rapi.</p>
+      <p>Susunan kedua yang juga dikenali: PDF dengan halaman <code class="inline">Daftar Isi</code> bernomor halaman (mis. <code class="inline">Modul 1: Judul ... 6</code>), judul di tiap halaman, kolom refleksi berlabel <code class="inline">Tuliskan apa yang terasa jujur buat kamu</code>, checklist (<code class="inline">Centang ...</code>), dan halaman afirmasi <code class="inline">Rangkulan Hangat</code>. Bagian dari Daftar Isi menjadi bab, checklist bisa dicentang, dan kotak tulis kosong menjadi kolom jawaban.</p>
+            <p>Kalau PDF-mu tidak mengikuti susunan ini, teksnya tetap dibaca lalu dipecah ke bab lewat tebakan kata kunci seperti <code class="inline">MODUL</code>, <code class="inline">BAB</code>, <code class="inline">CHAPTER</code>, <code class="inline">PART</code>, dan <code class="inline">LATIHAN</code>. Hasilnya bisa kurang rapi.</p>
     </div>
 
     <div class="help-section">
@@ -1047,7 +1059,12 @@ function pdfParagraphs(lines, ctx){
   const steps = [];
   for(let i = 1; i < lines.length; i++) steps.push(lines[i - 1].y - lines[i].y);
   const ok = steps.filter(s => s >= ctx.bodyH * 0.9);
-  const base = ok.length ? Math.min.apply(null, ok) : ctx.bodyH * 1.55;
+  let base = ok.length ? Math.min.apply(null, ok) : ctx.bodyH * 1.55;
+  if(ctx.median){
+    // varian 2: jarak antarbaris = nilai tengah (tahan terhadap satu-dua baris yang posisinya geser)
+    const cand = steps.filter(s => s >= ctx.bodyH * 0.9 && s <= ctx.bodyH * 2.6).sort((x, y) => x - y);
+    base = cand.length ? cand[Math.floor(cand.length / 2)] : ctx.bodyH * 2.2;
+  }
   const paras = [];
   let cur = null;
   lines.forEach((l, i) => {
@@ -1234,6 +1251,304 @@ function parsePdfPages(pages){
   return out;
 }
 
+/* ============================================================
+   VARIAN 2 — workbook dengan judul di tiap halaman + Daftar Isi bernomor halaman
+   (contoh: "Sleep Harmony"). Modul diambil dari Daftar Isi; halaman di dalam modul
+   dikenali dari isinya: bacaan, kolom refleksi, checklist, afirmasi, kotak tulis.
+============================================================ */
+const PDF_SPLIT_FIX = { "sant ai": "santai" };
+
+// Tinggi teks huruf saja (abaikan simbol ikon seperti ■ ◆ yang ukurannya besar)
+function pdfLineH(l){
+  let h = 0;
+  l.items.forEach(it => { if(/[A-Za-z0-9]/.test(it.str) && it.h > h) h = it.h; });
+  return h || l.h;
+}
+
+// Bersihkan sisa-sisa hasil ekstraksi: simbol ikon, tanda tebal pada tanda baca, spasi berlebih
+function pdfClean(s, freq){
+  s = String(s || "")
+    .replace(/\*\*([^A-Za-z0-9*]*)\*\*/g, "$1")
+    .replace(/[■◆✦]\s*/g, "")
+    .replace(/\*\*([^*]+?)\*\*/g, (m, a) => "**" + a.trim() + "**")
+    .replace(/(\S)\s+-\s+(\S)/g, (m, a, b) => (/[A-Za-z0-9]/.test(a) && /[a-z0-9]/.test(b) && m.length <= 5) ? a + "-" + b : m)
+    .replace(/\s+/g, " ")
+    .trim();
+  Object.keys(PDF_SPLIT_FIX).forEach(k => { s = s.split(k).join(PDF_SPLIT_FIX[k]); });
+  if(freq){
+    // kata terpotong di teks PDF: "kem bali" -> "kembali", "ya ng" -> "yang"
+    // (gabung hanya jika gabungannya kata yang umum di dokumen, sedangkan salah satu potongannya jarang)
+    const toks = s.split(" ");
+    const res = [];
+    for(let i = 0; i < toks.length; i++){
+      const a = toks[i], b = toks[i + 1];
+      if(b !== undefined && /^[a-z]{2,4}$/.test(a) && /^[a-z]{2,4}[.,;:!?]?$/.test(b)){
+        const bw = b.replace(/[.,;:!?]$/, "");
+        const w = a + bw;
+        if(w.length >= 4 && (freq.get(w) || 0) >= 2 && ((freq.get(a) || 0) <= 1 || (freq.get(bw) || 0) <= 1)){
+          res.push(w + b.slice(bw.length));
+          i++;
+          continue;
+        }
+      }
+      res.push(a);
+    }
+    s = res.join(" ");
+  }
+  return s;
+}
+
+// Hitung kemunculan tiap kata di seluruh dokumen
+function pdfWordFreq(pages){
+  const f = new Map();
+  pages.forEach(p => p.lines.forEach(l => l.items.forEach(it => {
+    if(pdfIsSpaced(it.str)) return;
+    it.str.toLowerCase().split(/[^a-z0-9']+/).forEach(w => { if(w) f.set(w, (f.get(w) || 0) + 1); });
+  })));
+  return f;
+}
+
+function pdfNorm(s){ return String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim(); }
+function pdfSameBlock(a, b){ return a && b && a.type === "reflection" && b.type === "reflection" && a.title === b.title && a.questions.length === 1 && b.questions.length === 1 && a.questions[0].text === b.questions[0].text; }
+
+function pdfParseCoverV2(pg, vocab){
+  const lines = pg.lines;
+  if(!lines.length) return null;
+  const spaced = l => l.items.some(it => pdfIsSpaced(it.str));
+  const maxH = Math.max.apply(null, lines.map(pdfLineH));
+  const big = lines.filter(l => pdfLineH(l) >= maxH * 0.9 && !spaced(l));
+  if(!big.length) return null;
+  const T = l => pdfClean(pdfLineText(l, vocab));
+  const first = lines.indexOf(big[0]);
+  const last = lines.indexOf(big[big.length - 1]);
+  const creditY = pg.h * 0.12;
+  const kicker = [], after = [], credit = [];
+  lines.forEach((l, i) => {
+    if(i >= first && i <= last) return;
+    const t = T(l);
+    if(!t) return;
+    if(i < first) kicker.push(t);
+    else if(l.y <= creditY || spaced(l)) credit.push(t);
+    else after.push(t);
+  });
+  return {
+    kicker: kicker.join(" "),
+    title: big.map(T).join(" ").trim(),
+    subtitle: after[0] || "",
+    tagline: after.slice(1).join(" "),
+    credit: credit.join(" ")
+  };
+}
+
+function parsePdfPagesV2(pages){
+  const n = pages.length;
+  if(n < 4) return null;
+  const vocab = pdfBuildVocab(pages);
+  const freq = pdfWordFreq(pages);
+  const qc = { n: 0 };
+  const DIV = /^(MODUL|BAB|BAGIAN|CHAPTER|PART)\s*(\d+)$/i;
+
+  // ---- 1. Ringkasan tiap halaman ----
+  const info = pages.map((pg, pi) => {
+    const footY = pg.h * 0.075;
+    const body = pg.lines.filter(l => l.y >= footY);
+    const foot = pg.lines.filter(l => l.y < footY);
+    if(!body.length) return { pi, pg, empty: true, body, foot };
+    const st = pdfBodyStats(body);
+    const ctx = { vocab, bodyH: st.bodyH, bodyFont: st.bodyFont, median: true };
+    const T = l => pdfClean(pdfLineText(l, vocab), freq);
+    // penanda dekoratif "— Judul —" di atas halaman
+    let k0 = 0;
+    if(/^[—–-]{1,2}\s*\S.*\S\s*[—–-]{1,2}$/.test(pdfLineText(body[0], vocab).trim())) k0 = 1;
+    let k = k0;
+    const hl = [];
+    const h0 = body[k0] ? pdfLineH(body[k0]) : 0;
+    while(k < body.length && pdfLineH(body[k]) >= ctx.bodyH * 1.15 && pdfLineH(body[k]) >= h0 * 0.9){ hl.push(body[k]); k++; }
+    const head0 = k0 ? pdfClean(pdfLineText(body[0], vocab).replace(/[—–-]/g, " ")) : "";
+    const divM = DIV.exec(T(body[0]));
+    return {
+      pi, pg, body, foot, ctx, T, k0, k, hl, head0,
+      title: hl.map(T).join(" ").trim(),
+      divider: (divM && body.length <= 8) ? { word: divM[1], num: parseInt(divM[2], 10) } : null
+    };
+  });
+
+  // ---- 2. Daftar isi -> awal tiap modul ----
+  let tocIdx = -1;
+  for(let i = 1; i < Math.min(n, 12); i++){
+    if(!info[i].empty && /^(daftar isi|table of contents|contents)$/i.test(info[i].title)){ tocIdx = i; break; }
+  }
+  const entries = [];
+  let offset = 0;
+  if(tocIdx >= 0){
+    const ti = info[tocIdx];
+    ti.body.slice(ti.k).forEach(l => {
+      const m = /^(.*\S)\s+(\d{1,3})$/.exec(ti.T(l));
+      if(!m) return;
+      const num = parseInt(m[2], 10);
+      if(num < 1 || num > n + 20) return;
+      const title = m[1].replace(/[.\s·…]+$/, "");
+      const nm = /^(modul|bab|bagian|chapter|part)\s*(\d+)\s*[:.\-–—]?\s*(.*)$/i.exec(title);
+      entries.push(nm
+        ? { numbered: true, word: nm[1].toUpperCase(), n: parseInt(nm[2], 10), title: nm[3] || title, page: num }
+        : { numbered: false, title, page: num });
+    });
+    const fn = ti.foot.map(l => ti.T(l)).find(t => /^\d+$/.test(t));
+    if(fn) offset = (tocIdx + 1) - parseInt(fn, 10);
+  }
+
+  const starts = [];
+  if(entries.length >= 2){
+    let prev = 0;
+    entries.forEach(e => {
+      let idx = e.page - 1 + offset;
+      if(e.numbered){
+        const d = info.findIndex((x, i) => i > prev && x.divider && x.divider.num === e.n);
+        if(d >= 0) idx = d;
+      } else {
+        const want = pdfNorm(e.title);
+        for(const d of [0, 1, -1, 2, -2, 3, -3]){
+          const j = idx + d;
+          if(j > prev && j < n && !info[j].empty && (pdfNorm(info[j].title) === want || pdfNorm(info[j].head0) === want)){ idx = j; break; }
+        }
+      }
+      if(idx <= prev) idx = prev + 1;
+      if(idx >= n) return;
+      starts.push({ page: idx, e });
+      prev = idx;
+    });
+  }
+  if(starts.length < 2){
+    // tanpa daftar isi: pakai halaman pembuka modul bernomor
+    starts.length = 0;
+    info.forEach((x, i) => {
+      if(i > 0 && x.divider){
+        const big = x.body.reduce((a, b) => (pdfLineH(b) > pdfLineH(a) ? b : a), x.body[0]);
+        starts.push({ page: i, e: { numbered: true, word: x.divider.word.toUpperCase(), n: x.divider.num, title: x.T(big), page: i + 1 } });
+      }
+    });
+    if(starts.length < 2) return null;
+    if(starts[0].page > 1) starts.unshift({ page: 1, e: { numbered: false, title: "Pembuka", page: 2 } });
+  }
+
+  // ---- 3. Modul & isinya ----
+  const out = { cover: null, modules: [], tags: [] };
+  out.cover = pdfParseCoverV2(pages[0], vocab);
+  const firstNum = starts.findIndex(s => s.e.numbered);
+  let lastNum = -1;
+  starts.forEach((s, i) => { if(s.e.numbered) lastNum = i; });
+
+  starts.forEach((s, si) => {
+    const e = s.e;
+    const endPage = si + 1 < starts.length ? starts[si + 1].page : n;
+    let kicker = null, tag = "•";
+    if(e.numbered){ kicker = e.word + " " + e.n; tag = String(e.n); }
+    else if(firstNum >= 0 && si < firstNum) kicker = "PEMBUKA";
+    else if(lastNum >= 0 && si > lastNum) kicker = "PENUTUP";
+    if(!e.numbered && /^penutup$/i.test(e.title)) tag = "✦";
+    const mod = { title: e.title, kicker, heading: e.title, blocks: [] };
+    const modNorm = pdfNorm(e.title);
+
+    for(let pi = s.page; pi < endPage; pi++){
+      const p = info[pi];
+      if(p.empty || pi === tocIdx) continue;
+      const { pg, body, ctx, T } = p;
+      const allText = body.map(T).join(" ");
+      if(/hak cipta dilindungi/i.test(allText)) continue;
+
+      // halaman pembuka modul: hanya kutipan
+      if(p.divider){
+        const big = body.reduce((a, b) => (pdfLineH(b) > pdfLineH(a) ? b : a), body[0]);
+        const bi = body.indexOf(big);
+        const q = body.slice(bi + 1).map(T).filter(t => t && !DIV.test(t) && !/^modul\s*\d+$/i.test(t)).join(" ")
+          .replace(/^["“”'‘’]+|["“”'‘’]+$/g, "").trim();
+        if(q) mod.blocks.push({ type: "quote", text: q });
+        continue;
+      }
+
+      let k = p.k;
+      let title = p.title;
+      let rest = body.slice(k);
+
+      // halaman afirmasi "◆ Rangkulan Hangat ◆"
+      const firstTxt = body[p.k0] ? T(body[p.k0]) : "";
+      if(/^rangkulan hangat$/i.test(title || firstTxt)){
+        const { paras } = pdfParagraphs(body.slice(p.k0 + (title ? p.hl.length : 1)), ctx);
+        const items = paras.map(x => pdfClean(x.text.replace(/\*\*/g, ""), freq)).filter(Boolean);
+        if(items.length) mod.blocks.push({ type: "affirm", title: "Rangkulan Hangat", items });
+        continue;
+      }
+
+      // halaman penutup terakhir dokumen
+      if(pi === n - 1 && title){
+        const { paras } = pdfParagraphs(rest, ctx);
+        if(paras.length <= 3){
+          const footer = p.foot.map(T).filter(t => t && !/^\d+$/.test(t)).join(" ");
+          mod.blocks.push({ type: "closing", kicker: "", heading: title, paras: paras.map(x => pdfClean(x.text.replace(/\*\*/g, ""), freq)), footer });
+          continue;
+        }
+      }
+
+      const sub = rest[0] ? T(rest[0]) : "";
+
+      // checklist: "Centang ..." / "Catat ..."
+      if(title && /^(centang|catat)\b/i.test(sub)){
+        let items = rest.slice(1).map(T).filter(Boolean);
+        if(items.some(t => /(\bHari(?: \d+:?)?|\bBonus:?)$/.test(t) || /^\d+:/.test(t))){
+          const parts = items.join(" ").split(/\s+(?=(?:Hari \d+:|Bonus:))/).map(x => x.trim()).filter(Boolean);
+          if(parts.length >= 2) items = parts;
+        }
+        if(items.length){
+          mod.blocks.push({ type: "checklist", id: "c" + (qc.n++), title, intro: sub, items, note: /catat/i.test(sub) });
+          continue;
+        }
+      }
+
+      // halaman refleksi berpertanyaan: "Tuliskan apa yang terasa jujur buat kamu"
+      if(title && /terasa jujur buat kamu/i.test(sub)){
+        const { paras, base } = pdfParagraphs(rest.slice(1), ctx);
+        const questions = paras.map((x, i) => {
+          const next = paras[i + 1];
+          const rows = next
+            ? pdfClamp(Math.round((next.stepBefore - base * 1.6) / base) + 1, 2, 4)
+            : ((x.last - pg.h * 0.08) > 120 ? 4 : 3);
+          return { id: "q" + (qc.n++), text: pdfClean(x.text.replace(/\*\*/g, ""), freq), rows };
+        }).filter(q => q.text);
+        if(questions.length){
+          mod.blocks.push({ type: "reflection", kicker: "", title, questions });
+          continue;
+        }
+      }
+
+      const { paras } = pdfParagraphs(rest, ctx);
+      const nLines = paras.reduce((c, x) => c + x.lines.length, 0);
+      const lastY = rest.length ? rest[rest.length - 1].y : 0;
+
+      // halaman kotak tulis: judul + 1 petunjuk pendek, sisanya ruang kosong
+      if(title && paras.length >= 1 && paras.length <= 2 && nLines <= 6 && lastY > pg.h * 0.55){
+        const text = paras.map(x => pdfClean(x.text.replace(/\*\*/g, ""), freq)).join(" ");
+        const blk = { type: "reflection", kicker: "", title, questions: [{ id: "q" + (qc.n++), text, rows: 8 }] };
+        const prevBlk = mod.blocks[mod.blocks.length - 1];
+        if(pdfSameBlock(prevBlk, blk)){
+          prevBlk.questions[0].rows = Math.min(20, prevBlk.questions[0].rows + 4);
+        } else mod.blocks.push(blk);
+        continue;
+      }
+
+      // halaman bacaan biasa
+      if(title && pdfNorm(title) !== modNorm) mod.blocks.push({ type: "h", text: title });
+      paras.forEach(x => {
+        const t = pdfClean(x.text, freq);
+        if(t) mod.blocks.push({ type: "p", text: t });
+      });
+    }
+    if(mod.blocks.length){ out.modules.push(mod); out.tags.push(tag); }
+  });
+
+  if(out.modules.length < 2) return null;
+  return out;
+}
+
 // Cadangan: PDF tanpa struktur workbook -> teks biasa berbaris (untuk parseRawContent)
 function pdfPagesToText(pages){
   const vocab = pdfBuildVocab(pages);
@@ -1271,7 +1586,7 @@ async function extractPdfPages(file){
 // File PDF -> { mode, title, cover, modules, tags, textSize }
 async function parsePdfFile(file){
   const pages = await extractPdfPages(file);
-  const wb = parsePdfPages(pages);
+  const wb = parsePdfPages(pages) || parsePdfPagesV2(pages);
   if(wb){
     let title = "";
     if(wb.cover && wb.cover.title){
@@ -2048,6 +2363,28 @@ function renderBlocks(blocks, answers, chapterIdx){
       html += `<div class="block-quote">${inlineMd(b.text)}</div>`;
     } else if(b.type === "list"){
       html += `<ul class="block-list">` + b.items.map(it => `<li>${inlineMd(it)}</li>`).join("") + `</ul>`;
+    } else if(b.type === "h"){
+      html += `<h3 class="block-h">${inlineMd(b.text)}</h3>`;
+    } else if(b.type === "affirm"){
+      html += `<div class="blk-affirm"><div class="k">✦ ${escapeHtml(b.title || "Rangkulan Hangat")} ✦</div>` +
+        (b.items || []).map(t => `<p>${inlineMd(t)}</p>`).join("") + `</div>`;
+    } else if(b.type === "checklist"){
+      const cur = new Set(String((answers && answers[b.id]) || "").split(",").filter(x => x !== ""));
+      const nid = b.id + "n";
+      const nval = answers && answers[nid] ? answers[nid] : "";
+      html += `<div class="reflect-box" data-block="${bi}">
+        <div class="reflect-kicker">CHECKLIST</div>
+        <div class="reflect-title">${escapeHtml(b.title)}</div>` +
+        (b.intro ? `<div class="q-note">${escapeHtml(b.intro)}</div>` : "") +
+        (b.items || []).map((it, k) =>
+          `<label class="chk-row"><input type="checkbox" class="chk" data-cid="${b.id}" data-k="${k}"${cur.has(String(k)) ? " checked" : ""}><span>${inlineMd(it)}</span></label>`
+        ).join("") +
+        (b.note ? `<div class="q-item" style="margin-top:16px;">
+          <div class="q-text">Catatan pengalamanmu</div>
+          <textarea class="q-answer" data-qid="${nid}" rows="4" placeholder="Tulis catatanmu di sini…">${escapeHtml(nval)}</textarea>
+          <div class="save-hint"><span class="save-dot" data-dot="${nid}"></span><span data-label="${nid}">Belum diisi</span></div>
+        </div>` : "") +
+        `</div>`;
     } else if(b.type === "closing"){
       html += `<div class="blk-closing">` +
         (b.kicker ? `<div class="k">${escapeHtml(b.kicker)}</div>` : "") +
@@ -2143,6 +2480,19 @@ async function renderChapter(idx){
         }, 800);
       }));
     });
+
+    // Checklist: simpan indeks kotak yang dicentang ("0,2,5") di dokumen jawaban bagian ini
+    content.querySelectorAll(".chk").forEach(cb => cb.addEventListener("change", () => {
+      const cid = cb.dataset.cid;
+      const val = Array.from(content.querySelectorAll(`.chk[data-cid="${cid}"]`)).filter(x => x.checked).map(x => x.dataset.k).join(",");
+      const key = "chk_" + idx + "_" + cid;
+      clearTimeout(saveTimers[key]);
+      saveTimers[key] = setTimeout(() => {
+        setDoc(doc(db, "users", currentUser.uid, "books", activeBookId, "answers", String(idx)),
+          { [cid]: val, updatedAt: serverTimestamp() }, { merge: true })
+          .catch(() => toast("Gagal menyimpan centangan."));
+      }, 400);
+    }));
 
     document.querySelectorAll(".toc-item").forEach((el, i) => el.classList.toggle("active", i === idx));
     $("btnPrevChap").disabled = idx <= 0;
