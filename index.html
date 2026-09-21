@@ -84,7 +84,7 @@ input,textarea,select{font-family:inherit;}
 
 /* ---------- Library screen ---------- */
 #libraryScreen{flex:1;background:var(--paper);display:flex;flex-direction:column;}
-.library-wrap{max-width:760px;margin:0 auto;width:100%;padding:18px 16px 90px;}
+.view{max-width:760px;margin:0 auto;width:100%;padding:18px 16px calc(130px + env(safe-area-inset-bottom,0px));}
 .library-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
 .library-header h1{font-size:19px;margin:0;color:var(--ink);}
 .library-header p{font-size:12.5px;color:var(--ink-soft);margin:2px 0 0;}
@@ -111,12 +111,89 @@ input,textarea,select{font-family:inherit;}
 }
 .empty-state .big{font-size:30px;margin-bottom:6px;}
 
-.fab{
-  position:fixed;right:18px;bottom:22px;z-index:30;
-  width:56px;height:56px;border-radius:18px;border:none;
-  background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;font-size:26px;
-  box-shadow:0 10px 26px rgba(22,82,240,.45);
+.demo-banner{background:#FFF4D6;color:#7A5B00;font-size:12px;padding:8px 14px;text-align:center;border-bottom:1px solid #F0DFA8;}
+
+/* ---------- Bottom navigation ---------- */
+.bottom-nav{
+  position:fixed;left:0;right:0;margin:0 auto;
+  bottom:calc(10px + env(safe-area-inset-bottom,0px));
+  width:calc(100% - 20px);max-width:560px;z-index:30;
+  display:grid;grid-template-columns:1fr 1fr 76px 1fr 1fr;align-items:center;
+  background:#fff;border:1px solid var(--line);border-radius:24px;padding:6px;
+  box-shadow:0 10px 30px rgba(11,18,32,.14);
 }
+.bn-item{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  padding:8px 2px;margin:0 2px;border:none;background:transparent;border-radius:16px;
+  color:var(--ink-soft);-webkit-tap-highlight-color:transparent;transition:background .15s,color .15s;
+}
+.bn-item svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.bn-lbl{font-size:10.5px;font-weight:700;white-space:nowrap;line-height:1.1;}
+.bn-item.active{background:#EAF2FF;color:var(--blue);}
+.bn-item:active{transform:scale(.96);}
+.bn-center{display:flex;justify-content:center;align-items:flex-start;}
+.bn-add{
+  width:58px;height:58px;margin-top:-30px;border-radius:50%;border:none;color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 10px 24px rgba(22,82,240,.45);-webkit-tap-highlight-color:transparent;
+}
+.bn-add svg{width:26px;height:26px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;}
+.bn-add:active{transform:scale(.94);}
+
+/* ---------- Dashboard ---------- */
+.greet h1{font-size:20px;margin:0;color:var(--ink);}
+.greet p{font-size:12.5px;color:var(--ink-soft);margin:3px 0 16px;}
+.continue-card{
+  background:linear-gradient(135deg,var(--navy),#16305e);color:#fff;border-radius:20px;padding:18px;
+  display:flex;flex-direction:column;gap:9px;box-shadow:0 12px 30px rgba(11,18,32,.18);
+}
+.continue-kicker{font-size:10.5px;letter-spacing:1.5px;font-weight:800;color:var(--cyan);}
+.continue-title{font-size:17px;font-weight:800;line-height:1.3;}
+.continue-meta{font-size:12px;color:rgba(255,255,255,.7);}
+.continue-bar{height:5px;border-radius:3px;background:rgba(255,255,255,.15);overflow:hidden;}
+.continue-bar i{display:block;height:100%;background:var(--cyan);}
+.continue-btn{align-self:flex-start;margin-top:4px;padding:10px 16px;border-radius:11px;border:none;background:#fff;color:var(--ink);font-weight:700;font-size:13px;}
+.continue-btn.dark{background:var(--ink);color:#fff;}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
+.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 8px;text-align:center;}
+.stat b{display:block;font-size:22px;color:var(--ink);}
+.stat span{font-size:11px;color:var(--ink-soft);}
+
+/* ---------- Riwayat baca ---------- */
+.hist-item{
+  display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);
+  border-radius:16px;padding:12px;margin-bottom:10px;cursor:pointer;
+}
+.hist-cover{
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;color:#fff;font-weight:800;font-size:15px;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;
+}
+.hist-body{flex:1;min-width:0;}
+.hist-title{font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hist-meta{font-size:11.5px;color:var(--ink-soft);margin:2px 0 6px;}
+.hist-chev{color:var(--ink-soft);font-size:20px;}
+
+/* ---------- Setting ---------- */
+.set-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;}
+.set-account{display:flex;align-items:center;gap:12px;}
+.set-avatar{
+  width:46px;height:46px;border-radius:14px;flex-shrink:0;color:#fff;font-weight:800;font-size:18px;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;
+}
+.set-name{font-size:14.5px;font-weight:700;color:var(--ink);}
+.set-email{font-size:12px;color:var(--ink-soft);word-break:break-all;}
+.set-label{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.seg{display:flex;gap:6px;background:var(--paper-2);padding:4px;border-radius:11px;}
+.seg button{flex:1;padding:8px 6px;border:none;border-radius:8px;background:transparent;font-size:12.5px;font-weight:600;color:var(--ink-soft);}
+.seg button.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08);}
+.set-preview{margin-top:10px;font-size:var(--read-size,15px);line-height:1.7;color:#2c3346;}
+.set-row{
+  display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;
+  background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;
+  font-size:13.5px;font-weight:600;color:var(--ink);
+}
+.set-row.danger{color:var(--danger);}
 
 /* ---------- Modal ---------- */
 .modal-backdrop{
@@ -183,10 +260,10 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 .reader-content{flex:1;padding:26px 20px 90px;max-width:640px;overflow-y:auto;}
 .mod-kicker{font-size:11px;letter-spacing:2px;color:var(--blue);font-weight:700;margin-bottom:6px;}
 .mod-title{font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:700;color:var(--ink);margin:0 0 18px;line-height:1.3;}
-.block-p{font-size:15px;line-height:1.85;color:#2c3346;margin:0 0 14px;}
+.block-p{font-size:var(--read-size,15px);line-height:1.85;color:#2c3346;margin:0 0 14px;}
 .block-quote{border-left:3px solid var(--cyan);padding:2px 0 2px 14px;color:var(--ink-soft);font-style:italic;margin:0 0 14px;}
 .block-list{margin:0 0 14px;padding-left:20px;}
-.block-list li{font-size:15px;line-height:1.8;color:#2c3346;margin-bottom:4px;}
+.block-list li{font-size:var(--read-size,15px);line-height:1.8;color:#2c3346;margin-bottom:4px;}
 .reflect-box{
   background:#fff;border:1.4px solid var(--line);border-radius:16px;padding:16px;margin:22px 0;
 }
@@ -221,7 +298,7 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 .spinner{width:30px;height:30px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 #toast{
-  position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;
+  position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;
   padding:11px 18px;border-radius:12px;font-size:13px;z-index:200;opacity:0;pointer-events:none;transition:opacity .25s;
   max-width:88vw;text-align:center;
 }
@@ -267,18 +344,38 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
       <div class="auth-switch">
         <a id="linkForgot">Lupa kata sandi?</a>
       </div>
+      <div class="auth-switch" id="demoWrap" style="display:none;">
+        <a id="linkDemo">Lihat pratinjau tanpa login</a>
+        <div style="margin-top:3px;font-size:11px;">Data hanya sementara dan tidak disimpan.</div>
+      </div>
     </div>
   </div>
 
-  <!-- ======================= LIBRARY ======================= -->
+  <!-- ======================= LIBRARY / MAIN SHELL (dengan bottom bar) ======================= -->
   <div id="libraryScreen" class="hidden">
     <div class="topbar">
       <div class="brand"><span class="brand-logo">E</span> Essensiana</div>
       <div class="spacer"></div>
       <button class="iconbtn" id="btnHelp" title="Panduan format file">?</button>
-      <button class="iconbtn" id="btnLogout" title="Keluar">⎋</button>
     </div>
-    <div class="library-wrap">
+    <div class="demo-banner hidden" id="demoBanner">Mode pratinjau — data hanya sementara, tidak disimpan ke akun.</div>
+
+    <!-- Dashboard -->
+    <div id="view_dashboard" class="view">
+      <div class="greet">
+        <h1 id="dashGreeting">Halo 👋</h1>
+        <p>Lanjutkan bacaanmu dan lihat ringkasan belajarmu.</p>
+      </div>
+      <div id="dashContinue"></div>
+      <div class="stat-row">
+        <div class="stat"><b id="statBooks">0</b><span>Buku</span></div>
+        <div class="stat"><b id="statRead">0</b><span>Bagian dibaca</span></div>
+        <div class="stat"><b id="statDone">0</b><span>Selesai</span></div>
+      </div>
+    </div>
+
+    <!-- Daftar Buku -->
+    <div id="view_books" class="view hidden">
       <div class="library-header">
         <div>
           <h1>Rak Bukumu</h1>
@@ -292,7 +389,75 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
         <div style="margin-top:4px;">Tekan tombol + untuk mengimpor materi pertamamu.</div>
       </div>
     </div>
-    <button class="fab" id="btnAddBook">+</button>
+
+    <!-- Riwayat Baca -->
+    <div id="view_history" class="view hidden">
+      <div class="library-header">
+        <div>
+          <h1>Riwayat Baca</h1>
+          <p>Materi yang terakhir kamu buka</p>
+        </div>
+      </div>
+      <div id="historyList"></div>
+      <div id="historyEmpty" class="empty-state hidden">
+        <div class="big">🕘</div>
+        <div><b>Belum ada riwayat baca.</b></div>
+        <div style="margin-top:4px;">Buka salah satu materi di Daftar Buku, dan riwayatnya muncul di sini.</div>
+      </div>
+    </div>
+
+    <!-- Setting -->
+    <div id="view_settings" class="view hidden">
+      <div class="library-header">
+        <div>
+          <h1>Setting</h1>
+          <p>Akun dan tampilan bacaan</p>
+        </div>
+      </div>
+      <div class="set-card set-account">
+        <div class="set-avatar" id="setAvatar">E</div>
+        <div>
+          <div class="set-name" id="setName">—</div>
+          <div class="set-email" id="setEmail"></div>
+        </div>
+      </div>
+      <div class="set-card">
+        <div class="set-label">Ukuran teks bacaan</div>
+        <div class="seg" id="sizeSeg">
+          <button data-size="kecil">Kecil</button>
+          <button data-size="sedang">Sedang</button>
+          <button data-size="besar">Besar</button>
+        </div>
+        <div class="set-preview">Contoh teks bacaan: pelan-pelan saja, satu bagian dalam satu waktu.</div>
+      </div>
+      <button class="set-row" id="btnHelp2"><span>Panduan format file</span><span>›</span></button>
+      <button class="set-row danger" id="btnLogout"><span>Keluar</span><span>⎋</span></button>
+    </div>
+
+    <!-- Bottom bar -->
+    <nav class="bottom-nav" id="bottomNav" aria-label="Navigasi utama">
+      <button class="bn-item active" data-tab="dashboard">
+        <svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
+        <span class="bn-lbl">Dashboard</span>
+      </button>
+      <button class="bn-item" data-tab="books">
+        <svg viewBox="0 0 24 24"><path d="M12 6.5C10.5 5.3 8.5 4.8 4 5v13c4.5-.2 6.5.3 8 1.5 1.5-1.2 3.5-1.7 8-1.5V5c-4.5-.2-6.5.3-8 1.5z"/><path d="M12 6.5v13"/></svg>
+        <span class="bn-lbl">Daftar Buku</span>
+      </button>
+      <div class="bn-center">
+        <button class="bn-add" id="btnAddBook" aria-label="Tambah materi" title="Tambah materi">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </div>
+      <button class="bn-item" data-tab="history">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span class="bn-lbl">Riwayat Baca</span>
+      </button>
+      <button class="bn-item" data-tab="settings">
+        <svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+        <span class="bn-lbl">Setting</span>
+      </button>
+    </nav>
   </div>
 
   <!-- ======================= READER ======================= -->
@@ -413,32 +578,100 @@ BAB 1 — Judul Bab</pre>
 </div>
 
 <script src="firebase-config.js"></script>
+<script>
+/* Penjaga: kalau aplikasi gagal jalan sebelum sempat dimulai (mis. browser lama),
+   tampilkan pesan di layar login, bukan diam saja. */
+window.__essBooted = false;
+window.addEventListener("error", function(e){
+  if(window.__essBooted || !e || !e.message) return;
+  var el = document.getElementById("authError");
+  if(el){ el.textContent = "Aplikasi gagal dimuat: " + e.message; el.style.display = "block"; }
+});
+document.addEventListener("click", function(e){
+  if(window.__essBooted) return;
+  if(e.target.closest && e.target.closest("#btnAuthSubmit,#btnAuthAlt,#linkForgot")){
+    var el = document.getElementById("authError");
+    if(el){ el.textContent = "Aplikasi belum selesai dimuat. Tunggu sebentar, atau muat ulang halaman."; el.style.display = "block"; }
+  }
+});
+</script>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-import {
-  getAuth, onAuthStateChanged, createUserWithEmailAndPassword,
-  signInWithEmailAndPassword, signOut, sendPasswordResetEmail, updateProfile
-} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
-import {
-  getFirestore, doc, setDoc, getDoc, getDocs, deleteDoc, collection,
-  serverTimestamp, writeBatch, query, orderBy
-} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+window.__essBooted = true;
 
 /* ============================================================
-   INIT FIREBASE
+   FIREBASE — dimuat dinamis (bukan import statis) supaya kalau gagal dimuat
+   (browser internal aplikasi lain, koneksi/pemblokir), aplikasi tetap hidup
+   dan bisa dipakai dalam "mode pratinjau" tanpa login.
 ============================================================ */
-const fbApp = initializeApp(window.ESSENSIANA_FIREBASE_CONFIG);
-const auth = getAuth(fbApp);
-const db = getFirestore(fbApp);
+const FB_BASE = "https://www.gstatic.com/firebasejs/10.13.0/";
 
+// Cadangan kalau firebase-config.js tidak terbaca. Kalau firebase-config.js ada,
+// isinya yang dipakai (jadi tetap bisa ganti kredensial lewat file itu).
+const DEFAULT_FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAsEb9ckf9biP7Y5Cm61FXe0gH_CC1cYEQ",
+  authDomain: "essensiana-7b729.firebaseapp.com",
+  projectId: "essensiana-7b729",
+  storageBucket: "essensiana-7b729.firebasestorage.app",
+  messagingSenderId: "233284568221",
+  appId: "1:233284568221:web:45ffe5138b027c255a4074"
+};
+
+let initializeApp, initializeAuth, getAuth, indexedDBLocalPersistence, browserLocalPersistence,
+    browserSessionPersistence, inMemoryPersistence, onAuthStateChanged, createUserWithEmailAndPassword,
+    signInWithEmailAndPassword, signOut, sendPasswordResetEmail, updateProfile;
+let getFirestore, initializeFirestore, doc, setDoc, getDoc, getDocs, deleteDoc, collection,
+    serverTimestamp, writeBatch, query, orderBy;
+
+let fbApp = null, auth = null, db = null;
+let backendReady = false, backendMsg = "";
+let demoMode = false, realFs = null;
 let currentUser = null;
 let storageMod = null; // lazy-loaded only if "keep original" is used
 
 async function getStorageMod(){
   if (storageMod) return storageMod;
-  storageMod = await import("https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js");
+  storageMod = await import(FB_BASE + "firebase-storage.js");
   storageMod.storage = storageMod.getStorage(fbApp);
   return storageMod;
+}
+
+async function initBackend(){
+  try{
+    const [appM, authM, fsM] = await Promise.all([
+      import(FB_BASE + "firebase-app.js"),
+      import(FB_BASE + "firebase-auth.js"),
+      import(FB_BASE + "firebase-firestore.js")
+    ]);
+    ({ initializeApp } = appM);
+    ({ initializeAuth, getAuth, indexedDBLocalPersistence, browserLocalPersistence, browserSessionPersistence,
+       inMemoryPersistence, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+       signOut, sendPasswordResetEmail, updateProfile } = authM);
+    ({ getFirestore, initializeFirestore, doc, setDoc, getDoc, getDocs, deleteDoc, collection,
+       serverTimestamp, writeBatch, query, orderBy } = fsM);
+
+    fbApp = initializeApp(window.ESSENSIANA_FIREBASE_CONFIG || DEFAULT_FIREBASE_CONFIG);
+
+    // Penyimpanan sesi login dengan cadangan berlapis — browser internal (WebView) sering
+    // membatasi IndexedDB/localStorage; inMemory jadi jaring pengaman terakhir.
+    try{
+      auth = initializeAuth(fbApp, {
+        persistence: [indexedDBLocalPersistence, browserLocalPersistence, browserSessionPersistence, inMemoryPersistence]
+      });
+    } catch(e){ auth = getAuth(fbApp); }
+
+    // Auto-deteksi long-polling: koneksi Firestore lebih stabil di WebView/proxy.
+    try{
+      db = initializeFirestore(fbApp, { experimentalAutoDetectLongPolling: true });
+    } catch(e){ db = getFirestore(fbApp); }
+
+    backendReady = true;
+    onAuthStateChanged(auth, handleAuthChange);
+  } catch(err){
+    console.error("Firebase gagal dimuat:", err);
+    backendMsg = "Firebase gagal dimuat di browser ini. Cek koneksi internet, matikan pemblokir iklan/VPN, lalu muat ulang. Kamu tetap bisa melihat tampilan lewat mode pratinjau.";
+    showAuthError(backendMsg);
+    showDemoLink();
+  }
 }
 
 /* ============================================================
@@ -660,20 +893,38 @@ function setAuthMode(mode){
 }
 $("btnAuthAlt").onclick = () => setAuthMode(authMode === "login" ? "register" : "login");
 
-function friendlyAuthError(code){
+function friendlyAuthError(code, err){
   const map = {
     "auth/invalid-email":"Format email tidak valid.",
     "auth/user-not-found":"Akun dengan email ini tidak ditemukan.",
     "auth/wrong-password":"Kata sandi salah.",
-    "auth/invalid-credential":"Email atau kata sandi salah.",
+    "auth/invalid-credential":"Email atau kata sandi salah, atau akun ini belum terdaftar di proyek Firebase yang dipakai aplikasi.",
     "auth/email-already-in-use":"Email ini sudah terdaftar.",
     "auth/weak-password":"Kata sandi minimal 6 karakter.",
-    "auth/too-many-requests":"Terlalu banyak percobaan. Coba lagi nanti."
+    "auth/too-many-requests":"Terlalu banyak percobaan. Coba lagi nanti.",
+    "auth/user-disabled":"Akun ini dinonaktifkan di Firebase.",
+    "auth/network-request-failed":"Koneksi internet bermasalah. Coba lagi.",
+    "auth/unauthorized-domain":"Domain aplikasi ini belum diizinkan di Firebase (Authentication → Settings → Authorized domains).",
+    "auth/operation-not-allowed":"Login email/kata sandi belum diaktifkan di Firebase (Authentication → Sign-in method).",
+    "auth/operation-not-supported-in-this-environment":"Buka aplikasi lewat alamat https (GitHub Pages), bukan langsung dari file di perangkat.",
+    "auth/invalid-api-key":"API key Firebase tidak valid. Cek firebase-config.js."
   };
-  return map[code] || "Terjadi kesalahan. Coba lagi.";
+  if(map[code]) return map[code];
+  const detail = code || (err && err.message) || "";
+  return "Terjadi kesalahan" + (detail ? " (" + detail + ")" : "") + ". Coba lagi.";
 }
 
+function showAuthError(msg){
+  const el = $("authError");
+  if(!msg){ el.style.display = "none"; return; }
+  el.textContent = msg; el.style.display = "block";
+}
+function showDemoLink(){ $("demoWrap").style.display = "block"; }
+// Kode error yang biasanya berarti "browser/alamat ini memang tidak bisa login" -> tawarkan pratinjau.
+const DEMO_HINT_CODES = ["auth/unauthorized-domain","auth/operation-not-supported-in-this-environment","auth/network-request-failed","auth/invalid-api-key"];
+
 $("btnAuthSubmit").onclick = async () => {
+  if(!backendReady){ showAuthError(backendMsg || "Aplikasi belum selesai dimuat. Tunggu sebentar lalu coba lagi."); return; }
   const email = $("inpEmail").value.trim();
   const pass = $("inpPass").value;
   $("authError").style.display = "none";
@@ -695,14 +946,17 @@ $("btnAuthSubmit").onclick = async () => {
       });
     }
   } catch(err){
-    $("authError").textContent = friendlyAuthError(err.code);
+    console.error("Auth error:", err);
+    $("authError").textContent = friendlyAuthError(err.code, err);
     $("authError").style.display = "block";
+    if(DEMO_HINT_CODES.includes(err.code)) showDemoLink();
   } finally {
     loading(false);
   }
 };
 
 $("linkForgot").onclick = async () => {
+  if(!backendReady){ showAuthError(backendMsg || "Aplikasi belum selesai dimuat. Tunggu sebentar lalu coba lagi."); return; }
   const email = $("inpEmail").value.trim();
   if(!email){
     $("authError").textContent = "Isi kolom email dulu, lalu tekan \"Lupa kata sandi?\" lagi.";
@@ -715,64 +969,321 @@ $("linkForgot").onclick = async () => {
     $("authNote").textContent = "Link reset kata sandi sudah dikirim ke " + email + ".";
     $("authNote").style.display = "block";
   } catch(err){
-    $("authError").textContent = friendlyAuthError(err.code);
+    $("authError").textContent = friendlyAuthError(err.code, err);
     $("authError").style.display = "block";
   }
 };
 
-$("btnLogout").onclick = () => signOut(auth);
+$("btnLogout").onclick = () => { if(demoMode) exitDemo(); else signOut(auth); };
 
-onAuthStateChanged(auth, (user) => {
+function enterApp(){
+  hide($("authScreen")); show($("libraryScreen")); hide($("readerScreen"));
+  $("demoBanner").classList.toggle("hidden", !demoMode);
+  renderAccount();
+  switchTab("dashboard");
+  loadLibrary();
+}
+function leaveApp(){
+  booksCache = [];
+  show($("authScreen")); hide($("libraryScreen")); hide($("readerScreen"));
+}
+function handleAuthChange(user){
+  if(demoMode) return; // sedang di mode pratinjau, abaikan event login asli
   currentUser = user;
-  if(user){
-    hide($("authScreen")); show($("libraryScreen")); hide($("readerScreen"));
-    loadLibrary();
-  } else {
-    show($("authScreen")); hide($("libraryScreen")); hide($("readerScreen"));
-  }
-});
+  if(user) enterApp(); else leaveApp();
+}
 
 /* ============================================================
-   LIBRARY SCREEN
+   MODE PRATINJAU — Firestore tiruan di memori (tanpa login, tanpa Firebase).
+   Berguna untuk mengecek tampilan di browser yang tidak bisa login Firebase.
 ============================================================ */
+function makeDemoFirestore(){
+  class DTs { constructor(d){ this.d = d; } toDate(){ return this.d; } }
+  const SERVER = { __serverTs: true };
+  const store = new Map();
+  let seq = 0;
+  const resolve = (v) => {
+    if(v === SERVER) return new DTs(new Date());
+    if(v instanceof DTs) return v;
+    if(Array.isArray(v)) return v.map(resolve);
+    if(v && typeof v === "object"){ const o = {}; for(const k in v) o[k] = resolve(v[k]); return o; }
+    return v;
+  };
+  const refOf = (path) => ({ path, id: path.split("/").pop() });
+
+  const api = {
+    serverTimestamp: () => SERVER,
+    collection: (_db, ...segs) => ({ __col: true, path: segs.join("/") }),
+    doc: (base, ...segs) => {
+      if(base && base.__col && !segs.length) return refOf(base.path + "/demo" + (++seq) + Date.now().toString(36));
+      return refOf(segs.join("/"));
+    },
+    orderBy: (field, dir) => ({ __order: true, field, dir: dir || "asc" }),
+    query: (col, ...cs) => ({ __query: true, col, order: cs.find(c => c && c.__order) }),
+    setDoc: async (ref, data, opts) => {
+      const nv = resolve(data);
+      store.set(ref.path, opts && opts.merge ? Object.assign({}, store.get(ref.path) || {}, nv) : nv);
+    },
+    getDoc: async (ref) => ({
+      exists: () => store.has(ref.path),
+      data: () => store.has(ref.path) ? resolve(store.get(ref.path)) : undefined
+    }),
+    deleteDoc: async (ref) => { store.delete(ref.path); },
+    getDocs: async (q) => {
+      const col = q.__query ? q.col : q;
+      const prefix = col.path + "/";
+      const rows = [];
+      store.forEach((val, path) => {
+        if(path.startsWith(prefix) && !path.slice(prefix.length).includes("/")) rows.push([path, val]);
+      });
+      if(q.__query && q.order){
+        const { field, dir } = q.order;
+        const key = (v) => { const x = v[field]; return x && x.toDate ? x.toDate().getTime() : (x == null ? 0 : x); };
+        rows.sort((a, b) => key(a[1]) - key(b[1]));
+        if(dir === "desc") rows.reverse();
+      }
+      const docs = rows.map(([path, val]) => ({
+        id: path.split("/").pop(), ref: refOf(path), exists: () => true, data: () => resolve(val)
+      }));
+      return { docs, empty: !docs.length, size: docs.length, forEach: (fn) => docs.forEach(fn) };
+    },
+    writeBatch: () => {
+      const ops = [];
+      return {
+        set: (ref, data) => { ops.push(() => api.setDoc(ref, data)); },
+        delete: (ref) => { ops.push(() => store.delete(ref.path)); },
+        commit: async () => { ops.forEach(f => f()); }
+      };
+    }
+  };
+
+  // Contoh materi supaya tampilan langsung bisa dicek
+  const base = "users/demo/books/contoh";
+  const now = () => new DTs(new Date());
+  store.set(base, {
+    title: "Contoh Materi — Pelan-pelan Saja", sourceType: "pratinjau", chapterCount: 3,
+    moduleTitles: ["Mulai dari yang kecil", "Menata perhatian", "Penutup"],
+    sizeBytes: 0, lastReadIndex: null, createdAt: now(), updatedAt: now()
+  });
+  store.set(base + "/modules/0", { order: 0, title: "Mulai dari yang kecil", blocks: [
+    { type: "p", text: "Perubahan besar biasanya dimulai dari langkah yang terlalu kecil untuk disebut langkah. Bagian ini hanya contoh isi supaya kamu bisa menilai tampilan bacaan." },
+    { type: "quote", text: "Satu bagian dalam satu waktu sudah cukup." },
+    { type: "list", items: ["Baca perlahan", "Berhenti saat perlu", "Tulis satu kalimat refleksi"] },
+    { type: "reflection", title: "Latihan Refleksi", questions: [
+      { id: "q0", text: "Satu hal kecil apa yang bisa kamu mulai hari ini?" },
+      { id: "q1", text: "Apa yang biasanya membuatmu berhenti di tengah jalan?" }
+    ] }
+  ] });
+  store.set(base + "/modules/1", { order: 1, title: "Menata perhatian", blocks: [
+    { type: "p", text: "Perhatian itu seperti cahaya senter: ke mana ia diarahkan, di situ segalanya terlihat jelas. Ini juga hanya teks contoh." },
+    { type: "reflection", title: "Latihan", questions: [ { id: "q0", text: "Apa yang paling menyita perhatianmu minggu ini?" } ] }
+  ] });
+  store.set(base + "/modules/2", { order: 2, title: "Penutup", blocks: [
+    { type: "p", text: "Terima kasih sudah mencoba pratinjau. Data di mode ini hanya sementara dan tidak disimpan ke akunmu." }
+  ] });
+
+  return { api, db: { demo: true } };
+}
+
+function enterDemo(){
+  if(demoMode) return;
+  realFs = { doc, setDoc, getDoc, getDocs, deleteDoc, collection, serverTimestamp, writeBatch, query, orderBy, db };
+  const d = makeDemoFirestore();
+  ({ doc, setDoc, getDoc, getDocs, deleteDoc, collection, serverTimestamp, writeBatch, query, orderBy } = d.api);
+  db = d.db;
+  demoMode = true;
+  currentUser = { uid: "demo", displayName: "Pratinjau", email: "Mode pratinjau (tanpa login)" };
+  showAuthError("");
+  enterApp();
+}
+function exitDemo(){
+  if(!demoMode) return;
+  ({ doc, setDoc, getDoc, getDocs, deleteDoc, collection, serverTimestamp, writeBatch, query, orderBy, db } = realFs);
+  realFs = null; demoMode = false; currentUser = null;
+  leaveApp();
+}
+$("linkDemo").onclick = enterDemo;
+
+/* ============================================================
+   LIBRARY SHELL + BOTTOM NAV (Dashboard / Daftar Buku / Riwayat Baca / Setting)
+============================================================ */
+let booksCache = [];
+let currentTab = "dashboard";
+const TABS = ["dashboard", "books", "history", "settings"];
+
+function switchTab(name){
+  if(!TABS.includes(name)) name = "dashboard";
+  currentTab = name;
+  TABS.forEach(n => $("view_" + n).classList.toggle("hidden", n !== name));
+  document.querySelectorAll(".bn-item").forEach(b => {
+    const on = b.dataset.tab === name;
+    b.classList.toggle("active", on);
+    if(on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+  });
+  window.scrollTo(0, 0);
+}
+document.querySelectorAll(".bn-item").forEach(b => { b.onclick = () => switchTab(b.dataset.tab); });
+
+function bookProgress(b){
+  const chapters = b.chapterCount || 0;
+  const read = b.lastReadIndex != null ? b.lastReadIndex + 1 : 0;
+  const pct = chapters ? Math.min(100, Math.round((read / chapters) * 100)) : 0;
+  return { chapters, read, pct };
+}
+function isFinished(b){
+  const c = b.chapterCount || 0;
+  return c > 0 && b.lastReadIndex != null && b.lastReadIndex >= c - 1;
+}
+function initialsOf(b){ return (b.title || "?").trim().slice(0, 2).toUpperCase(); }
+function formatWhen(ts){
+  if(!ts || !ts.toDate) return "";
+  const d = ts.toDate(), now = new Date();
+  const dayStart = (x) => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+  const days = Math.round((dayStart(now) - dayStart(d)) / 86400000);
+  const time = d.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }).replace(":", ".");
+  if(days <= 0) return "Hari ini, " + time;
+  if(days === 1) return "Kemarin, " + time;
+  if(days < 7) return days + " hari lalu";
+  return d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+}
+
+/* ---- Akun (dipakai Dashboard & Setting) ---- */
+function renderAccount(){
+  if(!currentUser) return;
+  const shown = currentUser.displayName || (currentUser.email || "").split("@")[0] || "Pengguna";
+  $("dashGreeting").textContent = "Halo, " + shown + " 👋";
+  $("setName").textContent = shown;
+  $("setEmail").textContent = currentUser.email || "";
+  $("setAvatar").textContent = shown.slice(0, 1).toUpperCase();
+}
+
+/* ---- Dashboard ---- */
+function renderDashboard(){
+  const box = $("dashContinue");
+  const started = booksCache.filter(b => b.lastReadIndex != null);
+  const target = started.find(b => !isFinished(b)) || started[0] || booksCache[0];
+
+  if(!target){
+    box.innerHTML = `
+      <div class="empty-state">
+        <div class="big">📚</div>
+        <div><b>Belum ada materi.</b></div>
+        <div style="margin:4px 0 12px;">Impor naskah pertamamu untuk mulai membaca.</div>
+        <button class="continue-btn dark" id="dashAddBtn">+ Tambah materi</button>
+      </div>`;
+    $("dashAddBtn").onclick = () => $("btnAddBook").click();
+  } else {
+    const p = bookProgress(target);
+    const began = target.lastReadIndex != null;
+    const done = isFinished(target);
+    const kicker = !began ? "MULAI MEMBACA" : (done ? "BACA LAGI" : "LANJUTKAN MEMBACA");
+    const btn = !began ? "Mulai →" : (done ? "Baca lagi →" : "Lanjutkan →");
+    const meta = began ? `Bagian ${p.read} dari ${p.chapters} &middot; ${p.pct}%` : `${p.chapters} bagian`;
+    box.innerHTML = `
+      <div class="continue-card">
+        <div class="continue-kicker">${kicker}</div>
+        <div class="continue-title">${escapeHtml(target.title || "Tanpa judul")}</div>
+        <div class="continue-meta">${meta}</div>
+        <div class="continue-bar"><i style="width:${p.pct}%"></i></div>
+        <button class="continue-btn" id="dashContinueBtn">${btn}</button>
+      </div>`;
+    $("dashContinueBtn").onclick = () => openBook(target.id, target);
+  }
+
+  $("statBooks").textContent = booksCache.length;
+  $("statRead").textContent = booksCache.reduce((sum, b) => sum + bookProgress(b).read, 0);
+  $("statDone").textContent = booksCache.filter(isFinished).length;
+}
+
+/* ---- Daftar Buku ---- */
+function renderBooksView(){
+  const grid = $("gridBooks");
+  grid.innerHTML = "";
+  if(!booksCache.length){ show($("emptyState")); return; }
+  hide($("emptyState"));
+  booksCache.forEach((book) => {
+    const { chapters, pct } = bookProgress(book);
+    const card = document.createElement("div");
+    card.className = "book-card";
+    card.innerHTML = `
+      <button class="book-del" data-id="${book.id}" title="Hapus">✕</button>
+      <div class="book-cover">${escapeHtml(initialsOf(book))}</div>
+      <div class="book-title">${escapeHtml(book.title || "Tanpa judul")}</div>
+      <div class="book-meta">${chapters} bagian &middot; ${book.sourceType || "teks"}</div>
+      <div class="book-progress"><i style="width:${pct}%"></i></div>
+      <div class="chip">${pct}% dibaca</div>
+    `;
+    card.onclick = (e) => {
+      if(e.target.closest(".book-del")) return;
+      openBook(book.id, book);
+    };
+    grid.appendChild(card);
+  });
+  grid.querySelectorAll(".book-del").forEach(btn => {
+    btn.onclick = async (e) => {
+      e.stopPropagation();
+      if(!confirm("Hapus materi ini beserta seluruh jawaban latihannya?")) return;
+      await deleteBook(btn.dataset.id);
+    };
+  });
+}
+
+/* ---- Riwayat Baca ---- */
+function renderHistory(){
+  const list = $("historyList");
+  list.innerHTML = "";
+  const started = booksCache.filter(b => b.lastReadIndex != null);
+  if(!started.length){ show($("historyEmpty")); return; }
+  hide($("historyEmpty"));
+  started.forEach((b) => {
+    const { chapters, read, pct } = bookProgress(b);
+    const when = formatWhen(b.updatedAt);
+    const row = document.createElement("div");
+    row.className = "hist-item";
+    row.innerHTML = `
+      <div class="hist-cover">${escapeHtml(initialsOf(b))}</div>
+      <div class="hist-body">
+        <div class="hist-title">${escapeHtml(b.title || "Tanpa judul")}</div>
+        <div class="hist-meta">Bagian ${read} dari ${chapters}${when ? " &middot; " + escapeHtml(when) : ""}</div>
+        <div class="book-progress"><i style="width:${pct}%"></i></div>
+      </div>
+      <div class="hist-chev">›</div>`;
+    row.onclick = () => openBook(b.id, b);
+    list.appendChild(row);
+  });
+}
+
+/* ---- Setting: ukuran teks bacaan (disimpan di perangkat ini) ---- */
+const READ_SIZES = { kecil: "13.5px", sedang: "15px", besar: "17px" };
+function applyReadSize(key){
+  if(!READ_SIZES[key]) key = "sedang";
+  document.documentElement.style.setProperty("--read-size", READ_SIZES[key]);
+  document.querySelectorAll("#sizeSeg button").forEach(b => b.classList.toggle("active", b.dataset.size === key));
+}
+document.querySelectorAll("#sizeSeg button").forEach(b => {
+  b.onclick = () => {
+    applyReadSize(b.dataset.size);
+    try{ localStorage.setItem("essensiana_read_size", b.dataset.size); }catch(e){}
+  };
+});
+(function(){
+  let k = "sedang";
+  try{ k = localStorage.getItem("essensiana_read_size") || "sedang"; }catch(e){}
+  applyReadSize(k);
+})();
+$("btnHelp2").onclick = () => show($("modalHelp"));
+
+/* ---- Muat data buku sekali, lalu render semua tab ---- */
 async function loadLibrary(){
   loading(true, "Memuat rak buku…");
   try{
     const q = query(collection(db, "users", currentUser.uid, "books"), orderBy("updatedAt", "desc"));
     const snap = await getDocs(q);
-    const grid = $("gridBooks");
-    grid.innerHTML = "";
-    if(snap.empty){ show($("emptyState")); loading(false); return; }
-    hide($("emptyState"));
-    snap.forEach((d) => {
-      const book = d.data();
-      const card = document.createElement("div");
-      card.className = "book-card";
-      const initials = (book.title || "?").trim().slice(0,2).toUpperCase();
-      const chapters = book.chapterCount || 0;
-      const read = book.lastReadIndex != null ? book.lastReadIndex + 1 : 0;
-      const pct = chapters ? Math.min(100, Math.round((read/chapters)*100)) : 0;
-      card.innerHTML = `
-        <button class="book-del" data-id="${d.id}" title="Hapus">✕</button>
-        <div class="book-cover">${escapeHtml(initials)}</div>
-        <div class="book-title">${escapeHtml(book.title || "Tanpa judul")}</div>
-        <div class="book-meta">${chapters} bagian &middot; ${book.sourceType || "teks"}</div>
-        <div class="book-progress"><i style="width:${pct}%"></i></div>
-        <div class="chip">${pct}% dibaca</div>
-      `;
-      card.onclick = (e) => {
-        if(e.target.closest(".book-del")) return;
-        openBook(d.id, book);
-      };
-      grid.appendChild(card);
-    });
-    grid.querySelectorAll(".book-del").forEach(btn => {
-      btn.onclick = async (e) => {
-        e.stopPropagation();
-        if(!confirm("Hapus materi ini beserta seluruh jawaban latihannya?")) return;
-        await deleteBook(btn.dataset.id);
-      };
-    });
+    booksCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderAccount();
+    renderDashboard();
+    renderBooksView();
+    renderHistory();
   } catch(err){
     console.error(err);
     toast("Gagal memuat rak buku.");
@@ -904,7 +1415,7 @@ $("btnSaveBook").onclick = async () => {
     });
     await batch.commit();
 
-    if(originalFile && $("chkKeepOriginal").checked){
+    if(!demoMode && originalFile && $("chkKeepOriginal").checked){
       if(originalFile.size > 3 * 1024 * 1024){
         toast("File asli tidak disimpan (lebih dari 3MB). Teksnya tetap tersimpan.");
       } else {
@@ -1074,9 +1585,16 @@ $("btnNextChap").onclick = () => {
 ============================================================ */
 if("serviceWorker" in navigator){
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("service-worker.js").catch(console.warn);
+    try{ navigator.serviceWorker.register("service-worker.js").catch(console.warn); }catch(e){ console.warn(e); }
   });
 }
+
+/* ============================================================
+   START
+============================================================ */
+// Dibuka langsung dari file / pratinjau (bukan http/https): login Firebase tidak akan jalan -> tawarkan pratinjau.
+if(!/^https?:$/.test(location.protocol)) showDemoLink();
+initBackend();
 </script>
 </body>
 </html>
