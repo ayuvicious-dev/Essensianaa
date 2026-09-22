@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Essensiana — Baca & Renungkan</title>
+<script>
+// Dipasang paling awal supaya mode gelap/terang langsung aktif sebelum halaman
+// sempat digambar (menghindari "kedipan" tema saat memuat).
+(function(){
+  try{
+    var t = localStorage.getItem("essensiana_theme");
+    if(t !== "dark" && t !== "light"){
+      t = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-app-theme", t);
+  }catch(e){}
+})();
+</script>
 <meta name="theme-color" content="#1652F0">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-32.png" sizes="32x32">
@@ -22,7 +35,45 @@
   --danger:#D6473E;
   --ok:#3E9A5F;
   --radius:14px;
+  /* Permukaan kartu/tombol putih & teks bacaan — dipisah dari --paper supaya
+     bisa dibalik terpisah saat mode gelap. */
+  --surface:#ffffff;
+  --surface-2:#ffffff;
+  --text-read:#2c3346;
+  --card-shadow:rgba(11,18,32,.05);
+  /* Kotak aksen pastel (info, peringatan, dsb) */
+  --soft-blue-bg:#EAF2FF; --soft-blue-text:#12408F;
+  --soft-red-bg:#FCE9E8;
+  --soft-yellow-bg:#FFF4D6; --soft-yellow-text:#7A5B00; --soft-yellow-border:#F0DFA8;
+  --reader-top-bg:#F3EBD8;
+  --confirm-bg:#F6F1E7; --confirm-text:#4A4536;
+  --confirm-cancel-bg:#EAE3D2;
+  --confirm-ok-bg:#F3C6C6; --confirm-ok-text:#7A2E2E;
+  /* Selalu gelap, dipakai untuk elemen "chip" mengambang (toast, tombol utama
+     navigasi baca) supaya tetap kontras di kedua mode. */
+  --dark-chip:#1B2333;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+/* ---------- Mode gelap ---------- */
+html[data-app-theme="dark"]{
+  --paper:#12151d;
+  --paper-2:#1a1f2b;
+  --ink:#E9ECF5;
+  --ink-soft:#98A1B5;
+  --line:#2A3040;
+  --danger:#FF7B72;
+  --ok:#4ADE80;
+  --surface:#1C2230;
+  --surface-2:#262D3D;
+  --text-read:#D7DBE6;
+  --card-shadow:rgba(0,0,0,.35);
+  --soft-blue-bg:rgba(76,134,255,.16); --soft-blue-text:#9CC2FF;
+  --soft-red-bg:rgba(255,123,114,.16);
+  --soft-yellow-bg:rgba(232,200,90,.14); --soft-yellow-text:#E8C85A; --soft-yellow-border:rgba(232,200,90,.3);
+  --reader-top-bg:#1a1f2b;
+  --confirm-bg:#1e2330; --confirm-text:#D7DBE6;
+  --confirm-cancel-bg:#2a3040;
+  --confirm-ok-bg:rgba(255,123,114,.22); --confirm-ok-text:#FFB3AC;
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;height:100%;background:var(--navy);color:var(--ink);}
@@ -37,7 +88,7 @@ input,textarea,select{font-family:inherit;}
 .topbar{
   display:flex;align-items:center;gap:10px;
   padding:12px 16px;
-  background:#fff;
+  background:var(--surface);
   color:var(--ink);position:sticky;top:0;z-index:20;
   border-bottom:1px solid var(--line);
 }
@@ -53,7 +104,7 @@ input,textarea,select{font-family:inherit;}
 .topbar .iconbtn:hover{background:var(--line);}
 .reader-top .iconbtn{background:rgba(27,35,51,.08);color:var(--ink);}
 .reader-top .iconbtn:hover{background:rgba(27,35,51,.14);}
-.reader-top .iconbtn.active{background:var(--blue);color:#fff;}
+.reader-top .iconbtn.active{background:rgba(27,35,51,.08);color:var(--ink);}
 .textbtn{background:transparent;border:none;color:rgba(255,255,255,.85);font-size:13px;padding:6px 8px;}
 
 /* ---------- Auth screen ---------- */
@@ -72,7 +123,7 @@ input,textarea,select{font-family:inherit;}
 .auth-sub{text-align:center;font-size:12.5px;color:var(--ink-soft);margin:0 0 20px;}
 .field{margin-bottom:12px;}
 .field label{display:block;font-size:11.5px;font-weight:600;color:var(--ink-soft);margin-bottom:5px;letter-spacing:.2px;}
-.field input{width:100%;padding:11px 12px;border-radius:10px;border:1.4px solid var(--line);background:#fff;font-size:14px;color:var(--ink);}
+.field input{width:100%;padding:11px 12px;border-radius:10px;border:1.4px solid var(--line);background:var(--surface);font-size:14px;color:var(--ink);}
 .field input:focus{outline:none;border-color:var(--blue);}
 .btn{
   width:100%;padding:12px;border-radius:10px;border:none;
@@ -80,11 +131,11 @@ input,textarea,select{font-family:inherit;}
   font-weight:700;font-size:14px;margin-top:4px;
 }
 .btn:disabled{opacity:.6;}
-.btn-secondary{background:#fff;color:var(--ink);border:1.4px solid var(--line);}
+.btn-secondary{background:var(--surface);color:var(--ink);border:1.4px solid var(--line);}
 .auth-switch{text-align:center;font-size:12.5px;color:var(--ink-soft);margin-top:16px;}
 .auth-switch a{color:var(--blue);font-weight:600;text-decoration:none;cursor:pointer;}
-.auth-error{background:#FCE9E8;color:var(--danger);font-size:12.5px;padding:9px 11px;border-radius:9px;margin-bottom:12px;display:none;}
-.auth-note{background:#EAF2FF;color:#12408F;font-size:12px;padding:9px 11px;border-radius:9px;margin-bottom:12px;display:none;}
+.auth-error{background:var(--soft-red-bg);color:var(--danger);font-size:12.5px;padding:9px 11px;border-radius:9px;margin-bottom:12px;display:none;}
+.auth-note{background:var(--soft-blue-bg);color:var(--soft-blue-text);font-size:12px;padding:9px 11px;border-radius:9px;margin-bottom:12px;display:none;}
 
 /* ---------- Library screen ---------- */
 #libraryScreen{flex:1;background:var(--paper);display:flex;flex-direction:column;}
@@ -99,7 +150,7 @@ input,textarea,select{font-family:inherit;}
 .library-header p{font-size:12.5px;color:var(--ink-soft);margin:2px 0 0;}
 .grid-books{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;}
 .book-card{
-  background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;
   display:flex;flex-direction:column;gap:8px;position:relative;
 }
 .book-cover{
@@ -134,7 +185,7 @@ input,textarea,select{font-family:inherit;}
 }
 .empty-state .big{font-size:30px;margin-bottom:6px;}
 
-.demo-banner{background:#FFF4D6;color:#7A5B00;font-size:12px;padding:8px 14px;text-align:center;border-bottom:1px solid #F0DFA8;}
+.demo-banner{background:var(--soft-yellow-bg);color:var(--soft-yellow-text);font-size:12px;padding:8px 14px;text-align:center;border-bottom:1px solid var(--soft-yellow-border);}
 
 /* ---------- Bottom navigation ---------- */
 .bottom-nav{
@@ -142,7 +193,7 @@ input,textarea,select{font-family:inherit;}
   bottom:calc(10px + env(safe-area-inset-bottom,0px));
   width:calc(100% - 20px);max-width:560px;z-index:30;
   display:grid;grid-template-columns:1fr 1fr 76px 1fr 1fr;align-items:center;
-  background:#fff;border:1px solid var(--line);border-radius:24px;padding:6px;
+  background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:6px;
   box-shadow:0 10px 30px rgba(11,18,32,.14);
 }
 .bn-item{
@@ -153,7 +204,7 @@ input,textarea,select{font-family:inherit;}
 .bn-item svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
 .bn-item svg.bn-quote-icon{fill:currentColor;stroke:none;}
 .bn-lbl{font-size:10.5px;font-weight:700;white-space:nowrap;line-height:1.1;}
-.bn-item.active{background:#EAF2FF;color:var(--blue);}
+.bn-item.active{background:var(--soft-blue-bg);color:var(--blue);}
 .bn-item:active{transform:scale(.96);}
 .bn-center{display:flex;justify-content:center;align-items:flex-start;}
 .bn-add{
@@ -169,9 +220,9 @@ input,textarea,select{font-family:inherit;}
 .greet h1{font-size:20px;margin:0;color:var(--ink);}
 .greet p{font-size:12.5px;color:var(--ink-soft);margin:3px 0 16px;}
 .continue-card{
-  background:#fff;color:var(--ink);border-radius:16px;padding:16px;
+  background:var(--surface);color:var(--ink);border-radius:16px;padding:16px;
   display:flex;gap:16px;align-items:flex-start;border:1px solid var(--line);
-  box-shadow:0 1px 3px rgba(11,18,32,.05);
+  box-shadow:0 1px 3px var(--card-shadow);
 }
 .continue-cover{width:32%;max-width:150px;min-width:96px;flex-shrink:0;}
 .continue-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;padding-top:2px;}
@@ -185,13 +236,13 @@ input,textarea,select{font-family:inherit;}
 .continue-btn.dark{background:#5C7BA8;color:#fff;}
 .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 #dashContinue{margin-top:12px;}
-.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 8px;text-align:center;box-shadow:0 1px 3px rgba(11,18,32,.05);}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 8px;text-align:center;box-shadow:0 1px 3px var(--card-shadow);}
 .stat b{display:block;font-size:22px;color:var(--ink);}
 .stat span{font-size:11px;color:var(--ink-soft);}
 
 /* ---------- Kutipan ---------- */
 .quote-card{
-  background:#fff;border:1px solid var(--line);border-radius:16px;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;
   padding:16px 16px 12px;margin-bottom:10px;cursor:pointer;position:relative;
 }
 .quote-card:hover{border-color:#c9d6ea;}
@@ -209,7 +260,7 @@ input,textarea,select{font-family:inherit;}
 
 /* Tombol mengambang "Jadikan Kutipan" saat teks diblok di halaman baca */
 .quote-mark-btn{
-  position:fixed;z-index:70;background:var(--ink);color:#fff;border:none;
+  position:fixed;z-index:70;background:var(--dark-chip);color:#fff;border:none;
   padding:9px 14px;border-radius:20px;font-size:12.5px;font-weight:700;
   box-shadow:0 8px 22px rgba(0,0,0,.28);display:flex;align-items:center;gap:6px;
   -webkit-tap-highlight-color:transparent;white-space:nowrap;
@@ -218,7 +269,7 @@ input,textarea,select{font-family:inherit;}
 .quote-mark-btn:active{transform:scale(.96);}
 
 /* ---------- Setting ---------- */
-.set-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;}
+.set-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;}
 .set-account{display:flex;align-items:center;gap:12px;}
 .set-avatar{
   width:46px;height:46px;border-radius:14px;flex-shrink:0;color:#fff;font-weight:800;font-size:18px;
@@ -229,11 +280,11 @@ input,textarea,select{font-family:inherit;}
 .set-label{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:8px;}
 .seg{display:flex;gap:6px;background:var(--paper-2);padding:4px;border-radius:11px;}
 .seg button{flex:1;padding:8px 6px;border:none;border-radius:8px;background:transparent;font-size:12.5px;font-weight:600;color:var(--ink-soft);}
-.seg button.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08);}
+.seg button.active{background:var(--surface-2);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08);}
 .set-preview{margin-top:10px;font-size:var(--read-size,15px);line-height:1.7;color:#2c3346;}
 .set-row{
   display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;
-  background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;
   font-size:13.5px;font-weight:600;color:var(--ink);
 }
 .set-row.danger{color:var(--danger);}
@@ -259,7 +310,7 @@ input,textarea,select{font-family:inherit;}
   justify-content:center;z-index:80;padding:20px;
 }
 .confirm-box{
-  background:#F6F1E7;color:#4A4536;width:100%;max-width:340px;border-radius:18px;
+  background:var(--confirm-bg);color:var(--confirm-text);width:100%;max-width:340px;border-radius:18px;
   padding:20px 20px 16px;box-shadow:0 12px 32px rgba(0,0,0,.18);
   text-align:center;
 }
@@ -268,13 +319,13 @@ input,textarea,select{font-family:inherit;}
 .confirm-actions button{
   flex:1;padding:10px 12px;border-radius:12px;border:none;font-size:13.5px;font-weight:600;
 }
-.confirm-cancel{background:#EAE3D2;color:#4A4536;}
-.confirm-ok{background:#F3C6C6;color:#7A2E2E;}
-.confirm-cancel:hover{background:#E1D8C1;}
-.confirm-ok:hover{background:#EDB3B3;}
+.confirm-cancel{background:var(--confirm-cancel-bg);color:var(--confirm-text);}
+.confirm-ok{background:var(--confirm-ok-bg);color:var(--confirm-ok-text);}
+.confirm-cancel:hover{filter:brightness(.95);}
+.confirm-ok:hover{filter:brightness(.95);}
 .tabs{display:flex;gap:6px;margin-bottom:14px;background:var(--paper-2);padding:4px;border-radius:11px;}
 .tab{flex:1;text-align:center;padding:8px 6px;border-radius:8px;font-size:12.5px;font-weight:600;color:var(--ink-soft);border:none;background:transparent;}
-.tab.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08);}
+.tab.active{background:var(--surface-2);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08);}
 textarea.rawpaste{width:100%;min-height:180px;border-radius:12px;border:1.4px solid var(--line);padding:12px;font-size:13px;line-height:1.6;resize:vertical;}
 .dropzone{
   border:1.8px dashed var(--line);border-radius:14px;padding:26px 14px;text-align:center;color:var(--ink-soft);
@@ -283,17 +334,19 @@ textarea.rawpaste{width:100%;min-height:180px;border-radius:12px;border:1.4px so
 .dropzone.dragover{background:var(--paper-2);border-color:var(--blue);}
 .dropzone input{display:none;}
 .dropzone label{color:var(--blue);font-weight:700;cursor:pointer;}
+#dropzoneFile label{color:#5C7BA8;}
+#btnSaveBook{background:#5C7BA8;}
 .dropzone-or{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:4px;}
 .file-picked{font-size:12.5px;color:var(--ink);background:var(--paper-2);padding:8px 10px;border-radius:9px;margin-top:8px;display:none;}
-.hint-box{background:#EAF2FF;color:#12408F;font-size:12px;padding:10px 12px;border-radius:10px;line-height:1.55;margin-top:10px;}
+.hint-box{background:var(--soft-blue-bg);color:var(--soft-blue-text);font-size:12px;padding:10px 12px;border-radius:10px;line-height:1.55;margin-top:10px;}
 .hint-box b{display:block;margin-bottom:3px;}
 .checkline{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--ink-soft);margin-top:10px;}
 .checkline input{margin-top:2px;}
 
 /* ---------- Help / format guide modal content ---------- */
-.rec-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;}
-.rec-table th,.rec-table td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);}
-.rec-table th{color:var(--ink-soft);font-weight:600;}
+.rec-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;table-layout:fixed;}
+.rec-table th,.rec-table td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top;word-wrap:break-word;overflow-wrap:break-word;}
+.rec-table th{width:84px;color:var(--ink-soft);font-weight:600;}
 .tag-good{color:var(--ok);font-weight:700;}
 .tag-ok{color:#B8860B;font-weight:700;}
 .tag-bad{color:var(--danger);font-weight:700;}
@@ -307,7 +360,7 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 #readerScreen{flex:1;display:flex;flex-direction:column;background:var(--paper);}
 .reader-top{
   display:flex;align-items:center;gap:8px;padding:10px 12px;
-  background:#F3EBD8;color:var(--ink);position:sticky;top:0;z-index:15;
+  background:var(--reader-top-bg);color:var(--ink);position:sticky;top:0;z-index:15;
 }
 .reader-top .rt-title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;font-weight:600;}
 .reader-body{flex:1;display:flex;max-width:900px;margin:0 auto;width:100%;}
@@ -333,18 +386,18 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 .reader-content{flex:1;padding:26px 20px 90px;max-width:640px;overflow-y:auto;}
 .mod-kicker{font-size:11px;letter-spacing:2px;color:var(--blue);font-weight:700;margin-bottom:6px;}
 .mod-title{font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:700;color:var(--ink);margin:0 0 18px;line-height:1.3;}
-.block-p{font-size:var(--read-size,15px);line-height:1.85;color:#2c3346;margin:0 0 14px;}
+.block-p{font-size:var(--read-size,15px);line-height:1.85;color:var(--text-read);margin:0 0 14px;}
 .block-quote{border-left:3px solid var(--cyan);padding:2px 0 2px 14px;color:var(--ink-soft);font-style:italic;margin:0 0 14px;}
 .block-list{margin:0 0 14px;padding-left:20px;}
-.block-list li{font-size:var(--read-size,15px);line-height:1.8;color:#2c3346;margin-bottom:4px;}
+.block-list li{font-size:var(--read-size,15px);line-height:1.8;color:var(--text-read);margin-bottom:4px;}
 .reflect-box{
-  background:#fff;border:1.4px solid var(--line);border-radius:16px;padding:16px;margin:22px 0;
+  background:var(--surface);border:1.4px solid var(--line);border-radius:16px;padding:16px;margin:22px 0;
 }
 .reflect-kicker{font-size:10.5px;letter-spacing:1.5px;color:var(--cyan);font-weight:800;margin-bottom:4px;}
 .reflect-title{font-size:14.5px;font-weight:700;color:var(--ink);margin:0 0 12px;font-style:italic;}
 .q-item{margin-bottom:14px;}
 .q-item:last-child{margin-bottom:0;}
-.q-text{font-size:13.5px;color:#2c3346;margin-bottom:7px;line-height:1.55;}
+.q-text{font-size:13.5px;color:var(--text-read);margin-bottom:7px;line-height:1.55;}
 .q-answer{
   width:100%;min-height:64px;border-radius:10px;border:1.4px solid var(--line);
   padding:10px 11px;font-size:13.5px;line-height:1.6;resize:vertical;background:var(--paper);
@@ -361,9 +414,9 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 @media (max-width:819px){ .reader-nav{max-width:100%;margin:0;} body.hide-chapter-nav .reader-nav{display:none;} }
 .navbtn{
   width:44px;height:44px;flex:none;padding:0;border-radius:50%;border:1.4px solid var(--line);
-  background:#fff;font-size:17px;font-weight:700;color:var(--ink);display:flex;align-items:center;justify-content:center;
+  background:var(--surface);font-size:17px;font-weight:700;color:var(--ink);display:flex;align-items:center;justify-content:center;
 }
-.navbtn.primary{background:var(--ink);color:#fff;border-color:var(--ink);}
+.navbtn.primary{background:var(--dark-chip);color:#fff;border-color:var(--dark-chip);}
 .navbtn:disabled{opacity:.4;}
 /* Di laptop, tombol sebelumnya/selanjutnya mengambang di pojok kiri & kanan layar */
 @media (min-width:820px){
@@ -384,14 +437,14 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 .spinner{width:30px;height:30px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:#fff;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 #toast{
-  position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;
+  position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--dark-chip);color:#fff;
   padding:11px 18px;border-radius:12px;font-size:13px;z-index:200;opacity:0;pointer-events:none;transition:opacity .25s;
   max-width:88vw;text-align:center;
 }
 #toast.show{opacity:1;}
 
 /* ---------- Impor PDF: field pilihan ---------- */
-.field select{width:100%;padding:11px 12px;border-radius:10px;border:1.4px solid var(--line);background:#fff;font-size:14px;color:var(--ink);}
+.field select{width:100%;padding:11px 12px;border-radius:10px;border:1.4px solid var(--line);background:var(--surface);font-size:14px;color:var(--ink);}
 .field select:focus{outline:none;border-color:var(--blue);}
 
 /* ---------- Komponen bacaan tambahan (dipakai semua tema) ---------- */
@@ -414,7 +467,7 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 .blk-affirm{margin:26px 0;padding:18px 18px 8px;border-radius:16px;background:var(--paper-2);text-align:center;}
 .blk-affirm .k{font-size:10.5px;letter-spacing:2.5px;font-weight:700;color:var(--ink-soft);margin-bottom:14px;}
 .blk-affirm p{font-size:14.5px;line-height:1.75;color:var(--ink);font-style:italic;margin:0 0 12px;}
-.chk-row{display:flex;align-items:flex-start;gap:11px;padding:10px 2px;font-size:13.5px;line-height:1.55;color:#2c3346;cursor:pointer;border-bottom:1px solid var(--line);}
+.chk-row{display:flex;align-items:flex-start;gap:11px;padding:10px 2px;font-size:13.5px;line-height:1.55;color:var(--text-read);cursor:pointer;border-bottom:1px solid var(--line);}
 .chk-row:last-of-type{border-bottom:none;}
 .chk-row input{width:18px;height:18px;margin-top:2px;flex-shrink:0;accent-color:var(--blue);}
 
@@ -535,7 +588,10 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
     <div class="topbar">
       <div class="topbar-title" id="topbarTitle">Dashboard</div>
       <div class="spacer"></div>
-      <button class="iconbtn" id="btnHelp" title="Panduan impor PDF">?</button>
+      <button class="iconbtn" id="btnThemeToggle" title="Ganti mode terang/gelap" aria-label="Ganti mode terang/gelap">
+        <svg id="iconSun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg id="iconMoon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
     </div>
     <div class="demo-banner hidden" id="demoBanner">Mode pratinjau — data hanya sementara, tidak disimpan ke akun.</div>
 
@@ -577,24 +633,32 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 
     <!-- Setting -->
     <div id="view_settings" class="view hidden">
-      <div class="set-card set-account">
-        <div class="set-avatar" id="setAvatar">E</div>
-        <div>
-          <div class="set-name" id="setName">—</div>
-          <div class="set-email" id="setEmail"></div>
-        </div>
-      </div>
       <div class="set-card">
-        <div class="set-label">Ukuran teks bacaan</div>
+        <div class="set-label">Ukuran Tulisan</div>
         <div class="seg" id="sizeSeg">
           <button data-size="kecil">Kecil</button>
           <button data-size="sedang">Sedang</button>
           <button data-size="besar">Besar</button>
         </div>
-        <div class="set-preview">Contoh teks bacaan: pelan-pelan saja, satu bagian dalam satu waktu.</div>
       </div>
-      <button class="set-row" id="btnHelp2"><span>Panduan impor PDF</span><span>›</span></button>
-      <button class="set-row danger" id="btnLogout"><span>Keluar</span><span>⎋</span></button>
+
+      <div class="set-card">
+        <div class="set-label">User</div>
+        <table class="rec-table">
+          <tr><th>Nama</th><td id="setNameTable">—</td></tr>
+          <tr><th>Email</th><td id="setEmailTable">—</td></tr>
+          <tr><th>Akun</th><td><button id="btnLogoutTable" style="border:none;background:none;padding:0;font:inherit;font-weight:700;color:var(--danger);cursor:pointer;">Keluar ⎋</button></td></tr>
+        </table>
+      </div>
+
+      <div class="set-card">
+        <div class="set-label">Tentang</div>
+        <table class="rec-table">
+          <tr><th>Tujuan</th><td>Essensiana dikembangkan untuk membantu penggunanya mengelola kecemasan (anxiety) melalui kebiasaan membaca yang reflektif dan proses mengenal diri sendiri secara lebih mendalam melalui workbook.</td></tr>
+          <tr><th>Dirilis</th><td id="aboutReleaseDate">8 September 2026</td></tr>
+          <tr><th>Masa berjalan</th><td id="aboutRunning">—</td></tr>
+        </table>
+      </div>
     </div>
 
     <!-- Bottom bar -->
@@ -654,30 +718,20 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
   <div class="modal">
     <button class="modal-close" id="closeAdd">×</button>
     <h2>Impor Buku dari PDF</h2>
-    <div class="sub">Unggah PDF workbook-mu. Essensiana hanya mengambil teks dan susunannya (sampul, bab, latihan), jadi yang tersimpan cuma beberapa KB, bukan file PDF-nya. Lihat tanda <b>(?)</b> untuk panduan.</div>
 
-    <div class="field">
-      <label>Judul buku (opsional)</label>
-      <input type="text" id="inpTitleFile" placeholder="Kosongkan untuk memakai judul dari sampul PDF">
-    </div>
+    <input type="text" id="inpTitleFile" value="" class="hidden">
+
     <div class="dropzone" id="dropzoneFile">
-      <div>📄 File PDF workbook</div>
-      <label for="fileInput">pilih file dari perangkat</label>
-      <span class="dropzone-or"> atau seret &amp; lepas file di sini</span>
+      <label for="fileInput">Pilih File</label>
+      <span class="dropzone-or"> atau Drag File</span>
       <input type="file" id="fileInput" accept="application/pdf,.pdf">
       <div class="file-picked" id="filePicked"></div>
     </div>
-    <div class="field">
-      <label>Tampilan buku</label>
-      <select id="selTheme"></select>
-    </div>
+    <select id="selTheme" class="hidden"></select>
 
     <div id="parsePreview" class="hint-box hidden"></div>
 
-    <label class="checkline">
-      <input type="checkbox" id="chkKeepOriginal">
-      <span>Simpan juga file PDF asli ke Firebase Storage sebagai cadangan (menambah pemakaian storage, maksimal 3MB, tidak disarankan).</span>
-    </label>
+    <input type="checkbox" id="chkKeepOriginal" class="hidden">
 
     <button class="btn" id="btnSaveBook" style="margin-top:16px;">Simpan ke Rak Buku</button>
   </div>
@@ -1825,7 +1879,7 @@ $("linkForgot").onclick = async () => {
   }
 };
 
-$("btnLogout").onclick = () => { if(demoMode) exitDemo(); else signOut(auth); };
+$("btnLogoutTable").onclick = () => { if(demoMode) exitDemo(); else signOut(auth); };
 
 function enterApp(){
   hide($("authScreen")); show($("libraryScreen")); hide($("readerScreen"));
@@ -2106,10 +2160,27 @@ function formatWhen(ts){
 function renderAccount(){
   if(!currentUser) return;
   const shown = currentUser.displayName || (currentUser.email || "").split("@")[0] || "Pengguna";
-  $("setName").textContent = shown;
-  $("setEmail").textContent = currentUser.email || "";
-  $("setAvatar").textContent = shown.slice(0, 1).toUpperCase();
+  if($("setNameTable")) $("setNameTable").textContent = shown;
+  if($("setEmailTable")) $("setEmailTable").textContent = currentUser.email || "";
 }
+
+/* ---- Tentang (masa berjalan aplikasi sejak tanggal rilis) ---- */
+const APP_RELEASE_DATE = new Date(2026, 8, 8); // 8 September 2026
+function renderAbout(){
+  const el = $("aboutRunning");
+  if(!el) return;
+  const now = new Date();
+  let years = now.getFullYear() - APP_RELEASE_DATE.getFullYear();
+  let months = now.getMonth() - APP_RELEASE_DATE.getMonth();
+  if(now.getDate() < APP_RELEASE_DATE.getDate()) months--;
+  if(months < 0){ years--; months += 12; }
+  if(years < 0 || (years === 0 && months < 0)){ el.textContent = "Belum dirilis"; return; }
+  const parts = [];
+  if(years > 0) parts.push(years + " tahun");
+  if(months > 0 || years === 0) parts.push(months + " bulan");
+  el.textContent = parts.join(" ");
+}
+renderAbout();
 
 /* ---- Dashboard ---- */
 function renderDashboard(){
@@ -2273,7 +2344,6 @@ document.querySelectorAll("#sizeSeg button").forEach(b => {
   try{ k = localStorage.getItem("essensiana_read_size") || "sedang"; }catch(e){}
   applyReadSize(k);
 })();
-$("btnHelp2").onclick = () => show($("modalHelp"));
 
 /* ---- Sembunyikan tombol navigasi bab di HP, ganti geser layar (toggle di pojok kanan atas reader) ---- */
 function applyHideNav(on){
@@ -2456,7 +2526,31 @@ let parsingNow = false;
 $("btnAddBook").onclick = () => { resetAddModal(); show($("modalAdd")); };
 $("closeAdd").onclick = () => hide($("modalAdd"));
 $("closeHelp").onclick = () => hide($("modalHelp"));
-$("btnHelp").onclick = () => show($("modalHelp"));
+/* ============================================================
+   MODE TERANG / GELAP
+   Disimpan di localStorage (preferensi per perangkat, bukan per akun).
+============================================================ */
+const THEME_KEY = "essensiana_theme";
+function applyThemeUI(theme){
+  const sun = $("iconSun"), moon = $("iconMoon"), btn = $("btnThemeToggle");
+  if(sun && moon){
+    sun.classList.toggle("hidden", theme === "dark");
+    moon.classList.toggle("hidden", theme !== "dark");
+  }
+  if(btn) btn.title = theme === "dark" ? "Ganti ke mode terang" : "Ganti ke mode gelap";
+}
+function setAppTheme(theme){
+  document.documentElement.setAttribute("data-app-theme", theme);
+  try{ localStorage.setItem(THEME_KEY, theme); }catch(e){}
+  applyThemeUI(theme);
+}
+function getAppTheme(){
+  return document.documentElement.getAttribute("data-app-theme") === "dark" ? "dark" : "light";
+}
+applyThemeUI(getAppTheme()); // sinkronkan ikon dengan tema yang sudah dipasang saat halaman dimuat
+if($("btnThemeToggle")){
+  $("btnThemeToggle").onclick = () => setAppTheme(getAppTheme() === "dark" ? "light" : "dark");
+}
 
 (function buildThemeSelect(){
   $("selTheme").innerHTML =
