@@ -51,6 +51,8 @@ input,textarea,select{font-family:inherit;}
 .iconbtn:hover{background:rgba(255,255,255,.16);}
 .topbar .iconbtn{background:var(--paper-2);color:var(--ink);}
 .topbar .iconbtn:hover{background:var(--line);}
+.reader-top .iconbtn{background:rgba(27,35,51,.08);color:var(--ink);}
+.reader-top .iconbtn:hover{background:rgba(27,35,51,.14);}
 .textbtn{background:transparent;border:none;color:rgba(255,255,255,.85);font-size:13px;padding:6px 8px;}
 
 /* ---------- Auth screen ---------- */
@@ -86,10 +88,14 @@ input,textarea,select{font-family:inherit;}
 /* ---------- Library screen ---------- */
 #libraryScreen{flex:1;background:var(--paper);display:flex;flex-direction:column;}
 .view{max-width:760px;margin:0 auto;width:100%;padding:18px 16px calc(130px + env(safe-area-inset-bottom,0px));}
+@media (min-width:900px){
+  .view{max-width:1280px;}
+  .grid-books{grid-template-columns:repeat(auto-fill,minmax(130px,160px));}
+}
 .library-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
 .library-header h1{font-size:19px;margin:0;color:var(--ink);}
 .library-header p{font-size:12.5px;color:var(--ink-soft);margin:2px 0 0;}
-.grid-books{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+.grid-books{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;}
 .book-card{
   background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;
   display:flex;flex-direction:column;gap:8px;position:relative;
@@ -100,9 +106,12 @@ input,textarea,select{font-family:inherit;}
   overflow:hidden;
 }
 .book-cover img{width:100%;height:100%;object-fit:contain;object-position:center;background:#fff;}
-.book-title{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.3;}
+.book-title{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.3;text-align:center;}
+.book-title.title-sub-row{font-weight:400;font-size:.68em;opacity:.55;}
 .title-sub{display:block;font-weight:400;font-size:.82em;opacity:.55;}
 .book-meta{font-size:11px;color:var(--ink-soft);}
+.chip-group{display:flex;align-items:center;gap:6px;}
+.chip-group .book-meta{white-space:nowrap;font-size:9.5px;}
 .book-progress{height:4px;border-radius:3px;background:var(--paper-2);overflow:hidden;}
 .book-progress i{display:block;height:100%;background:var(--ok);}
 .book-actions{display:flex;gap:6px;margin-top:2px;}
@@ -112,6 +121,7 @@ input,textarea,select{font-family:inherit;}
 .book-del svg{width:16px;height:16px;}
 .book-del:hover{opacity:.7;}
 .book-actions-row{display:flex;align-items:center;justify-content:space-between;}
+.book-actions-row .chip{margin:0;}
 .book-reset{background:transparent;border:none;
   width:22px;height:22px;padding:0;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;}
 .book-reset svg{width:16px;height:16px;}
@@ -156,18 +166,20 @@ input,textarea,select{font-family:inherit;}
 .greet h1{font-size:20px;margin:0;color:var(--ink);}
 .greet p{font-size:12.5px;color:var(--ink-soft);margin:3px 0 16px;}
 .continue-card{
-  background:linear-gradient(135deg,var(--navy),#16305e);color:#fff;border-radius:20px;padding:18px;
-  display:flex;flex-direction:column;gap:9px;box-shadow:0 12px 30px rgba(11,18,32,.18);
+  background:#fff;color:var(--ink);border-radius:16px;padding:18px;
+  display:flex;flex-direction:column;gap:9px;border:1px solid var(--line);
+  box-shadow:0 1px 3px rgba(11,18,32,.05);
 }
-.continue-kicker{font-size:10.5px;letter-spacing:1.5px;font-weight:800;color:var(--cyan);}
-.continue-title{font-size:17px;font-weight:800;line-height:1.3;}
-.continue-meta{font-size:12px;color:rgba(255,255,255,.7);}
-.continue-bar{height:5px;border-radius:3px;background:rgba(255,255,255,.15);overflow:hidden;}
-.continue-bar i{display:block;height:100%;background:var(--cyan);}
-.continue-btn{align-self:flex-start;margin-top:4px;padding:10px 16px;border-radius:11px;border:none;background:#fff;color:var(--ink);font-weight:700;font-size:13px;}
-.continue-btn.dark{background:var(--ink);color:#fff;}
-.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px;}
-.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 8px;text-align:center;}
+.continue-kicker{font-size:10.5px;letter-spacing:1.5px;font-weight:800;color:#5C7BA8;}
+.continue-title{font-size:17px;font-weight:600;line-height:1.3;}
+.continue-meta{font-size:12px;color:var(--ink-soft);}
+.continue-bar{height:5px;border-radius:3px;background:var(--paper-2);overflow:hidden;}
+.continue-bar i{display:block;height:100%;background:#5C7BA8;}
+.continue-btn{align-self:flex-start;margin-top:4px;padding:10px 16px;border-radius:11px;border:none;background:#5C7BA8;color:#fff;font-weight:700;font-size:13px;}
+.continue-btn.dark{background:#5C7BA8;color:#fff;}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+#dashContinue{margin-top:12px;}
+.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 8px;text-align:center;box-shadow:0 1px 3px rgba(11,18,32,.05);}
 .stat b{display:block;font-size:22px;color:var(--ink);}
 .stat span{font-size:11px;color:var(--ink-soft);}
 
@@ -242,23 +254,18 @@ input,textarea,select{font-family:inherit;}
 .confirm-ok{background:#F3C6C6;color:#7A2E2E;}
 .confirm-cancel:hover{background:#E1D8C1;}
 .confirm-ok:hover{background:#EDB3B3;}
-@media (prefers-color-scheme:dark){
-  .confirm-box{background:#2E2A3D;color:#E6E1F0;box-shadow:0 12px 32px rgba(0,0,0,.45);}
-  .confirm-cancel{background:#443F58;color:#E6E1F0;}
-  .confirm-cancel:hover{background:#4F4A66;}
-  .confirm-ok{background:#5A3A4A;color:#F3C6D6;}
-  .confirm-ok:hover{background:#6B4457;}
-}
 .tabs{display:flex;gap:6px;margin-bottom:14px;background:var(--paper-2);padding:4px;border-radius:11px;}
 .tab{flex:1;text-align:center;padding:8px 6px;border-radius:8px;font-size:12.5px;font-weight:600;color:var(--ink-soft);border:none;background:transparent;}
 .tab.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08);}
 textarea.rawpaste{width:100%;min-height:180px;border-radius:12px;border:1.4px solid var(--line);padding:12px;font-size:13px;line-height:1.6;resize:vertical;}
 .dropzone{
   border:1.8px dashed var(--line);border-radius:14px;padding:26px 14px;text-align:center;color:var(--ink-soft);
-  font-size:13px;margin-bottom:12px;
+  font-size:13px;margin-bottom:12px;transition:background .15s,border-color .15s;
 }
+.dropzone.dragover{background:var(--paper-2);border-color:var(--blue);}
 .dropzone input{display:none;}
 .dropzone label{color:var(--blue);font-weight:700;cursor:pointer;}
+.dropzone-or{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:4px;}
 .file-picked{font-size:12.5px;color:var(--ink);background:var(--paper-2);padding:8px 10px;border-radius:9px;margin-top:8px;display:none;}
 .hint-box{background:#EAF2FF;color:#12408F;font-size:12px;padding:10px 12px;border-radius:10px;line-height:1.55;margin-top:10px;}
 .hint-box b{display:block;margin-bottom:3px;}
@@ -282,15 +289,23 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 #readerScreen{flex:1;display:flex;flex-direction:column;background:var(--paper);}
 .reader-top{
   display:flex;align-items:center;gap:8px;padding:10px 12px;
-  background:var(--navy);color:#fff;position:sticky;top:0;z-index:15;
+  background:#F3EBD8;color:var(--ink);position:sticky;top:0;z-index:15;
 }
 .reader-top .rt-title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;font-weight:600;}
 .reader-body{flex:1;display:flex;max-width:900px;margin:0 auto;width:100%;}
-.toc-panel{
-  width:230px;flex-shrink:0;border-right:1px solid var(--line);padding:14px 10px;
-  overflow-y:auto;display:none;
+/* Daftar isi selalu tampil sebagai popup tengah layar yang bisa discroll, di HP maupun laptop */
+.toc-backdrop{
+  display:none;position:fixed;inset:0;background:rgba(10,14,26,.5);z-index:59;
 }
-@media (min-width:820px){ .toc-panel{display:block;} }
+.toc-backdrop.open{display:block;}
+.toc-panel{
+  display:none;
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:calc(100% - 56px);max-width:380px;max-height:72vh;
+  border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.3);
+  background:var(--paper);z-index:60;padding:14px 12px;overflow-y:auto;
+}
+.toc-panel.open{display:block;}
 .toc-panel h4{font-size:11px;letter-spacing:.4px;color:var(--ink-soft);text-transform:uppercase;margin:4px 8px 8px;}
 .toc-item{
   display:block;width:100%;text-align:left;background:none;border:none;padding:9px 9px;
@@ -323,12 +338,25 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 .save-dot.saving{background:#B8860B;}
 .reader-nav{
   position:sticky;bottom:0;background:var(--paper);border-top:1px solid var(--line);
-  display:flex;gap:10px;padding:10px 20px;max-width:640px;margin-left:auto;margin-right:0;width:100%;
+  display:flex;justify-content:space-between;gap:10px;padding:10px 20px;max-width:640px;margin-left:auto;margin-right:0;width:100%;
 }
-@media (max-width:819px){ .reader-nav{max-width:100%;margin:0;} }
-.navbtn{flex:1;padding:11px;border-radius:10px;border:1.4px solid var(--line);background:#fff;font-size:13px;font-weight:600;color:var(--ink);}
+@media (max-width:819px){ .reader-nav{max-width:100%;margin:0;} body.hide-chapter-nav .reader-nav{display:none;} }
+.navbtn{
+  width:44px;height:44px;flex:none;padding:0;border-radius:50%;border:1.4px solid var(--line);
+  background:#fff;font-size:17px;font-weight:700;color:var(--ink);display:flex;align-items:center;justify-content:center;
+}
 .navbtn.primary{background:var(--ink);color:#fff;border-color:var(--ink);}
 .navbtn:disabled{opacity:.4;}
+/* Di laptop, tombol sebelumnya/selanjutnya mengambang di pojok kiri & kanan layar */
+@media (min-width:820px){
+  .reader-nav{position:static;background:transparent;border-top:none;padding:0;max-width:none;margin:0;pointer-events:none;}
+  .navbtn{
+    position:fixed;top:50%;transform:translateY(-50%);z-index:25;pointer-events:auto;
+    width:48px;height:48px;box-shadow:0 10px 26px rgba(11,18,32,.18);
+  }
+  #btnPrevChap{left:22px;}
+  #btnNextChap{right:22px;}
+}
 
 /* ---------- Loading & toast ---------- */
 #loadingOverlay{
@@ -496,22 +524,16 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 
     <!-- Dashboard -->
     <div id="view_dashboard" class="view">
-      <div id="dashContinue"></div>
       <div class="stat-row">
         <div class="stat"><b id="statBooks">0</b><span>Buku</span></div>
         <div class="stat"><b id="statRead">0</b><span>Bagian dibaca</span></div>
         <div class="stat"><b id="statDone">0</b><span>Selesai</span></div>
       </div>
+      <div id="dashContinue"></div>
     </div>
 
     <!-- Daftar Buku -->
     <div id="view_books" class="view hidden">
-      <div class="library-header">
-        <div>
-          <h1>Rak Bukumu</h1>
-          <p id="libSubtitle">Materi yang sudah kamu simpan</p>
-        </div>
-      </div>
       <div id="gridBooks" class="grid-books"></div>
       <div id="emptyState" class="empty-state hidden">
         <div class="big">📚</div>
@@ -560,6 +582,13 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
         </div>
         <div class="set-preview">Contoh teks bacaan: pelan-pelan saja, satu bagian dalam satu waktu.</div>
       </div>
+      <label class="set-card checkline" id="rowHideNav" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+        <input type="checkbox" id="chkHideNav">
+        <span>
+          <div class="set-label" style="margin-bottom:2px;">Sembunyikan tombol navigasi di HP</div>
+          <div class="set-preview" style="margin-top:2px;">Ganti dengan geser layar ke kiri/kanan untuk pindah bagian, seperti membalik halaman buku.</div>
+        </span>
+      </label>
       <button class="set-row" id="btnHelp2"><span>Panduan impor PDF</span><span>›</span></button>
       <button class="set-row danger" id="btnLogout"><span>Keluar</span><span>⎋</span></button>
     </div>
@@ -598,6 +627,7 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
       <button class="iconbtn" id="btnTocMobile" title="Daftar isi">☰</button>
     </div>
     <div class="reader-body">
+      <div class="toc-backdrop" id="tocBackdrop"></div>
       <div class="toc-panel" id="tocPanel">
         <h4>Daftar Isi</h4>
         <div id="tocList"></div>
@@ -605,8 +635,8 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
       <div class="reader-content" id="readerContent"></div>
     </div>
     <div class="reader-nav">
-      <button class="navbtn" id="btnPrevChap">← Sebelumnya</button>
-      <button class="navbtn primary" id="btnNextChap">Selanjutnya →</button>
+      <button class="navbtn" id="btnPrevChap" title="Sebelumnya">←</button>
+      <button class="navbtn" id="btnNextChap" title="Selanjutnya">→</button>
     </div>
   </div>
 
@@ -623,9 +653,10 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
       <label>Judul buku (opsional)</label>
       <input type="text" id="inpTitleFile" placeholder="Kosongkan untuk memakai judul dari sampul PDF">
     </div>
-    <div class="dropzone">
+    <div class="dropzone" id="dropzoneFile">
       <div>📄 File PDF workbook</div>
       <label for="fileInput">pilih file dari perangkat</label>
+      <span class="dropzone-or"> atau seret &amp; lepas file di sini</span>
       <input type="file" id="fileInput" accept="application/pdf,.pdf">
       <div class="file-picked" id="filePicked"></div>
     </div>
@@ -1971,6 +2002,16 @@ function titleHTML(title){
   const sub = t.slice(idx + 3);
   return escapeHtml(main) + '<span class="title-sub">' + escapeHtml(sub) + '</span>';
 }
+function titleMainHTML(title){
+  const t = title || "Tanpa judul";
+  const idx = t.indexOf(" — ");
+  return escapeHtml(idx === -1 ? t : t.slice(0, idx));
+}
+function titleSubHTML(title){
+  const t = title || "";
+  const idx = t.indexOf(" — ");
+  return idx === -1 ? "" : escapeHtml(t.slice(idx + 3));
+}
 
 // Lingkaran konsentris khas Evergreen
 function ringsSVG(){
@@ -2112,13 +2153,16 @@ function renderBooksView(){
     const card = document.createElement("div");
     card.className = "book-card";
     card.innerHTML = `
+      <div class="book-title">${titleMainHTML(book.title)}</div>
       <div class="book-cover${themeCls(book)}">${coverHTML(book)}</div>
-      <div class="book-title">${titleHTML(book.title)}</div>
-      <div class="book-meta">${chapters} bagian &middot; ${book.sourceType || "teks"}</div>
+      ${titleSubHTML(book.title) ? `<div class="book-title title-sub-row">${titleSubHTML(book.title)}</div>` : ""}
       <div class="book-progress"><i style="width:${pct}%"></i></div>
-      <div class="chip">${pct}% dibaca</div>
       <div class="book-actions-row">
         <button class="book-del" data-id="${book.id}" title="Hapus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg></button>
+        <div class="chip-group">
+          <div class="chip">${pct}%</div>
+          <div class="book-meta">${chapters} Page</div>
+        </div>
         <button class="book-reset" data-id="${book.id}" title="Ulangi dari awal (reset progres ke 0%)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
       </div>
     `;
@@ -2188,6 +2232,48 @@ document.querySelectorAll("#sizeSeg button").forEach(b => {
   applyReadSize(k);
 })();
 $("btnHelp2").onclick = () => show($("modalHelp"));
+
+/* ---- Setting: sembunyikan tombol navigasi bab di HP, ganti geser layar ---- */
+function applyHideNav(on){
+  document.body.classList.toggle("hide-chapter-nav", !!on);
+  $("chkHideNav").checked = !!on;
+}
+$("chkHideNav").onchange = () => {
+  const on = $("chkHideNav").checked;
+  applyHideNav(on);
+  try{ localStorage.setItem("essensiana_hide_nav", on ? "1" : "0"); }catch(e){}
+};
+(function(){
+  let on = false;
+  try{ on = localStorage.getItem("essensiana_hide_nav") === "1"; }catch(e){}
+  applyHideNav(on);
+})();
+
+/* ---- Geser layar (swipe) untuk pindah bagian, seperti membalik halaman buku ---- */
+(function(){
+  const el = $("readerContent");
+  let sx = 0, sy = 0, tracking = false;
+  const THRESHOLD = 60;
+  el.addEventListener("touchstart", (e) => {
+    if(e.target.closest("textarea, input, .chk, select, button")) { tracking = false; return; }
+    const t = e.touches[0];
+    sx = t.clientX; sy = t.clientY; tracking = true;
+  }, { passive:true });
+  el.addEventListener("touchend", (e) => {
+    if(!tracking) return;
+    tracking = false;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - sx, dy = t.clientY - sy;
+    if(Math.abs(dx) < THRESHOLD || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    if(dx < 0){
+      // geser ke kiri -> bagian selanjutnya
+      if(activeChapterIdx < activeBookMeta.chapterCount - 1) renderChapter(activeChapterIdx + 1);
+    } else {
+      // geser ke kanan -> bagian sebelumnya
+      if(activeChapterIdx > 0) renderChapter(activeChapterIdx - 1);
+    }
+  }, { passive:true });
+})();
 
 /* ---- Muat data buku sekali, lalu render semua tab ---- */
 async function loadLibrary(){
@@ -2316,8 +2402,7 @@ function renderParsePreview(){
   showPreview(html);
 }
 
-$("fileInput").onchange = async () => {
-  const f = $("fileInput").files[0];
+async function handlePickedFile(f){
   if(!f) return;
   if(!/\.pdf$/i.test(f.name) && f.type !== "application/pdf"){
     toast("Hanya file PDF yang bisa diimpor.");
@@ -2338,7 +2423,27 @@ $("fileInput").onchange = async () => {
   } finally {
     parsingNow = false;
   }
-};
+}
+
+$("fileInput").onchange = () => handlePickedFile($("fileInput").files[0]);
+
+// ---------- Drag & drop file PDF ke dropzone (khusus PC/laptop) ----------
+(function setupDropzoneDnD(){
+  const zone = $("dropzoneFile");
+  let dragDepth = 0; // hitung enter/leave supaya tidak "berkedip" saat drag di atas elemen anak
+  ["dragenter","dragover","dragleave","drop"].forEach(evt => {
+    zone.addEventListener(evt, (e) => { e.preventDefault(); e.stopPropagation(); });
+  });
+  zone.addEventListener("dragenter", () => { dragDepth++; zone.classList.add("dragover"); });
+  zone.addEventListener("dragleave", () => { dragDepth = Math.max(0, dragDepth - 1); if(dragDepth === 0) zone.classList.remove("dragover"); });
+  zone.addEventListener("drop", (e) => {
+    dragDepth = 0;
+    zone.classList.remove("dragover");
+    const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if(f) handlePickedFile(f);
+  });
+})();
+
 $("selTheme").onchange = renderParsePreview;
 $("inpTitleFile").oninput = () => { if(pickedParsed) renderParsePreview(); };
 
@@ -2431,6 +2536,7 @@ async function openBook(bookId, meta){
   $("readerScreen").dataset.theme = activeThemeId;
   ensureThemeFonts(activeThemeId);
   setThemeColor(THEMES[activeThemeId].color);
+  closeTocMobile();
   hide($("libraryScreen")); show($("readerScreen"));
   $("rtTitle").textContent = meta.title || "Materi";
 
@@ -2442,7 +2548,7 @@ async function openBook(bookId, meta){
     b.className = "toc-item";
     const tag = tags[idx] != null ? tags[idx] : (idx + 1) + ".";
     b.innerHTML = `<span class="toc-tag">${escapeHtml(String(tag))}</span>${escapeHtml(t)}`;
-    b.onclick = () => renderChapter(idx);
+    b.onclick = () => { renderChapter(idx); closeTocMobile(); };
     tocList.appendChild(b);
   });
 
@@ -2451,10 +2557,12 @@ async function openBook(bookId, meta){
 }
 
 $("btnBackLib").onclick = leaveReader;
+function openTocMobile(){ $("tocPanel").classList.add("open"); $("tocBackdrop").classList.add("open"); }
+function closeTocMobile(){ $("tocPanel").classList.remove("open"); $("tocBackdrop").classList.remove("open"); }
 $("btnTocMobile").onclick = () => {
-  const panel = $("tocPanel");
-  panel.style.display = panel.style.display === "block" ? "none" : "block";
+  $("tocPanel").classList.contains("open") ? closeTocMobile() : openTocMobile();
 };
+$("tocBackdrop").onclick = closeTocMobile;
 
 async function fetchModule(idx){
   if(activeModuleCache[idx]) return activeModuleCache[idx];
@@ -2614,7 +2722,8 @@ async function renderChapter(idx){
     document.querySelectorAll(".toc-item").forEach((el, i) => el.classList.toggle("active", i === idx));
     $("btnPrevChap").disabled = idx <= 0;
     $("btnNextChap").disabled = idx >= activeBookMeta.chapterCount - 1;
-    $("btnNextChap").textContent = idx >= activeBookMeta.chapterCount - 1 ? "Selesai ✓" : "Selanjutnya →";
+    $("btnNextChap").textContent = idx >= activeBookMeta.chapterCount - 1 ? "✓" : "→";
+    $("btnNextChap").title = idx >= activeBookMeta.chapterCount - 1 ? "Selesai" : "Selanjutnya";
 
     await setDoc(doc(db, "users", currentUser.uid, "books", activeBookId),
       { lastReadIndex: idx, updatedAt: serverTimestamp() }, { merge: true });
