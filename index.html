@@ -21,6 +21,9 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy:#0B1220;
@@ -52,7 +55,7 @@
   /* Selalu gelap, dipakai untuk elemen "chip" mengambang (toast, tombol utama
      navigasi baca) supaya tetap kontras di kedua mode. */
   --dark-chip:#1B2333;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 /* ---------- Mode gelap ---------- */
 html[data-app-theme="dark"]{
@@ -363,6 +366,32 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
   background:var(--reader-top-bg);color:var(--ink);position:sticky;top:0;z-index:15;
 }
 .reader-top .rt-title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13.5px;font-weight:600;}
+.fontsize-wrap{position:relative;}
+.fs-icon{display:flex;align-items:baseline;gap:1px;font-weight:700;line-height:1;}
+.fs-icon-sm{font-size:.65em;}
+.fontsize-pop{
+  display:none;position:absolute;top:calc(100% + 8px);right:0;z-index:25;
+  width:190px;padding:8px;border-radius:14px;background:var(--paper);
+  border:1px solid var(--line);box-shadow:0 14px 34px rgba(0,0,0,.16);
+}
+.fontsize-pop.open{display:block;}
+.fs-slider-row{display:flex;align-items:center;gap:10px;}
+.fs-a-sm{font-size:12px;font-weight:700;color:var(--ink-soft);flex:none;}
+.fs-a-lg{font-size:20px;font-weight:700;color:var(--ink-soft);flex:none;}
+.fs-slider{
+  -webkit-appearance:none;appearance:none;flex:1;height:4px;border-radius:3px;
+  background:var(--line);outline:none;margin:0;
+}
+.fs-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;
+  background:var(--blue);border:3px solid var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer;
+}
+.fs-slider::-moz-range-thumb{
+  width:20px;height:20px;border-radius:50%;background:var(--blue);border:3px solid var(--surface);
+  box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer;
+}
+.fs-slider::-moz-range-track{background:var(--line);height:4px;border-radius:3px;}
+.fs-slider-value{margin-top:8px;text-align:center;font-size:12px;font-weight:700;color:var(--ink-soft);}
 .reader-body{flex:1;display:flex;max-width:900px;margin:0 auto;width:100%;}
 /* Daftar isi selalu tampil sebagai popup tengah layar yang bisa discroll, di HP maupun laptop */
 .toc-backdrop{
@@ -535,6 +564,31 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 .continue-card.th-evergreen-card{background:linear-gradient(135deg,#3B4A37,#5B7A5E);}
 .continue-card.th-evergreen-card .continue-kicker{color:#CFE3C4;}
 .continue-card.th-evergreen-card .continue-bar i{background:#B8D3AE;}
+
+/* ============================================================
+   TEMA PER BUKU — "Terracotta"
+   Warna diambil langsung dari PDF "Calm Waves" (dicek per-karakter):
+   kicker/label = #C4846A, judul = #8B6F5E, teks bacaan = #4A3F38,
+   teks sekunder = #7A6A62. Font tetap Poppins (sudah dipakai global),
+   jadi tema ini cuma mengganti warna, bukan font.
+============================================================ */
+#readerScreen[data-theme="terracotta"]{
+  --navy:#4A3F38; --navy-2:#5C4F45;
+  --blue:#C4846A; --cyan:#C4846A;
+  --ink:#4A3F38; --ink-soft:#7A6A62; --line:#E9DCCF;
+  --text-read:#4A3F38;
+}
+#readerScreen[data-theme="terracotta"] .mod-title,
+#readerScreen[data-theme="terracotta"] .block-h,
+#readerScreen[data-theme="terracotta"] .blk-closing .h{color:#8B6F5E;}
+#readerScreen[data-theme="terracotta"] .reflect-box{background:rgba(255,255,255,.6);border-color:#E9DCCF;}
+#readerScreen[data-theme="terracotta"] .block-quote{background:#F5E6DA;border-left-color:#C4846A;padding:10px 14px;border-radius:8px;}
+
+/* Sampul kecil (rak buku, riwayat) */
+.th-terracotta{background:linear-gradient(180deg,#FBF3EA 0%,#F0DCC9 100%) !important;color:#5C4A3E !important;}
+.continue-card.th-terracotta-card{background:var(--surface);}
+.continue-card.th-terracotta-card .continue-kicker{color:#C4846A;}
+.continue-card.th-terracotta-card .continue-bar i{background:#C4846A;}
 </style>
 </head>
 <body>
@@ -635,11 +689,12 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
     <div id="view_settings" class="view hidden">
       <div class="set-card">
         <div class="set-label">Ukuran Tulisan</div>
-        <div class="seg" id="sizeSeg">
-          <button data-size="kecil">Kecil</button>
-          <button data-size="sedang">Sedang</button>
-          <button data-size="besar">Besar</button>
+        <div class="fs-slider-row">
+          <span class="fs-a-sm">A</span>
+          <input type="range" class="fs-slider" id="sizeSliderSettings" min="13" max="20" step="0.5">
+          <span class="fs-a-lg">A</span>
         </div>
+        <div class="set-preview" id="sizeSlidePreview">Begini kira-kira ukuran tulisan saat kamu membaca nanti.</div>
       </div>
 
       <div class="set-card">
@@ -692,6 +747,19 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
     <div class="reader-top">
       <button class="iconbtn" id="btnBackLib">←</button>
       <div class="rt-title" id="rtTitle">Judul buku</div>
+      <div class="fontsize-wrap">
+        <button class="iconbtn" id="btnFontSize" title="Ukuran tulisan">
+          <span class="fs-icon">A<span class="fs-icon-sm">A</span></span>
+        </button>
+        <div class="fontsize-pop" id="fontSizePop">
+          <div class="fs-slider-row">
+            <span class="fs-a-sm">A</span>
+            <input type="range" class="fs-slider" id="sizeSliderPop" min="13" max="20" step="0.5">
+            <span class="fs-a-lg">A</span>
+          </div>
+          <div class="fs-slider-value" id="sizeSliderValue">15px</div>
+        </div>
+      </div>
       <button class="iconbtn" id="btnToggleNav" title="Sembunyikan tombol navigasi bab">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 12l4-4M4 12l4 4M20 12l-4-4M20 12l-4 4"/></svg>
       </button>
@@ -766,7 +834,7 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 
     <div class="help-section">
       <h3>Tampilan per buku</h3>
-      <p>Tiap buku punya tampilannya sendiri. Pilihan <b>Otomatis</b> mencocokkan judul buku dengan tema yang tersedia (saat ini: Evergreen), selain itu dipakai tampilan Standar. Kamu juga bisa memilih tema secara manual saat impor.</p>
+      <p>Tiap buku punya tampilannya sendiri. Pilihan <b>Otomatis</b> mencocokkan judul buku dengan tema yang tersedia (saat ini: Evergreen, Terracotta), selain itu dipakai tampilan Standar. Kamu juga bisa memilih tema secara manual saat impor.</p>
     </div>
 
     <div class="help-section">
@@ -1750,11 +1818,30 @@ async function extractPdfPages(file){
   return { pages, coverImage };
 }
 
+// Kadang badge nomor "01" di PDF sumber sebenarnya gambar/vector (bukan teks
+// asli) sehingga hilang total saat diekstrak, sementara "02" dst tetap teks
+// biasa dan ikut terbaca. Kalau pola ini terdeteksi — paragraf tanpa nomor
+// yang langsung diikuti paragraf berlabel "02" — anggap paragraf pertama itu
+// butir nomor 1 dan beri label yang sama.
+function pdfFixMissingLeadNumber(modules){
+  (modules || []).forEach(mod => {
+    const blocks = mod.blocks || [];
+    for(let i = 1; i < blocks.length; i++){
+      const b = blocks[i], prev = blocks[i - 1];
+      if(b.type !== "p" || prev.type !== "p") continue;
+      if(!/^\*\*0?2\*\*\s*/.test(b.text)) continue;
+      if(/^\*\*\d{1,2}\*\*/.test(prev.text)) continue; // paragraf sebelumnya sudah punya nomor sendiri
+      prev.text = "**01** " + prev.text;
+    }
+  });
+}
+
 // File PDF -> { mode, title, cover, modules, tags, textSize }
 async function parsePdfFile(file){
   const { pages, coverImage } = await extractPdfPages(file);
   const wb = parsePdfPages(pages) || parsePdfPagesV2(pages);
   if(wb){
+    pdfFixMissingLeadNumber(wb.modules);
     let title = "";
     if(wb.cover && wb.cover.title){
       title = pdfTitleCase(wb.cover.title) + (wb.cover.subtitle ? " — " + wb.cover.subtitle : "");
@@ -2020,6 +2107,13 @@ const THEMES = {
   evergreen: {
     label: "Evergreen", match: /evergreen/i, color: "#3B4A37", hero: true,
     fonts: "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Poppins:wght@500;600;700&display=swap"
+  },
+  terracotta: {
+    // Warna diambil langsung dari file PDF "Calm Waves": kicker/aksen
+    // terracotta (#C4846A), judul cokelat hangat (#8B6F5E), teks bacaan
+    // cokelat gelap (#4A3F38). Cocok otomatis kalau judul buku memuat
+    // "calm waves"; selain itu bisa dipilih manual saat impor.
+    label: "Terracotta", match: /calm.?waves/i, color: "#8B6F5E"
   }
 };
 
@@ -2327,23 +2421,48 @@ function renderQuotes(){
 }
 
 /* ---- Setting: ukuran teks bacaan (disimpan di perangkat ini) ---- */
-const READ_SIZES = { kecil: "13.5px", sedang: "15px", besar: "17px" };
-function applyReadSize(key){
-  if(!READ_SIZES[key]) key = "sedang";
-  document.documentElement.style.setProperty("--read-size", READ_SIZES[key]);
-  document.querySelectorAll("#sizeSeg button").forEach(b => b.classList.toggle("active", b.dataset.size === key));
+const READ_SIZE_MIN = 13, READ_SIZE_MAX = 20, READ_SIZE_DEFAULT = 15;
+// Nilai lama (sebelum jadi slider) dipetakan ke px yang setara, supaya
+// pengguna yang sudah pernah atur "Kecil/Sedang/Besar" tidak kehilangan pilihannya.
+const LEGACY_READ_SIZE_PX = { kecil: 13.5, sedang: 15, besar: 17 };
+
+function applyReadSize(px){
+  px = Math.min(READ_SIZE_MAX, Math.max(READ_SIZE_MIN, parseFloat(px) || READ_SIZE_DEFAULT));
+  document.documentElement.style.setProperty("--read-size", px + "px");
+  document.querySelectorAll(".fs-slider").forEach(s => { if(parseFloat(s.value) !== px) s.value = px; });
+  const valEl = $("sizeSliderValue");
+  if(valEl) valEl.textContent = px + "px";
+  return px;
 }
-document.querySelectorAll("#sizeSeg button").forEach(b => {
-  b.onclick = () => {
-    applyReadSize(b.dataset.size);
-    try{ localStorage.setItem("essensiana_read_size", b.dataset.size); }catch(e){}
-  };
+document.querySelectorAll(".fs-slider").forEach(s => {
+  s.addEventListener("input", () => applyReadSize(s.value));
+  s.addEventListener("change", () => {
+    try{ localStorage.setItem("essensiana_read_size", String(parseFloat(s.value))); }catch(e){}
+  });
 });
 (function(){
-  let k = "sedang";
-  try{ k = localStorage.getItem("essensiana_read_size") || "sedang"; }catch(e){}
-  applyReadSize(k);
+  let raw = null;
+  try{ raw = localStorage.getItem("essensiana_read_size"); }catch(e){}
+  let px = READ_SIZE_DEFAULT;
+  if(raw != null && raw !== ""){
+    px = (LEGACY_READ_SIZE_PX[raw] != null) ? LEGACY_READ_SIZE_PX[raw] : (parseFloat(raw) || READ_SIZE_DEFAULT);
+  }
+  applyReadSize(px);
 })();
+
+/* ---- Tombol pintasan "Aa" di reader-top: buka/tutup popover ukuran tulisan ---- */
+function closeFontSizePop(){
+  $("fontSizePop").classList.remove("open");
+  $("btnFontSize").classList.remove("active");
+}
+$("btnFontSize").onclick = (e) => {
+  e.stopPropagation();
+  const willOpen = !$("fontSizePop").classList.contains("open");
+  $("fontSizePop").classList.toggle("open", willOpen);
+  $("btnFontSize").classList.toggle("active", willOpen);
+};
+$("fontSizePop").onclick = (e) => e.stopPropagation();
+document.addEventListener("click", closeFontSizePop);
 
 /* ---- Sembunyikan tombol navigasi bab di HP, ganti geser layar (toggle di pojok kanan atas reader) ---- */
 function applyHideNav(on){
