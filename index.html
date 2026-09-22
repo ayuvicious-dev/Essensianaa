@@ -37,12 +37,11 @@ input,textarea,select{font-family:inherit;}
 .topbar{
   display:flex;align-items:center;gap:10px;
   padding:12px 16px;
-  background:linear-gradient(135deg,var(--navy) 0%, var(--navy-2) 100%);
-  color:#fff;position:sticky;top:0;z-index:20;
-  border-bottom:1px solid rgba(255,255,255,.06);
+  background:#fff;
+  color:var(--ink);position:sticky;top:0;z-index:20;
+  border-bottom:1px solid var(--line);
 }
-.brand{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:.2px;}
-.brand-logo{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-size:13px;}
+.topbar-title{font-weight:700;letter-spacing:.2px;font-size:16px;color:var(--ink);}
 .topbar .spacer{flex:1;}
 .iconbtn{
   background:rgba(255,255,255,.08);border:none;color:#fff;
@@ -50,6 +49,8 @@ input,textarea,select{font-family:inherit;}
   display:flex;align-items:center;justify-content:center;
 }
 .iconbtn:hover{background:rgba(255,255,255,.16);}
+.topbar .iconbtn{background:var(--paper-2);color:var(--ink);}
+.topbar .iconbtn:hover{background:var(--line);}
 .textbtn{background:transparent;border:none;color:rgba(255,255,255,.85);font-size:13px;padding:6px 8px;}
 
 /* ---------- Auth screen ---------- */
@@ -94,17 +95,27 @@ input,textarea,select{font-family:inherit;}
   display:flex;flex-direction:column;gap:8px;position:relative;
 }
 .book-cover{
-  height:88px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--cyan));
+  aspect-ratio:3/4;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--cyan));
   display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:26px;
+  overflow:hidden;
 }
+.book-cover img{width:100%;height:100%;object-fit:contain;object-position:center;background:#fff;}
 .book-title{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.3;}
+.title-sub{display:block;font-weight:400;font-size:.82em;opacity:.55;}
 .book-meta{font-size:11px;color:var(--ink-soft);}
 .book-progress{height:4px;border-radius:3px;background:var(--paper-2);overflow:hidden;}
 .book-progress i{display:block;height:100%;background:var(--ok);}
 .book-actions{display:flex;gap:6px;margin-top:2px;}
 .chip{font-size:10.5px;padding:3px 8px;border-radius:99px;background:var(--paper-2);color:var(--ink-soft);}
-.book-del{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.9);border:1px solid var(--line);
-  width:24px;height:24px;border-radius:8px;font-size:12px;color:var(--danger);}
+.book-del{background:transparent;border:none;
+  width:22px;height:22px;padding:0;color:var(--danger);display:flex;align-items:center;justify-content:center;}
+.book-del svg{width:16px;height:16px;}
+.book-del:hover{opacity:.7;}
+.book-actions-row{display:flex;align-items:center;justify-content:space-between;}
+.book-reset{background:transparent;border:none;
+  width:22px;height:22px;padding:0;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;}
+.book-reset svg{width:16px;height:16px;}
+.book-reset:hover{color:var(--ink);}
 
 .empty-state{
   border:1.6px dashed var(--line);border-radius:16px;padding:34px 18px;text-align:center;color:var(--ink-soft);
@@ -168,7 +179,9 @@ input,textarea,select{font-family:inherit;}
 .hist-cover{
   width:44px;height:44px;border-radius:12px;flex-shrink:0;color:#fff;font-weight:800;font-size:15px;
   background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
 }
+.hist-cover img{width:100%;height:100%;object-fit:cover;object-position:top center;}
 .hist-body{flex:1;min-width:0;}
 .hist-title{font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .hist-meta{font-size:11.5px;color:var(--ink-soft);margin:2px 0 6px;}
@@ -209,6 +222,33 @@ input,textarea,select{font-family:inherit;}
 .modal h2{margin:0 0 4px;font-size:18px;color:var(--ink);}
 .modal .sub{font-size:12.5px;color:var(--ink-soft);margin:0 0 16px;}
 .modal-close{float:right;background:none;border:none;font-size:20px;color:var(--ink-soft);}
+
+/* ---------- Confirm dialog kustom (pengganti confirm() bawaan browser) ---------- */
+.confirm-backdrop{
+  position:fixed;inset:0;background:rgba(20,24,34,.35);display:flex;align-items:center;
+  justify-content:center;z-index:80;padding:20px;
+}
+.confirm-box{
+  background:#F6F1E7;color:#4A4536;width:100%;max-width:340px;border-radius:18px;
+  padding:20px 20px 16px;box-shadow:0 12px 32px rgba(0,0,0,.18);
+  text-align:center;
+}
+.confirm-box p{margin:0 0 18px;font-size:14px;line-height:1.5;}
+.confirm-actions{display:flex;gap:10px;}
+.confirm-actions button{
+  flex:1;padding:10px 12px;border-radius:12px;border:none;font-size:13.5px;font-weight:600;
+}
+.confirm-cancel{background:#EAE3D2;color:#4A4536;}
+.confirm-ok{background:#F3C6C6;color:#7A2E2E;}
+.confirm-cancel:hover{background:#E1D8C1;}
+.confirm-ok:hover{background:#EDB3B3;}
+@media (prefers-color-scheme:dark){
+  .confirm-box{background:#2E2A3D;color:#E6E1F0;box-shadow:0 12px 32px rgba(0,0,0,.45);}
+  .confirm-cancel{background:#443F58;color:#E6E1F0;}
+  .confirm-cancel:hover{background:#4F4A66;}
+  .confirm-ok{background:#5A3A4A;color:#F3C6D6;}
+  .confirm-ok:hover{background:#6B4457;}
+}
 .tabs{display:flex;gap:6px;margin-bottom:14px;background:var(--paper-2);padding:4px;border-radius:11px;}
 .tab{flex:1;text-align:center;padding:8px 6px;border-radius:8px;font-size:12.5px;font-weight:600;color:var(--ink-soft);border:none;background:transparent;}
 .tab.active{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.08);}
@@ -448,7 +488,7 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
   <!-- ======================= LIBRARY / MAIN SHELL (dengan bottom bar) ======================= -->
   <div id="libraryScreen" class="hidden">
     <div class="topbar">
-      <div class="brand"><span class="brand-logo">E</span> Essensiana</div>
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
       <div class="spacer"></div>
       <button class="iconbtn" id="btnHelp" title="Panduan impor PDF">?</button>
     </div>
@@ -456,10 +496,6 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 
     <!-- Dashboard -->
     <div id="view_dashboard" class="view">
-      <div class="greet">
-        <h1 id="dashGreeting">Halo 👋</h1>
-        <p>Lanjutkan bacaanmu dan lihat ringkasan belajarmu.</p>
-      </div>
       <div id="dashContinue"></div>
       <div class="stat-row">
         <div class="stat"><b id="statBooks">0</b><span>Buku</span></div>
@@ -758,6 +794,26 @@ function toast(msg, ms=2400){
 function loading(on, text="Memuat…"){
   $("loadingText").textContent = text;
   on ? show($("loadingOverlay")) : hide($("loadingOverlay"));
+}
+// Dialog konfirmasi kustom (di tengah layar, pastel, ikut dark/light mode) — pengganti confirm() bawaan
+function customConfirm(message, okLabel="Ya", cancelLabel="Batal"){
+  return new Promise((resolve) => {
+    const backdrop = document.createElement("div");
+    backdrop.className = "confirm-backdrop";
+    backdrop.innerHTML = `
+      <div class="confirm-box">
+        <p>${escapeHtml(message)}</p>
+        <div class="confirm-actions">
+          <button class="confirm-cancel">${escapeHtml(cancelLabel)}</button>
+          <button class="confirm-ok">${escapeHtml(okLabel)}</button>
+        </div>
+      </div>`;
+    document.body.appendChild(backdrop);
+    const finish = (val) => { backdrop.remove(); resolve(val); };
+    backdrop.querySelector(".confirm-cancel").onclick = () => finish(false);
+    backdrop.querySelector(".confirm-ok").onclick = () => finish(true);
+    backdrop.onclick = (e) => { if(e.target === backdrop) finish(false); };
+  });
 }
 function escapeHtml(s){
   return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
@@ -1568,24 +1624,43 @@ function pdfPagesToText(pages){
 const PDFJS_URL = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
 const PDFJS_WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
+async function renderPdfPageImage(page, targetWidth){
+  try{
+    const vp1 = page.getViewport({ scale: 1 });
+    const scale = targetWidth / vp1.width;
+    const vp = page.getViewport({ scale });
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(vp.width));
+    canvas.height = Math.max(1, Math.round(vp.height));
+    const ctx = canvas.getContext("2d");
+    await page.render({ canvasContext: ctx, viewport: vp }).promise;
+    return canvas.toDataURL("image/jpeg", 0.72);
+  } catch(e){
+    console.warn("Gagal membuat gambar sampul dari PDF:", e);
+    return null;
+  }
+}
+
 async function extractPdfPages(file){
   await loadScriptOnce(PDFJS_URL);
   window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
   const buf = await file.arrayBuffer();
   const pdf = await window.pdfjsLib.getDocument({ data: buf }).promise;
   const pages = [];
+  let coverImage = null;
   for(let p = 1; p <= pdf.numPages; p++){
     const page = await pdf.getPage(p);
     const vp = page.getViewport({ scale: 1 });
     const tc = await page.getTextContent();
     pages.push({ w: vp.width, h: vp.height, lines: pdfBuildLines(tc.items) });
+    if(p === 1) coverImage = await renderPdfPageImage(page, 320);
   }
-  return pages;
+  return { pages, coverImage };
 }
 
 // File PDF -> { mode, title, cover, modules, tags, textSize }
 async function parsePdfFile(file){
-  const pages = await extractPdfPages(file);
+  const { pages, coverImage } = await extractPdfPages(file);
   const wb = parsePdfPages(pages) || parsePdfPagesV2(pages);
   if(wb){
     let title = "";
@@ -1594,7 +1669,7 @@ async function parsePdfFile(file){
     }
     return {
       mode: "workbook", title, cover: wb.cover, modules: wb.modules, tags: wb.tags,
-      textSize: new Blob([JSON.stringify(wb.modules)]).size
+      textSize: new Blob([JSON.stringify(wb.modules)]).size, coverImage
     };
   }
   const raw = pdfPagesToText(pages);
@@ -1602,7 +1677,7 @@ async function parsePdfFile(file){
   const parsed = parseRawContent(raw, "");
   return {
     mode: "teks", title: parsed.title || "", cover: null, modules: parsed.modules, tags: null,
-    textSize: new Blob([raw]).size
+    textSize: new Blob([raw]).size, coverImage
   };
 }
 
@@ -1886,6 +1961,17 @@ function escapeAttr(s){
   return escapeHtml(String(s == null ? "" : s)).replace(/"/g, "&quot;");
 }
 
+// Judul buku bisa berbentuk "Judul — Keterangan tambahan" (dari subtitle PDF).
+// Bagian sebelum " — " tetap tebal, bagian setelahnya dibuat lebih kecil & transparan.
+function titleHTML(title){
+  const t = title || "Tanpa judul";
+  const idx = t.indexOf(" — ");
+  if(idx === -1) return escapeHtml(t);
+  const main = t.slice(0, idx);
+  const sub = t.slice(idx + 3);
+  return escapeHtml(main) + '<span class="title-sub">' + escapeHtml(sub) + '</span>';
+}
+
 // Lingkaran konsentris khas Evergreen
 function ringsSVG(){
   return '<svg class="rings" viewBox="0 0 100 100" aria-hidden="true">' +
@@ -1903,6 +1989,9 @@ function coverHTML(book, mini){
     ensureThemeFonts(id);
     const label = ((book.cover && book.cover.title) || book.title || "").toUpperCase().slice(0, 12);
     return ringsSVG() + (mini ? "" : '<span class="cv-title">' + escapeHtml(label) + '</span>');
+  }
+  if(book.coverImage){
+    return '<img src="' + escapeAttr(book.coverImage) + '" alt="" loading="lazy">';
   }
   return escapeHtml(initialsOf(book));
 }
@@ -1925,6 +2014,7 @@ function heroHTML(c){
 let booksCache = [];
 let currentTab = "dashboard";
 const TABS = ["dashboard", "books", "history", "settings"];
+const TAB_LABELS = { dashboard: "Dashboard", books: "Daftar Buku", history: "Riwayat Baca", settings: "Setting" };
 
 function switchTab(name){
   if(!TABS.includes(name)) name = "dashboard";
@@ -1935,6 +2025,8 @@ function switchTab(name){
     b.classList.toggle("active", on);
     if(on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
   });
+  const titleEl = $("topbarTitle");
+  if(titleEl) titleEl.textContent = TAB_LABELS[name] || "Dashboard";
   window.scrollTo(0, 0);
 }
 document.querySelectorAll(".bn-item").forEach(b => { b.onclick = () => switchTab(b.dataset.tab); });
@@ -1966,7 +2058,6 @@ function formatWhen(ts){
 function renderAccount(){
   if(!currentUser) return;
   const shown = currentUser.displayName || (currentUser.email || "").split("@")[0] || "Pengguna";
-  $("dashGreeting").textContent = "Halo, " + shown + " 👋";
   $("setName").textContent = shown;
   $("setEmail").textContent = currentUser.email || "";
   $("setAvatar").textContent = shown.slice(0, 1).toUpperCase();
@@ -2021,15 +2112,18 @@ function renderBooksView(){
     const card = document.createElement("div");
     card.className = "book-card";
     card.innerHTML = `
-      <button class="book-del" data-id="${book.id}" title="Hapus">✕</button>
       <div class="book-cover${themeCls(book)}">${coverHTML(book)}</div>
-      <div class="book-title">${escapeHtml(book.title || "Tanpa judul")}</div>
+      <div class="book-title">${titleHTML(book.title)}</div>
       <div class="book-meta">${chapters} bagian &middot; ${book.sourceType || "teks"}</div>
       <div class="book-progress"><i style="width:${pct}%"></i></div>
       <div class="chip">${pct}% dibaca</div>
+      <div class="book-actions-row">
+        <button class="book-del" data-id="${book.id}" title="Hapus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg></button>
+        <button class="book-reset" data-id="${book.id}" title="Ulangi dari awal (reset progres ke 0%)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
+      </div>
     `;
     card.onclick = (e) => {
-      if(e.target.closest(".book-del")) return;
+      if(e.target.closest(".book-del") || e.target.closest(".book-reset")) return;
       openBook(book.id, book);
     };
     grid.appendChild(card);
@@ -2037,8 +2131,15 @@ function renderBooksView(){
   grid.querySelectorAll(".book-del").forEach(btn => {
     btn.onclick = async (e) => {
       e.stopPropagation();
-      if(!confirm("Hapus materi ini beserta seluruh jawaban latihannya?")) return;
+      if(!(await customConfirm("Hapus materi ini beserta seluruh jawaban latihannya?", "Hapus"))) return;
       await deleteBook(btn.dataset.id);
+    };
+  });
+  grid.querySelectorAll(".book-reset").forEach(btn => {
+    btn.onclick = async (e) => {
+      e.stopPropagation();
+      if(!(await customConfirm("Ulangi progres bacaan buku ini dari awal? Progres akan kembali ke 0%.", "Ulangi"))) return;
+      await resetBookProgress(btn.dataset.id);
     };
   });
 }
@@ -2058,7 +2159,7 @@ function renderHistory(){
     row.innerHTML = `
       <div class="hist-cover${themeCls(b)}">${coverHTML(b, true)}</div>
       <div class="hist-body">
-        <div class="hist-title">${escapeHtml(b.title || "Tanpa judul")}</div>
+        <div class="hist-title">${titleHTML(b.title)}</div>
         <div class="hist-meta">Bagian ${read} dari ${chapters}${when ? " &middot; " + escapeHtml(when) : ""}</div>
         <div class="book-progress"><i style="width:${pct}%"></i></div>
       </div>
@@ -2102,6 +2203,21 @@ async function loadLibrary(){
   } catch(err){
     console.error(err);
     toast("Gagal memuat rak buku.");
+  } finally {
+    loading(false);
+  }
+}
+
+async function resetBookProgress(bookId){
+  loading(true, "Mengulang progres…");
+  try{
+    await setDoc(doc(db, "users", currentUser.uid, "books", bookId),
+      { lastReadIndex: null, updatedAt: serverTimestamp() }, { merge: true });
+    toast("Progres bacaan direset ke 0%.");
+    loadLibrary();
+  } catch(err){
+    console.error(err);
+    toast("Gagal mereset progres.");
   } finally {
     loading(false);
   }
@@ -2254,6 +2370,7 @@ $("btnSaveBook").onclick = async () => {
       moduleTitles: p.modules.map(m => m.title),
       moduleTags: p.tags || null,
       cover: p.cover || null,
+      coverImage: p.coverImage || null,
       themeId,
       sizeBytes: p.textSize,
       lastReadIndex: null
