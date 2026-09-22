@@ -53,6 +53,7 @@ input,textarea,select{font-family:inherit;}
 .topbar .iconbtn:hover{background:var(--line);}
 .reader-top .iconbtn{background:rgba(27,35,51,.08);color:var(--ink);}
 .reader-top .iconbtn:hover{background:rgba(27,35,51,.14);}
+.reader-top .iconbtn.active{background:var(--blue);color:#fff;}
 .textbtn{background:transparent;border:none;color:rgba(255,255,255,.85);font-size:13px;padding:6px 8px;}
 
 /* ---------- Auth screen ---------- */
@@ -91,6 +92,7 @@ input,textarea,select{font-family:inherit;}
 @media (min-width:900px){
   .view{max-width:1280px;}
   .grid-books{grid-template-columns:repeat(auto-fill,minmax(130px,160px));}
+  .continue-cover{max-width:230px;}
 }
 .library-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
 .library-header h1{font-size:19px;margin:0;color:var(--ink);}
@@ -113,7 +115,7 @@ input,textarea,select{font-family:inherit;}
 .chip-group{display:flex;align-items:center;gap:6px;}
 .chip-group .book-meta{white-space:nowrap;font-size:9.5px;}
 .book-progress{height:4px;border-radius:3px;background:var(--paper-2);overflow:hidden;}
-.book-progress i{display:block;height:100%;background:var(--ok);}
+.book-progress i{display:block;height:100%;background:#5C7BA8;}
 .book-actions{display:flex;gap:6px;margin-top:2px;}
 .chip{font-size:10.5px;padding:3px 8px;border-radius:99px;background:var(--paper-2);color:var(--ink-soft);}
 .book-del{background:transparent;border:none;
@@ -149,6 +151,7 @@ input,textarea,select{font-family:inherit;}
   color:var(--ink-soft);-webkit-tap-highlight-color:transparent;transition:background .15s,color .15s;
 }
 .bn-item svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.bn-item svg.bn-quote-icon{fill:currentColor;stroke:none;}
 .bn-lbl{font-size:10.5px;font-weight:700;white-space:nowrap;line-height:1.1;}
 .bn-item.active{background:#EAF2FF;color:var(--blue);}
 .bn-item:active{transform:scale(.96);}
@@ -166,16 +169,19 @@ input,textarea,select{font-family:inherit;}
 .greet h1{font-size:20px;margin:0;color:var(--ink);}
 .greet p{font-size:12.5px;color:var(--ink-soft);margin:3px 0 16px;}
 .continue-card{
-  background:#fff;color:var(--ink);border-radius:16px;padding:18px;
-  display:flex;flex-direction:column;gap:9px;border:1px solid var(--line);
+  background:#fff;color:var(--ink);border-radius:16px;padding:16px;
+  display:flex;gap:16px;align-items:flex-start;border:1px solid var(--line);
   box-shadow:0 1px 3px rgba(11,18,32,.05);
 }
+.continue-cover{width:32%;max-width:150px;min-width:96px;flex-shrink:0;}
+.continue-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;padding-top:2px;}
 .continue-kicker{font-size:10.5px;letter-spacing:1.5px;font-weight:800;color:#5C7BA8;}
 .continue-title{font-size:17px;font-weight:600;line-height:1.3;}
+.continue-synopsis{font-size:12px;color:var(--ink-soft);line-height:1.5;}
 .continue-meta{font-size:12px;color:var(--ink-soft);}
 .continue-bar{height:5px;border-radius:3px;background:var(--paper-2);overflow:hidden;}
 .continue-bar i{display:block;height:100%;background:#5C7BA8;}
-.continue-btn{align-self:flex-start;margin-top:4px;padding:10px 16px;border-radius:11px;border:none;background:#5C7BA8;color:#fff;font-weight:700;font-size:13px;}
+.continue-btn{align-self:flex-start;margin-top:2px;padding:9px 16px;border-radius:11px;border:none;background:#5C7BA8;color:#fff;font-weight:700;font-size:13px;}
 .continue-btn.dark{background:#5C7BA8;color:#fff;}
 .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 #dashContinue{margin-top:12px;}
@@ -183,21 +189,33 @@ input,textarea,select{font-family:inherit;}
 .stat b{display:block;font-size:22px;color:var(--ink);}
 .stat span{font-size:11px;color:var(--ink-soft);}
 
-/* ---------- Riwayat baca ---------- */
-.hist-item{
-  display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);
-  border-radius:16px;padding:12px;margin-bottom:10px;cursor:pointer;
+/* ---------- Kutipan ---------- */
+.quote-card{
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  padding:16px 16px 12px;margin-bottom:10px;cursor:pointer;position:relative;
 }
-.hist-cover{
-  width:44px;height:44px;border-radius:12px;flex-shrink:0;color:#fff;font-weight:800;font-size:15px;
-  background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
+.quote-card:hover{border-color:#c9d6ea;}
+.quote-mark{font:700 30px/1 Georgia,'Times New Roman',serif;color:#5C7BA8;opacity:.28;margin-bottom:-8px;}
+.quote-text{font-family:'Lora',Georgia,serif;font-style:italic;font-size:14.5px;line-height:1.6;color:var(--ink);margin:0 2px 12px;}
+.quote-source{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:10px;border-top:1px dashed var(--line);}
+.quote-meta{min-width:0;flex:1;}
+.quote-book{font-size:12px;font-weight:700;color:#5C7BA8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.quote-chapter{display:block;font-size:11px;color:var(--ink-soft);margin-top:1px;}
+.quote-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.quote-date{font-size:10.5px;color:var(--ink-soft);white-space:nowrap;}
+.quote-del{background:transparent;border:none;width:24px;height:24px;padding:0;color:var(--danger);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.quote-del svg{width:15px;height:15px;}
+.quote-del:hover{opacity:.7;}
+
+/* Tombol mengambang "Jadikan Kutipan" saat teks diblok di halaman baca */
+.quote-mark-btn{
+  position:fixed;z-index:70;background:var(--ink);color:#fff;border:none;
+  padding:9px 14px;border-radius:20px;font-size:12.5px;font-weight:700;
+  box-shadow:0 8px 22px rgba(0,0,0,.28);display:flex;align-items:center;gap:6px;
+  -webkit-tap-highlight-color:transparent;white-space:nowrap;
 }
-.hist-cover img{width:100%;height:100%;object-fit:cover;object-position:top center;}
-.hist-body{flex:1;min-width:0;}
-.hist-title{font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.hist-meta{font-size:11.5px;color:var(--ink-soft);margin:2px 0 6px;}
-.hist-chev{color:var(--ink-soft);font-size:20px;}
+.quote-mark-btn.hidden{display:none;}
+.quote-mark-btn:active{transform:scale(.96);}
 
 /* ---------- Setting ---------- */
 .set-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;}
@@ -461,7 +479,6 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 .th-evergreen{background:linear-gradient(180deg,#F5F3E6 0%,#DCE8D3 100%) !important;color:#3F4A38 !important;position:relative;overflow:hidden;}
 .book-cover.th-evergreen svg.rings{position:absolute;top:2px;left:50%;transform:translateX(-50%);width:64px;height:64px;}
 .book-cover.th-evergreen .cv-title{position:absolute;bottom:6px;left:0;right:0;text-align:center;font:700 9.5px/1 'Poppins',-apple-system,'Segoe UI',sans-serif;letter-spacing:2.2px;}
-.hist-cover.th-evergreen svg.rings{position:absolute;inset:3px;width:calc(100% - 6px);height:calc(100% - 6px);}
 .continue-card.th-evergreen-card{background:linear-gradient(135deg,#3B4A37,#5B7A5E);}
 .continue-card.th-evergreen-card .continue-kicker{color:#CFE3C4;}
 .continue-card.th-evergreen-card .continue-bar i{background:#B8D3AE;}
@@ -542,30 +559,24 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
       </div>
     </div>
 
-    <!-- Riwayat Baca -->
-    <div id="view_history" class="view hidden">
+    <!-- Kutipan -->
+    <div id="view_quotes" class="view hidden">
       <div class="library-header">
         <div>
-          <h1>Riwayat Baca</h1>
-          <p>Materi yang terakhir kamu buka</p>
+          <h1>Quote</h1>
+          <p>Kalimat-kalimat yang kamu tandai saat membaca</p>
         </div>
       </div>
-      <div id="historyList"></div>
-      <div id="historyEmpty" class="empty-state hidden">
-        <div class="big">🕘</div>
-        <div><b>Belum ada riwayat baca.</b></div>
-        <div style="margin-top:4px;">Buka salah satu materi di Daftar Buku, dan riwayatnya muncul di sini.</div>
+      <div id="quotesList"></div>
+      <div id="quotesEmpty" class="empty-state hidden">
+        <div class="big">❝</div>
+        <div><b>Belum ada quote.</b></div>
+        <div style="margin-top:4px;">Saat membaca, blok kalimat yang bagus lalu tekan "Jadikan Quote" — nanti muncul di sini.</div>
       </div>
     </div>
 
     <!-- Setting -->
     <div id="view_settings" class="view hidden">
-      <div class="library-header">
-        <div>
-          <h1>Setting</h1>
-          <p>Akun dan tampilan bacaan</p>
-        </div>
-      </div>
       <div class="set-card set-account">
         <div class="set-avatar" id="setAvatar">E</div>
         <div>
@@ -582,13 +593,6 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
         </div>
         <div class="set-preview">Contoh teks bacaan: pelan-pelan saja, satu bagian dalam satu waktu.</div>
       </div>
-      <label class="set-card checkline" id="rowHideNav" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-        <input type="checkbox" id="chkHideNav">
-        <span>
-          <div class="set-label" style="margin-bottom:2px;">Sembunyikan tombol navigasi di HP</div>
-          <div class="set-preview" style="margin-top:2px;">Ganti dengan geser layar ke kiri/kanan untuk pindah bagian, seperti membalik halaman buku.</div>
-        </span>
-      </label>
       <button class="set-row" id="btnHelp2"><span>Panduan impor PDF</span><span>›</span></button>
       <button class="set-row danger" id="btnLogout"><span>Keluar</span><span>⎋</span></button>
     </div>
@@ -608,9 +612,9 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
           <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
         </button>
       </div>
-      <button class="bn-item" data-tab="history">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <span class="bn-lbl">Riwayat Baca</span>
+      <button class="bn-item" data-tab="quotes">
+        <svg class="bn-quote-icon" viewBox="0 0 24 24"><path d="M7 17h3l2-4V7H5v6h3l-2 4zm9 0h3l2-4V7h-7v6h3l-2 4z"/></svg>
+        <span class="bn-lbl">Quote</span>
       </button>
       <button class="bn-item" data-tab="settings">
         <svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
@@ -624,6 +628,9 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
     <div class="reader-top">
       <button class="iconbtn" id="btnBackLib">←</button>
       <div class="rt-title" id="rtTitle">Judul buku</div>
+      <button class="iconbtn" id="btnToggleNav" title="Sembunyikan tombol navigasi bab">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M4 12l4-4M4 12l4 4M20 12l-4-4M20 12l-4 4"/></svg>
+      </button>
       <button class="iconbtn" id="btnTocMobile" title="Daftar isi">☰</button>
     </div>
     <div class="reader-body">
@@ -2054,8 +2061,8 @@ function heroHTML(c){
 ============================================================ */
 let booksCache = [];
 let currentTab = "dashboard";
-const TABS = ["dashboard", "books", "history", "settings"];
-const TAB_LABELS = { dashboard: "Dashboard", books: "Daftar Buku", history: "Riwayat Baca", settings: "Setting" };
+const TABS = ["dashboard", "books", "quotes", "settings"];
+const TAB_LABELS = { dashboard: "Dashboard", books: "Daftar Buku", quotes: "Quote", settings: "Setting" };
 
 function switchTab(name){
   if(!TABS.includes(name)) name = "dashboard";
@@ -2126,13 +2133,18 @@ function renderDashboard(){
     const kicker = !began ? "MULAI MEMBACA" : (done ? "BACA LAGI" : "LANJUTKAN MEMBACA");
     const btn = !began ? "Mulai →" : (done ? "Baca lagi →" : "Lanjutkan →");
     const meta = began ? `Bagian ${p.read} dari ${p.chapters} &middot; ${p.pct}%` : `${p.chapters} bagian`;
+    const synopsis = titleSubHTML(target.title) || ((target.cover && target.cover.tagline) ? escapeHtml(target.cover.tagline) : "");
     box.innerHTML = `
       <div class="continue-card${themeOf(target) !== "default" ? " th-" + themeOf(target) + "-card" : ""}">
-        <div class="continue-kicker">${kicker}</div>
-        <div class="continue-title">${escapeHtml(target.title || "Tanpa judul")}</div>
-        <div class="continue-meta">${meta}</div>
-        <div class="continue-bar"><i style="width:${p.pct}%"></i></div>
-        <button class="continue-btn" id="dashContinueBtn">${btn}</button>
+        <div class="book-cover continue-cover${themeCls(target)}">${coverHTML(target)}</div>
+        <div class="continue-body">
+          <div class="continue-kicker">${kicker}</div>
+          <div class="continue-title">${titleMainHTML(target.title)}</div>
+          ${synopsis ? `<div class="continue-synopsis">${synopsis}</div>` : ""}
+          <div class="continue-meta">${meta}</div>
+          <div class="continue-bar"><i style="width:${p.pct}%"></i></div>
+          <button class="continue-btn" id="dashContinueBtn">${btn}</button>
+        </div>
       </div>`;
     $("dashContinueBtn").onclick = () => openBook(target.id, target);
   }
@@ -2188,28 +2200,58 @@ function renderBooksView(){
   });
 }
 
-/* ---- Riwayat Baca ---- */
-function renderHistory(){
-  const list = $("historyList");
+/* ---- Kutipan ---- */
+let quotesCache = [];
+
+async function loadQuotes(){
+  try{
+    const q = query(collection(db, "users", currentUser.uid, "quotes"), orderBy("createdAt", "desc"));
+    const snap = await getDocs(q);
+    quotesCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch(err){
+    console.error(err);
+    quotesCache = [];
+  }
+  renderQuotes();
+}
+
+function renderQuotes(){
+  const list = $("quotesList");
   list.innerHTML = "";
-  const started = booksCache.filter(b => b.lastReadIndex != null);
-  if(!started.length){ show($("historyEmpty")); return; }
-  hide($("historyEmpty"));
-  started.forEach((b) => {
-    const { chapters, read, pct } = bookProgress(b);
-    const when = formatWhen(b.updatedAt);
-    const row = document.createElement("div");
-    row.className = "hist-item";
-    row.innerHTML = `
-      <div class="hist-cover${themeCls(b)}">${coverHTML(b, true)}</div>
-      <div class="hist-body">
-        <div class="hist-title">${titleHTML(b.title)}</div>
-        <div class="hist-meta">Bagian ${read} dari ${chapters}${when ? " &middot; " + escapeHtml(when) : ""}</div>
-        <div class="book-progress"><i style="width:${pct}%"></i></div>
-      </div>
-      <div class="hist-chev">›</div>`;
-    row.onclick = () => openBook(b.id, b);
-    list.appendChild(row);
+  if(!quotesCache.length){ show($("quotesEmpty")); return; }
+  hide($("quotesEmpty"));
+  quotesCache.forEach((q) => {
+    const when = formatWhen(q.createdAt);
+    const card = document.createElement("div");
+    card.className = "quote-card";
+    card.innerHTML = `
+      <div class="quote-mark">&ldquo;</div>
+      <div class="quote-text">${escapeHtml(q.text)}</div>
+      <div class="quote-source">
+        <div class="quote-meta">
+          <div class="quote-book">${titleMainHTML(q.bookTitle)}</div>
+          ${q.chapterTitle ? `<span class="quote-chapter">${escapeHtml(q.chapterTitle)}</span>` : ""}
+        </div>
+        <div class="quote-actions">
+          ${when ? `<span class="quote-date">${escapeHtml(when)}</span>` : ""}
+          <button class="quote-del" data-id="${q.id}" title="Hapus quote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg></button>
+        </div>
+      </div>`;
+    card.querySelector(".quote-del").onclick = async (e) => {
+      e.stopPropagation();
+      if(!(await customConfirm("Hapus quote ini?", "Hapus"))) return;
+      try{
+        await deleteDoc(doc(db, "users", currentUser.uid, "quotes", q.id));
+        quotesCache = quotesCache.filter(x => x.id !== q.id);
+        renderQuotes();
+      } catch(err){ toast("Gagal menghapus quote."); }
+    };
+    card.onclick = () => {
+      const book = booksCache.find(b => b.id === q.bookId);
+      if(book) openBook(book.id, book);
+      else toast("Buku sumber quote ini sudah tidak ada.");
+    };
+    list.appendChild(card);
   });
 }
 
@@ -2233,13 +2275,14 @@ document.querySelectorAll("#sizeSeg button").forEach(b => {
 })();
 $("btnHelp2").onclick = () => show($("modalHelp"));
 
-/* ---- Setting: sembunyikan tombol navigasi bab di HP, ganti geser layar ---- */
+/* ---- Sembunyikan tombol navigasi bab di HP, ganti geser layar (toggle di pojok kanan atas reader) ---- */
 function applyHideNav(on){
   document.body.classList.toggle("hide-chapter-nav", !!on);
-  $("chkHideNav").checked = !!on;
+  $("btnToggleNav").classList.toggle("active", !!on);
+  $("btnToggleNav").title = on ? "Tampilkan tombol navigasi bab" : "Sembunyikan tombol navigasi bab";
 }
-$("chkHideNav").onchange = () => {
-  const on = $("chkHideNav").checked;
+$("btnToggleNav").onclick = () => {
+  const on = !document.body.classList.contains("hide-chapter-nav");
   applyHideNav(on);
   try{ localStorage.setItem("essensiana_hide_nav", on ? "1" : "0"); }catch(e){}
 };
@@ -2275,6 +2318,68 @@ $("chkHideNav").onchange = () => {
   }, { passive:true });
 })();
 
+/* ---- Quote: blok kalimat bagus saat membaca -> "Jadikan Quote" ---- */
+const quoteBtn = document.createElement("button");
+quoteBtn.id = "quoteMarkBtn";
+quoteBtn.className = "quote-mark-btn hidden";
+quoteBtn.type = "button";
+quoteBtn.innerHTML = "❝ Jadikan Quote";
+document.body.appendChild(quoteBtn);
+
+function hideQuoteBtn(){ quoteBtn.classList.add("hidden"); }
+
+const QUOTABLE_SELECTOR = ".block-p, .block-lead, .block-quote, .block-list, .block-h, .blk-affirm, .blk-closing";
+
+function updateQuoteBtnPosition(){
+  const sel = window.getSelection();
+  if(!sel || sel.isCollapsed || !sel.toString().trim()){ hideQuoteBtn(); return; }
+  if($("readerScreen").classList.contains("hidden")){ hideQuoteBtn(); return; }
+  const anchorNode = sel.anchorNode;
+  const anchorEl = anchorNode ? (anchorNode.nodeType === 3 ? anchorNode.parentElement : anchorNode) : null;
+  const inReader = anchorEl && anchorEl.closest && anchorEl.closest("#readerContent");
+  const inQuotable = anchorEl && anchorEl.closest && anchorEl.closest(QUOTABLE_SELECTOR);
+  if(!inReader || !inQuotable){ hideQuoteBtn(); return; }
+  const range = sel.getRangeAt(0);
+  const rect = range.getBoundingClientRect();
+  if(!rect || (rect.width === 0 && rect.height === 0)){ hideQuoteBtn(); return; }
+  const btnW = 150;
+  const left = Math.max(8, Math.min(window.innerWidth - btnW - 8, rect.left + rect.width / 2 - btnW / 2));
+  const top = Math.max(8, rect.top - 44);
+  quoteBtn.style.left = left + "px";
+  quoteBtn.style.top = top + "px";
+  quoteBtn.classList.remove("hidden");
+}
+document.addEventListener("selectionchange", updateQuoteBtnPosition);
+document.addEventListener("scroll", hideQuoteBtn, true);
+window.addEventListener("resize", hideQuoteBtn);
+
+quoteBtn.addEventListener("mousedown", (e) => e.preventDefault()); // jangan hilangkan seleksi teks saat tombol ditekan
+
+quoteBtn.onclick = async () => {
+  const sel = window.getSelection();
+  const text = sel ? sel.toString().trim().replace(/\s+/g, " ") : "";
+  hideQuoteBtn();
+  if(sel) sel.removeAllRanges();
+  if(!text || !currentUser || !activeBookId) return;
+  if(text.length > 600){ toast("Quote terlalu panjang — pilih kalimat yang lebih singkat."); return; }
+  try{
+    const ref = doc(collection(db, "users", currentUser.uid, "quotes"));
+    await setDoc(ref, {
+      text,
+      bookId: activeBookId,
+      bookTitle: (activeBookMeta && activeBookMeta.title) || "Tanpa judul",
+      chapterIdx: activeChapterIdx,
+      chapterTitle: activeChapterHeading || "",
+      createdAt: serverTimestamp()
+    });
+    toast("Quote disimpan ✓");
+    loadQuotes();
+  } catch(err){
+    console.error(err);
+    toast("Gagal menyimpan quote.");
+  }
+};
+
 /* ---- Muat data buku sekali, lalu render semua tab ---- */
 async function loadLibrary(){
   loading(true, "Memuat rak buku…");
@@ -2285,7 +2390,7 @@ async function loadLibrary(){
     renderAccount();
     renderDashboard();
     renderBooksView();
-    renderHistory();
+    await loadQuotes();
   } catch(err){
     console.error(err);
     toast("Gagal memuat rak buku.");
@@ -2517,10 +2622,12 @@ let activeBookId = null;
 let activeBookMeta = null;
 let activeModuleCache = {};
 let activeChapterIdx = 0;
+let activeChapterHeading = "";
 let activeThemeId = "default";
 let saveTimers = {};
 
 function leaveReader(){
+  hideQuoteBtn();
   hide($("readerScreen")); show($("libraryScreen"));
   $("readerScreen").dataset.theme = "default";
   activeThemeId = "default";
@@ -2538,7 +2645,9 @@ async function openBook(bookId, meta){
   setThemeColor(THEMES[activeThemeId].color);
   closeTocMobile();
   hide($("libraryScreen")); show($("readerScreen"));
-  $("rtTitle").textContent = meta.title || "Materi";
+  const rawTitle = meta.title || "Materi";
+  const dashIdx = rawTitle.indexOf(" — ");
+  $("rtTitle").textContent = dashIdx === -1 ? rawTitle : rawTitle.slice(0, dashIdx);
 
   const tocList = $("tocList");
   tocList.innerHTML = "";
@@ -2666,6 +2775,8 @@ async function renderChapter(idx){
 
     const kicker = mod.kicker || `BAGIAN ${idx + 1} DARI ${activeBookMeta.chapterCount}`;
     const heading = mod.heading || mod.title;
+    activeChapterHeading = heading || "";
+    hideQuoteBtn();
     const hero = (idx === 0 && THEMES[activeThemeId].hero && activeBookMeta.cover) ? heroHTML(activeBookMeta.cover) : "";
 
     const content = $("readerContent");
