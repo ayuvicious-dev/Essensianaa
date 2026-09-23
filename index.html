@@ -415,6 +415,47 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 .reader-content{flex:1;padding:26px 20px 90px;max-width:640px;overflow-y:auto;}
 .mod-kicker{font-size:11px;letter-spacing:2px;color:var(--blue);font-weight:700;margin-bottom:6px;}
 .mod-title{font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:700;color:var(--ink);margin:0 0 18px;line-height:1.3;}
+
+/* ---------- Halaman judul modul (tampil sebelum isi setiap modul) ---------- */
+.module-cover-wrap{width:100%;flex:1;display:flex;}
+.module-cover{
+  position:relative;overflow:hidden;
+  flex:1;min-height:420px;width:100%;
+  display:flex;align-items:center;justify-content:center;
+  padding:70px 24px;margin:0;
+  background:var(--paper-2);
+}
+.mc-decor{position:absolute;border-radius:50%;background:var(--surface);opacity:.6;pointer-events:none;}
+.mc-decor-tr{width:190px;height:190px;top:-70px;right:-70px;}
+.mc-decor-bl{width:120px;height:120px;bottom:-40px;left:-40px;}
+.mc-number{
+  position:absolute;right:6px;bottom:-18px;z-index:0;
+  font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;
+  font-size:min(38vw,190px);font-weight:800;line-height:1;
+  color:var(--ink);opacity:.07;pointer-events:none;
+}
+.mc-inner{position:relative;z-index:1;text-align:center;max-width:320px;}
+.mc-kicker{
+  font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;
+  font-size:11px;letter-spacing:3px;font-weight:700;color:var(--blue);margin:0 0 14px;
+}
+.mc-title{
+  font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;
+  font-size:26px;font-weight:800;color:var(--ink);line-height:1.3;margin:0 0 22px;
+}
+.mc-rule{width:100%;height:1px;background:var(--line);margin:0 0 22px;}
+.mc-subtitle{
+  font-family:Georgia,'Times New Roman',serif;font-style:italic;
+  font-size:13.5px;line-height:1.65;color:var(--ink-soft);margin:0;
+}
+.mc-continue{
+  margin-top:28px;padding:12px 24px;border:none;border-radius:999px;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));color:#fff;
+  font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;
+  font-weight:700;font-size:13.5px;letter-spacing:.2px;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.mc-continue:hover{opacity:.92;}
 .block-p{font-size:var(--read-size,15px);line-height:1.85;color:var(--text-read);margin:0 0 14px;}
 .block-quote{border-left:3px solid var(--cyan);padding:2px 0 2px 14px;color:var(--ink-soft);font-style:italic;margin:0 0 14px;}
 .block-list{margin:0 0 14px;padding-left:20px;}
@@ -528,15 +569,21 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 #readerScreen[data-theme="evergreen"] .block-lead{color:#6B6152;}
 #readerScreen[data-theme="evergreen"] .block-p strong{color:#3D4A37;}
 #readerScreen[data-theme="evergreen"] .mod-title,
+#readerScreen[data-theme="evergreen"] .mc-title,
 #readerScreen[data-theme="evergreen"] .blk-closing .h,
 #readerScreen[data-theme="evergreen"] .ev-hero-title{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:700;color:#3D4A37;}
-#readerScreen[data-theme="evergreen"] .mod-title{font-size:26px;letter-spacing:.2px;}
+#readerScreen[data-theme="evergreen"] .mod-title,
+#readerScreen[data-theme="evergreen"] .mc-title{font-size:26px;letter-spacing:.2px;}
 #readerScreen[data-theme="evergreen"] .mod-kicker,
+#readerScreen[data-theme="evergreen"] .mc-kicker,
 #readerScreen[data-theme="evergreen"] .reflect-kicker,
 #readerScreen[data-theme="evergreen"] .reflect-tag,
 #readerScreen[data-theme="evergreen"] .toc-tag,
 #readerScreen[data-theme="evergreen"] .blk-closing .k,
 #readerScreen[data-theme="evergreen"] .ev-hero-kicker{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:600;letter-spacing:3px;color:#7C9A7E;}
+#readerScreen[data-theme="evergreen"] .mc-subtitle{font-family:'Lora',Georgia,'Times New Roman',serif;}
+#readerScreen[data-theme="evergreen"] .module-cover{background:linear-gradient(180deg,#F1F0E2 0%,#E6ECDB 100%);}
+#readerScreen[data-theme="evergreen"] .mc-decor{background:#fff;}
 #readerScreen[data-theme="evergreen"] .reflect-box{background:rgba(255,255,255,.55);border-color:#CFDBC2;}
 #readerScreen[data-theme="evergreen"] .reflect-title{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;font-style:normal;font-weight:600;font-size:13px;letter-spacing:1.6px;text-transform:uppercase;color:#3D4A37;}
 #readerScreen[data-theme="evergreen"] .blk-closing p{color:#6B6152;}
@@ -579,10 +626,13 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
   --text-read:#4A3F38;
 }
 #readerScreen[data-theme="terracotta"] .mod-title,
+#readerScreen[data-theme="terracotta"] .mc-title,
 #readerScreen[data-theme="terracotta"] .block-h,
 #readerScreen[data-theme="terracotta"] .blk-closing .h{color:#8B6F5E;}
 #readerScreen[data-theme="terracotta"] .reflect-box{background:rgba(255,255,255,.6);border-color:#E9DCCF;}
 #readerScreen[data-theme="terracotta"] .block-quote{background:#F5E6DA;border-left-color:#C4846A;padding:10px 14px;border-radius:8px;}
+#readerScreen[data-theme="terracotta"] .module-cover{background:#F5E9DE;}
+#readerScreen[data-theme="terracotta"] .mc-decor{background:#FBF3EA;}
 
 /* Sampul kecil (rak buku, riwayat) */
 .th-terracotta{background:linear-gradient(180deg,#FBF3EA 0%,#F0DCC9 100%) !important;color:#5C4A3E !important;}
@@ -765,12 +815,13 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
       </button>
       <button class="iconbtn" id="btnTocMobile" title="Daftar isi">☰</button>
     </div>
+    <div class="toc-backdrop" id="tocBackdrop"></div>
+    <div class="toc-panel" id="tocPanel">
+      <h4>Daftar Isi</h4>
+      <div id="tocList"></div>
+    </div>
+    <div class="module-cover-wrap hidden" id="moduleCoverWrap"></div>
     <div class="reader-body">
-      <div class="toc-backdrop" id="tocBackdrop"></div>
-      <div class="toc-panel" id="tocPanel">
-        <h4>Daftar Isi</h4>
-        <div id="tocList"></div>
-      </div>
       <div class="reader-content" id="readerContent"></div>
     </div>
     <div class="reader-nav">
@@ -2204,6 +2255,29 @@ function heroHTML(c){
     '</div>';
 }
 
+// Halaman judul modul: tampil sebelum isi tiap modul (satu tampilan
+// tersendiri, bukan cuma label kecil). Warnanya ikut var(--blue)/var(--ink)
+// tema buku yang aktif secara otomatis.
+function leadSubtitle(blocks){
+  const b0 = (blocks || [])[0];
+  return (b0 && b0.type === "lead" && b0.text) ? b0.text : "";
+}
+function moduleCoverHTML(idx, kicker, title, subtitle){
+  const num = String(idx + 1).padStart(2, "0");
+  return '<div class="module-cover">' +
+    '<div class="mc-decor mc-decor-tr"></div>' +
+    '<div class="mc-decor mc-decor-bl"></div>' +
+    '<div class="mc-number" aria-hidden="true">' + num + '</div>' +
+    '<div class="mc-inner">' +
+      '<div class="mc-kicker">' + escapeHtml(kicker) + '</div>' +
+      '<div class="mc-title">' + escapeHtml(title) + '</div>' +
+      '<div class="mc-rule"></div>' +
+      (subtitle ? '<div class="mc-subtitle">' + escapeHtml(subtitle) + '</div>' : '') +
+      '<button class="mc-continue" id="mcContinueBtn" type="button">Lanjut Baca <span aria-hidden="true">→</span></button>' +
+    '</div>' +
+  '</div>';
+}
+
 /* ============================================================
    LIBRARY SHELL + BOTTOM NAV (Dashboard / Daftar Buku / Riwayat Baca / Setting)
 ============================================================ */
@@ -2498,11 +2572,13 @@ $("btnToggleNav").onclick = () => {
     const dx = t.clientX - sx, dy = t.clientY - sy;
     if(Math.abs(dx) < THRESHOLD || Math.abs(dx) < Math.abs(dy) * 1.5) return;
     if(dx < 0){
-      // geser ke kiri -> bagian selanjutnya
-      if(activeChapterIdx < activeBookMeta.chapterCount - 1) renderChapter(activeChapterIdx + 1);
+      // geser ke kiri -> lanjut (cover->isi, atau bagian selanjutnya)
+      if(chapterSubPage === "cover"){ chapterSubPage = "content"; paintChapterScreen(); }
+      else if(activeChapterIdx < activeBookMeta.chapterCount - 1) renderChapter(activeChapterIdx + 1);
     } else {
-      // geser ke kanan -> bagian sebelumnya
-      if(activeChapterIdx > 0) renderChapter(activeChapterIdx - 1);
+      // geser ke kanan -> mundur (isi->cover, atau bagian sebelumnya)
+      if(chapterSubPage === "content"){ chapterSubPage = "cover"; paintChapterScreen(); }
+      else if(activeChapterIdx > 0) renderChapter(activeChapterIdx - 1, "content");
     }
   }, { passive:true });
 })();
@@ -2979,28 +3055,60 @@ function renderBlocks(blocks, answers, chapterIdx){
   return html;
 }
 
-async function renderChapter(idx){
+let chapterSubPage = "cover"; // "cover" (judul modul) atau "content" (isi materi)
+let activeChapterMod = null;
+let activeChapterAnswers = null;
+
+async function renderChapter(idx, subPage){
   activeChapterIdx = idx;
+  chapterSubPage = subPage || "cover";
   loading(true, "Memuat bagian…");
   try{
     const mod = await fetchModule(idx);
     const answers = await fetchAnswers(idx);
-
-    const kicker = mod.kicker || `BAGIAN ${idx + 1} DARI ${activeBookMeta.chapterCount}`;
-    const heading = mod.heading || mod.title;
-    activeChapterHeading = heading || "";
+    activeChapterMod = mod;
+    activeChapterAnswers = answers;
+    activeChapterHeading = mod.heading || mod.title || "";
     hideQuoteBtn();
-    const hero = (idx === 0 && THEMES[activeThemeId].hero && activeBookMeta.cover) ? heroHTML(activeBookMeta.cover) : "";
 
-    const content = $("readerContent");
-    content.innerHTML = `
-      ${hero}
-      <div class="mod-kicker">${escapeHtml(kicker)}</div>
-      <div class="mod-title">${escapeHtml(heading)}</div>
-      ${renderBlocks(mod.blocks || [], answers, idx)}
-    `;
-    content.scrollTop = 0;
-    window.scrollTo(0, 0);
+    paintChapterScreen();
+
+    await setDoc(doc(db, "users", currentUser.uid, "books", activeBookId),
+      { lastReadIndex: idx, updatedAt: serverTimestamp() }, { merge: true });
+    activeBookMeta.lastReadIndex = idx;
+  } catch(err){
+    console.error(err);
+    toast("Gagal memuat bagian ini.");
+  } finally {
+    loading(false);
+  }
+}
+
+// Menggambar ulang layar bagian aktif TANPA fetch ulang — dipakai saat
+// berpindah antara halaman judul modul ("cover") dan isi materinya ("content").
+function paintChapterScreen(){
+  const idx = activeChapterIdx;
+  const mod = activeChapterMod;
+  const answers = activeChapterAnswers;
+  const kicker = mod.kicker || `BAGIAN ${idx + 1} DARI ${activeBookMeta.chapterCount}`;
+  const heading = mod.heading || mod.title;
+  const content = $("readerContent");
+  const coverWrap = $("moduleCoverWrap");
+  const body = document.querySelector(".reader-body");
+
+  if(chapterSubPage === "cover"){
+    body.classList.add("hidden");
+    const hero = (idx === 0 && THEMES[activeThemeId].hero && activeBookMeta.cover) ? heroHTML(activeBookMeta.cover) : "";
+    const cover = moduleCoverHTML(idx, kicker, heading, mod.subtitle || leadSubtitle(mod.blocks));
+    coverWrap.innerHTML = `${hero}${cover}`;
+    coverWrap.classList.remove("hidden");
+    const btn = $("mcContinueBtn");
+    if(btn) btn.onclick = () => { chapterSubPage = "content"; paintChapterScreen(); };
+  } else {
+    coverWrap.classList.add("hidden");
+    coverWrap.innerHTML = "";
+    body.classList.remove("hidden");
+    content.innerHTML = renderBlocks(mod.blocks || [], answers, idx);
 
     // Satu pertanyaan bisa punya satu kolom (textarea) atau beberapa kolom berbaris (1. 2. 3.)
     const qids = new Set(Array.from(content.querySelectorAll("[data-qid]")).map(e => e.dataset.qid));
@@ -3042,28 +3150,36 @@ async function renderChapter(idx){
           .catch(() => toast("Gagal menyimpan centangan."));
       }, 400);
     }));
-
-    document.querySelectorAll(".toc-item").forEach((el, i) => el.classList.toggle("active", i === idx));
-    $("btnPrevChap").disabled = idx <= 0;
-    $("btnNextChap").disabled = idx >= activeBookMeta.chapterCount - 1;
-    $("btnNextChap").textContent = idx >= activeBookMeta.chapterCount - 1 ? "✓" : "→";
-    $("btnNextChap").title = idx >= activeBookMeta.chapterCount - 1 ? "Selesai" : "Selanjutnya";
-
-    await setDoc(doc(db, "users", currentUser.uid, "books", activeBookId),
-      { lastReadIndex: idx, updatedAt: serverTimestamp() }, { merge: true });
-    activeBookMeta.lastReadIndex = idx;
-  } catch(err){
-    console.error(err);
-    toast("Gagal memuat bagian ini.");
-  } finally {
-    loading(false);
   }
+
+  content.scrollTop = 0;
+  window.scrollTo(0, 0);
+
+  document.querySelectorAll(".toc-item").forEach((el, i) => el.classList.toggle("active", i === idx));
+  const isLast = idx >= activeBookMeta.chapterCount - 1;
+  $("btnPrevChap").disabled = idx <= 0 && chapterSubPage === "cover";
+  $("btnNextChap").disabled = false;
+  $("btnNextChap").textContent = (isLast && chapterSubPage === "content") ? "✓" : "→";
+  $("btnNextChap").title = (isLast && chapterSubPage === "content") ? "Selesai" : "Selanjutnya";
 }
 
-$("btnPrevChap").onclick = () => { if(activeChapterIdx > 0) renderChapter(activeChapterIdx - 1); };
+$("btnPrevChap").onclick = () => {
+  if(chapterSubPage === "content"){
+    chapterSubPage = "cover";
+    paintChapterScreen();
+  } else if(activeChapterIdx > 0){
+    renderChapter(activeChapterIdx - 1, "content");
+  }
+};
 $("btnNextChap").onclick = () => {
-  if(activeChapterIdx < activeBookMeta.chapterCount - 1) renderChapter(activeChapterIdx + 1);
-  else leaveReader();
+  if(chapterSubPage === "cover"){
+    chapterSubPage = "content";
+    paintChapterScreen();
+  } else if(activeChapterIdx < activeBookMeta.chapterCount - 1){
+    renderChapter(activeChapterIdx + 1);
+  } else {
+    leaveReader();
+  }
 };
 
 /* ============================================================
