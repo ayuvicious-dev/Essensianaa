@@ -417,7 +417,7 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 .mod-title{font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:700;color:var(--ink);margin:0 0 18px;line-height:1.3;}
 
 /* ---------- Halaman judul modul (tampil sebelum isi setiap modul) ---------- */
-.module-cover-wrap{width:100%;flex:1;display:flex;}
+.module-cover-wrap{width:100%;flex:1;display:flex;flex-direction:column;}
 .module-cover{
   position:relative;overflow:hidden;
   flex:1;min-height:420px;width:100%;
@@ -595,7 +595,7 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 #readerScreen[data-theme="evergreen"] .toc-item{font-family:'Poppins',-apple-system,'Segoe UI',Roboto,sans-serif;}
 
 /* Sampul di halaman baca (bagian pertama) */
-.ev-hero{text-align:center;padding:6px 0 34px;margin-bottom:28px;border-bottom:1px solid var(--line);}
+.ev-hero{position:relative;flex:1;min-height:420px;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 24px;box-sizing:border-box;}
 .ev-hero svg.rings{display:block;width:min(72vw,250px);height:auto;margin:0 auto 6px;}
 .ev-hero-kicker{font-size:11px;letter-spacing:5px;margin:0 0 16px;}
 .ev-hero-title{font-size:clamp(34px,10vw,46px);letter-spacing:2px;line-height:1.05;}
@@ -639,6 +639,21 @@ pre.codeblock{background:#111a2e;color:#dce6ff;padding:10px 12px;border-radius:1
 .continue-card.th-terracotta-card{background:var(--surface);}
 .continue-card.th-terracotta-card .continue-kicker{color:#C4846A;}
 .continue-card.th-terracotta-card .continue-bar i{background:#C4846A;}
+
+/* Sampul besar di halaman baca (bagian pertama), khusus tema Terracotta */
+.tc-hero{position:relative;overflow:hidden;flex:1;min-height:420px;width:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:70px 24px;box-sizing:border-box;background:linear-gradient(180deg,#FBF3EA 0%,#F3E3D3 100%);}
+.tc-hero-decor{position:absolute;pointer-events:none;}
+.tc-hero-decor-a{width:120px;height:120px;top:-42px;left:-42px;background:#DCE8D3;border-radius:38% 62% 60% 40%/40% 45% 55% 60%;}
+.tc-hero-decor-b{width:150px;height:150px;top:-58px;right:-46px;background:#DCE8D3;border-radius:30% 70% 65% 35%/45% 40% 60% 55%;}
+.tc-hero-decor-c{width:86px;height:86px;top:40%;right:-34px;background:#E6ECDB;border-radius:50%;}
+.tc-hero-decor-d{width:130px;height:130px;bottom:-52px;right:18%;background:#F1D3C8;border-radius:50%;}
+.tc-hero-inner{position:relative;z-index:1;max-width:340px;}
+.tc-hero-kicker{font-size:11px;letter-spacing:3px;color:#A98F73;margin:0 0 18px;}
+.tc-hero-title{font-size:clamp(34px,10vw,46px);line-height:1.08;font-weight:700;color:#7A6355;}
+.tc-hero-title-accent{display:block;color:#C4846A;font-weight:600;}
+.tc-hero-rule{width:64px;height:2px;background:#C4846A;opacity:.55;margin:20px auto 16px;}
+.tc-hero-sub{font-weight:600;font-size:13.5px;color:#6B5A4D;max-width:280px;margin:0 auto;line-height:1.6;}
+.tc-hero-tag{font-family:'Lora',Georgia,serif;font-style:italic;font-size:12.5px;color:#8A7565;margin-top:8px;}
 </style>
 </head>
 <body>
@@ -1631,6 +1646,21 @@ function parsePdfPagesV2(pages){
     const hl = [];
     const h0 = body[k0] ? pdfLineH(body[k0]) : 0;
     while(k < body.length && pdfLineH(body[k]) >= ctx.bodyH * 1.15 && pdfLineH(body[k]) >= h0 * 0.9){ hl.push(body[k]); k++; }
+    // Fallback: judul pendek yang di-**bold** (font beda dari teks isi) tapi
+    // UKURANNYA sama dengan teks isi tidak lolos cek tinggi baris di atas, jadi
+    // dicek terpisah di sini — supaya baris seperti "Hei, kamu." tetap dikenali
+    // sebagai judul, bukan ikut lebur jadi paragraf biasa.
+    if(!hl.length && body[k0] && ctx.bodyFont){
+      const l0 = body[k0];
+      const l1 = body[k0 + 1];
+      const txt0 = pdfClean(pdfLineText(l0, vocab), freq).trim();
+      const allBold = l0.items.length > 0 && l0.items.every(it => it.font && it.font !== ctx.bodyFont && /[A-Za-z]/.test(it.str));
+      const short = txt0 && txt0.length <= 40 && txt0.split(/\s+/).length <= 6;
+      const gapAfter = l1 ? (l0.y - l1.y) : 0;
+      const normalGap = (l1 && body[k0 + 2]) ? (l1.y - body[k0 + 2].y) : gapAfter;
+      const isolated = !l1 || gapAfter > h0 * 1.35 || gapAfter > normalGap * 1.25;
+      if(allBold && short && isolated){ hl.push(l0); k = k0 + 1; }
+    }
     const head0 = k0 ? pdfClean(pdfLineText(body[0], vocab).replace(/[—–-]/g, " ")) : "";
     const divM = DIV.exec(T(body[0]));
     return {
@@ -2164,7 +2194,7 @@ const THEMES = {
     // terracotta (#C4846A), judul cokelat hangat (#8B6F5E), teks bacaan
     // cokelat gelap (#4A3F38). Cocok otomatis kalau judul buku memuat
     // "calm waves"; selain itu bisa dipilih manual saat impor.
-    label: "Terracotta", match: /calm.?waves/i, color: "#8B6F5E"
+    label: "Terracotta", match: /calm.?waves/i, color: "#8B6F5E", hero: true
   }
 };
 
@@ -2243,8 +2273,9 @@ function coverHTML(book, mini){
   return escapeHtml(initialsOf(book));
 }
 
-// Sampul besar di bagian pertama halaman baca
+// Sampul besar di bagian pertama halaman baca (halaman tersendiri, sebelum modul pertama)
 function heroHTML(c){
+  if(activeThemeId === "terracotta") return tcHeroHTML(c);
   return '<div class="ev-hero">' + ringsSVG() +
     (c.kicker ? '<div class="ev-hero-kicker">' + escapeHtml(c.kicker) + '</div>' : '') +
     '<div class="ev-hero-title">' + escapeHtml(c.title || "") + '</div>' +
@@ -2253,6 +2284,30 @@ function heroHTML(c){
     '<div class="ev-hero-rule"></div>' +
     (c.credit ? '<div class="ev-hero-credit">' + escapeHtml(c.credit) + '</div>' : '') +
     '</div>';
+}
+
+// Sampul besar khusus tema Terracotta ("Calm Waves"): judul dua-baris
+// dua-warna ("Calm" cokelat gelap, "Waves" terracotta), dengan bentuk
+// dekoratif lembut di pojok-pojok — meniru tampilan sampul PDF aslinya.
+function tcHeroHTML(c){
+  const words = (c.title || "").trim().split(/\s+/).filter(Boolean);
+  const first = words[0] || "";
+  const rest = words.slice(1).join(" ");
+  return '<div class="tc-hero">' +
+    '<div class="tc-hero-decor tc-hero-decor-a"></div>' +
+    '<div class="tc-hero-decor tc-hero-decor-b"></div>' +
+    '<div class="tc-hero-decor tc-hero-decor-c"></div>' +
+    '<div class="tc-hero-decor tc-hero-decor-d"></div>' +
+    '<div class="tc-hero-inner">' +
+      (c.kicker ? '<div class="tc-hero-kicker">' + escapeHtml(c.kicker) + '</div>' : '') +
+      '<div class="tc-hero-title">' + escapeHtml(first) +
+        (rest ? '<span class="tc-hero-title-accent">' + escapeHtml(rest) + '</span>' : '') +
+      '</div>' +
+      '<div class="tc-hero-rule"></div>' +
+      (c.subtitle ? '<div class="tc-hero-sub">' + escapeHtml(c.subtitle) + '</div>' : '') +
+      (c.tagline ? '<div class="tc-hero-tag">' + escapeHtml(c.tagline) + '</div>' : '') +
+    '</div>' +
+  '</div>';
 }
 
 // Halaman judul modul: tampil sebelum isi tiap modul (satu tampilan
@@ -2273,7 +2328,6 @@ function moduleCoverHTML(idx, kicker, title, subtitle){
       '<div class="mc-title">' + escapeHtml(title) + '</div>' +
       '<div class="mc-rule"></div>' +
       (subtitle ? '<div class="mc-subtitle">' + escapeHtml(subtitle) + '</div>' : '') +
-      '<button class="mc-continue" id="mcContinueBtn" type="button">Lanjut Baca <span aria-hidden="true">→</span></button>' +
     '</div>' +
   '</div>';
 }
@@ -3055,13 +3109,19 @@ function renderBlocks(blocks, answers, chapterIdx){
   return html;
 }
 
-let chapterSubPage = "cover"; // "cover" (judul modul) atau "content" (isi materi)
+let chapterSubPage = "cover"; // "hero" (sampul buku), "cover" (judul modul) atau "content" (isi materi)
 let activeChapterMod = null;
 let activeChapterAnswers = null;
 
+// Sampul buku (hero) cuma tampil sebagai halaman tersendiri sebelum modul
+// pertama, dan hanya untuk tema yang punya hero (mis. Evergreen, Terracotta).
+function hasHeroCover(idx){
+  return idx === 0 && !!THEMES[activeThemeId].hero && !!(activeBookMeta && activeBookMeta.cover);
+}
+
 async function renderChapter(idx, subPage){
   activeChapterIdx = idx;
-  chapterSubPage = subPage || "cover";
+  chapterSubPage = subPage || (hasHeroCover(idx) ? "hero" : "cover");
   loading(true, "Memuat bagian…");
   try{
     const mod = await fetchModule(idx);
@@ -3096,11 +3156,16 @@ function paintChapterScreen(){
   const coverWrap = $("moduleCoverWrap");
   const body = document.querySelector(".reader-body");
 
-  if(chapterSubPage === "cover"){
+  if(chapterSubPage === "hero"){
     body.classList.add("hidden");
-    const hero = (idx === 0 && THEMES[activeThemeId].hero && activeBookMeta.cover) ? heroHTML(activeBookMeta.cover) : "";
+    coverWrap.innerHTML = heroHTML(activeBookMeta.cover);
+    coverWrap.classList.remove("hidden");
+    const btn = $("mcContinueBtn");
+    if(btn) btn.onclick = () => { chapterSubPage = "cover"; paintChapterScreen(); };
+  } else if(chapterSubPage === "cover"){
+    body.classList.add("hidden");
     const cover = moduleCoverHTML(idx, kicker, heading, mod.subtitle || leadSubtitle(mod.blocks));
-    coverWrap.innerHTML = `${hero}${cover}`;
+    coverWrap.innerHTML = cover;
     coverWrap.classList.remove("hidden");
     const btn = $("mcContinueBtn");
     if(btn) btn.onclick = () => { chapterSubPage = "content"; paintChapterScreen(); };
@@ -3157,7 +3222,8 @@ function paintChapterScreen(){
 
   document.querySelectorAll(".toc-item").forEach((el, i) => el.classList.toggle("active", i === idx));
   const isLast = idx >= activeBookMeta.chapterCount - 1;
-  $("btnPrevChap").disabled = idx <= 0 && chapterSubPage === "cover";
+  const isFirstScreen = idx <= 0 && (chapterSubPage === "hero" || (chapterSubPage === "cover" && !hasHeroCover(idx)));
+  $("btnPrevChap").disabled = isFirstScreen;
   $("btnNextChap").disabled = false;
   $("btnNextChap").textContent = (isLast && chapterSubPage === "content") ? "✓" : "→";
   $("btnNextChap").title = (isLast && chapterSubPage === "content") ? "Selesai" : "Selanjutnya";
@@ -3167,12 +3233,18 @@ $("btnPrevChap").onclick = () => {
   if(chapterSubPage === "content"){
     chapterSubPage = "cover";
     paintChapterScreen();
+  } else if(chapterSubPage === "cover" && hasHeroCover(activeChapterIdx)){
+    chapterSubPage = "hero";
+    paintChapterScreen();
   } else if(activeChapterIdx > 0){
     renderChapter(activeChapterIdx - 1, "content");
   }
 };
 $("btnNextChap").onclick = () => {
-  if(chapterSubPage === "cover"){
+  if(chapterSubPage === "hero"){
+    chapterSubPage = "cover";
+    paintChapterScreen();
+  } else if(chapterSubPage === "cover"){
     chapterSubPage = "content";
     paintChapterScreen();
   } else if(activeChapterIdx < activeBookMeta.chapterCount - 1){
